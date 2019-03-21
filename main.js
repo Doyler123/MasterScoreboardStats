@@ -28,20 +28,38 @@ const printHtml = async function(){
   
   const html = await page.content();
 
+  const data = []
+
   await $('center', html).each(function(tableIndex, table) {
-    console.log($(this).prev().html());
+    // console.log($(this).prev().html());
+    var course = {
+      'Name' : $(this).prev().html(),
+      'Competitions' : []
+    }
     $('tr', table).each(function(rowIndex, row){
-      // console.log($.html(this));
-      $('td', row).each(function(cellIndex, cell){
-        if(cellIndex > 1){
-          var result = $(this).css('background-color');
-          if(result){ 
-            console.log("Hole " + (cellIndex - 1) +":" + scoreMap[result]);
+      if(rowIndex > 1){
+        var compCells = $('td', row)
+        if(compCells.length === 20){
+          var competition = {
+            'Name' : $(compCells[0]).text(),
+            'Date' : $(compCells[1]).text()
           }
+          $('td', row).each(function(cellIndex, cell){
+            if(cellIndex > 1){
+              var result = $(this).css('background-color');
+              if(result){ 
+                // console.log("Hole " + (cellIndex - 1) +":" + scoreMap[result]);
+              }
+            }
+          })
+          course.Competitions.push(competition);
         }
-      })
+      }
     })
+    data.push(course);
   });
+
+  console.log(JSON.stringify(data, null, 2))
 
   browser.close();
 }
