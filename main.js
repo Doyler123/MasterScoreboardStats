@@ -14,55 +14,86 @@ const scoreMap = {
   "white"   : "N/A"
 }
 
-const printHtml = async function(){
-  const browser = await puppeteer.launch();
-
-  const page = await browser.newPage();
-  await page.goto(url);
-  
-  await page.type('#ms_password', 'lgc');
-  
-  await page.click('.log_in_button');
-  
-  await page.waitForNavigation();
-  
-  const html = await page.content();
-
-  const data = []
-
-  await $('center', html).each(function(tableIndex, table) {
-    // console.log($(this).prev().html());
-    var course = {
-      'Name' : $(this).prev().html(),
-      'Competitions' : []
-    }
-    $('tr', table).each(function(rowIndex, row){
-      if(rowIndex > 1){
-        var compCells = $('td', row)
-        if(compCells.length === 20){
-          var competition = {
-            'Name' : $(compCells[0]).text(),
-            'Date' : $(compCells[1]).text()
-          }
-          $('td', row).each(function(cellIndex, cell){
-            if(cellIndex > 1){
-              var result = $(this).css('background-color');
-              if(result){ 
-                // console.log("Hole " + (cellIndex - 1) +":" + scoreMap[result]);
-              }
-            }
-          })
-          course.Competitions.push(competition);
-        }
-      }
-    })
-    data.push(course);
-  });
-
-  console.log(JSON.stringify(data, null, 2))
-
-  browser.close();
+const resultValues = {
+  "Scratch" : 2,
+  "Triple"  : 3,
+  "Double"  : 2,
+  "Bogey"   : 1,
+  "Par"     : 0,
+  "Birde"   : -1,
+  "Eagle"   : -2,
+  "N/A"     : 0
 }
 
-printHtml();
+const FULL_ROW_LENGTH = 20;
+
+const getJsonData = async function(){
+  const browser = await puppeteer.launch();
+  try{
+
+    const page = await browser.newPage();
+    await page.goto(url);
+    
+    await page.type('#ms_password', 'lgc');
+        
+    await Promise.all([
+      page.waitForNavigation(),
+      page.click('.log_in_button')
+    ]);
+    
+    const html = await page.content();
+
+    const data = []
+
+    await $('center', html).each(function(tableIndex, table) {
+      if($(this).prev().is('h3')){ 
+        var course = {
+          'Name' : $(this).prev().html(),
+          'Competitions' : []
+        }
+        $('tr', table).each(function(rowIndex, row){
+          if(rowIndex > 1){
+            var compCells = $('td', row)
+            if(compCells.length === FULL_ROW_LENGTH){
+              var competition = {
+                'Name'  : $(compCells[0]).text(),
+                'Date'  : $(compCells[1]).text(),
+                'Holes' : []
+              }
+              $('td', row).each(function(cellIndex, cell){
+                if(cellIndex > 1){
+                  var result = $(this).css('background-color');
+                  if(result){ 
+                    var holeNumber = cellIndex - 1
+                    var hole = {
+                      'Number' : holeNumber,
+                      'Result' : scoreMap[result],
+                      'Score'  : $(this).text()
+                    }
+                    competition.Holes.push(hole);
+                  }
+                }
+              })
+              course.Competitions.push(competition);
+            }
+          }
+        })
+        data.push(course);
+      }
+    });
+
+    return data;
+
+  }catch(error){
+    console.log(error);
+    await browser.close();
+  }finally{
+    await browser.close();
+  }
+
+}
+
+getJsonData().then(function(data){
+  console.log(JSON.stringify(data, null, 2))
+});
 
