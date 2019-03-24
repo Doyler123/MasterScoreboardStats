@@ -1,5 +1,8 @@
+const express = require('express');
 const puppeteer = require('puppeteer');
 const $ = require('cheerio');
+
+const app = express();
 
 const url = 'https://www.masterscoreboard.co.uk/results/PlayerScores.php?CWID=24259&Player=307';
 
@@ -93,7 +96,14 @@ const getJsonData = async function(){
 
 }
 
-getJsonData().then(function(data){
-  console.log(JSON.stringify(data, null, 2))
-});
+app.get("/scoreData", (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  getJsonData().then(function(data){
+    res.json(data);
+  });
+ });
+
+app.listen(3500, () => {
+  console.log("Server running on port 3500");
+ });
 
