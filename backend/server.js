@@ -28,7 +28,22 @@ const resultValues = {
   "N/A"     : 0
 }
 
+const definite_results = [
+  "Double",
+  "Bogey",
+  "Par",
+  "Birde",
+  "Eagle"
+]
+
 const FULL_ROW_LENGTH = 20;
+
+const getHolePar = function(score, result){
+  if(definite_results.includes(result)){
+    return score - resultValues[result]
+  }
+  return null
+}
 
 const getJsonData = async function(){
   const browser = await puppeteer.launch();
@@ -52,7 +67,10 @@ const getJsonData = async function(){
       if($(this).prev().is('h3')){ 
         var course = {
           'Name' : $(this).prev().html(),
-          'Competitions' : []
+          'Competitions' : [],
+          'CourseInfo' : {
+            'Holes' : []
+          }
         }
         $('tr', table).each(function(rowIndex, row){
           if(rowIndex > 1){
@@ -61,17 +79,31 @@ const getJsonData = async function(){
               var competition = {
                 'Name'  : $(compCells[0]).text(),
                 'Date'  : $(compCells[1]).text(),
+                'NumHolesPlayed' : 0,
                 'Holes' : []
               }
               $('td', row).each(function(cellIndex, cell){
                 if(cellIndex > 1){
-                  var result = $(this).css('background-color');
-                  if(result){ 
-                    var holeNumber = cellIndex - 1
+                  var resultColour = $(this).css('background-color');
+                  if(resultColour && scoreMap[resultColour] !== "N/A"){
+                    var result = scoreMap[resultColour] 
+                    var holeNumber = cellIndex - 1;
+                    var score = $(this).text();
+                    competition.NumHolesPlayed += 1;
                     var hole = {
                       'Number' : holeNumber,
-                      'Result' : scoreMap[result],
-                      'Score'  : $(this).text()
+                      'Result' : result,
+                      'Score'  : score
+                    }
+                    if(!course.CourseInfo.Holes[holeNumber]){
+                      var par = getHolePar(score, result)
+                      if(par){
+                        var holeInfo = {
+                          'Number' : holeNumber,
+                          'Par'    : par
+                        }
+                        course.CourseInfo.Holes.push(holeInfo)
+                      }
                     }
                     competition.Holes.push(hole);
                   }

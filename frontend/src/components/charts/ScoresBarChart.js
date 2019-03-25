@@ -35,7 +35,7 @@ export default class ScoresBarChart extends Component {
         }
         var chartData = []
         for (var score in scoreData) {
-            if (!scoreData.hasOwnProperty(score) || score == 'N/A') continue;
+            if (!scoreData.hasOwnProperty(score) || score === 'N/A') continue;
             chartData.push({
                 'score' : score,
                 'count' : scoreData[score],
