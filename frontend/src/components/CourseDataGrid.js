@@ -9,10 +9,10 @@ export default (props) =>{
     return (
         <GridDataLayout>
             <GridItem>
-                <ScoresChart data={props.data}/>
+                <ScoresChart data={props.data} hole={props.hole}/>
             </GridItem>
             <GridItem>
-                <GrossLineChart data={props.data}/>
+                <GrossLineChart data={props.data} hole={props.hole}/>
             </GridItem>
         </GridDataLayout>
       );

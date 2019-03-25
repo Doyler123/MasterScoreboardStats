@@ -45,6 +45,16 @@ const getHolePar = function(score, result){
   return null
 }
 
+const sortHoles = function(a, b){
+  if(a.Number > b.Number){
+    return 1
+  }
+  if(a.Number < b.Number){
+    return -1
+  }
+  return 0
+}
+
 const getJsonData = async function(){
   const browser = await puppeteer.launch();
   try{
@@ -82,12 +92,12 @@ const getJsonData = async function(){
                 'NumHolesPlayed' : 0,
                 'Holes' : []
               }
+              var holeNumber = 1;
               $('td', row).each(function(cellIndex, cell){
                 if(cellIndex > 1){
                   var resultColour = $(this).css('background-color');
                   if(resultColour && scoreMap[resultColour] !== "N/A"){
                     var result = scoreMap[resultColour] 
-                    var holeNumber = cellIndex - 1;
                     var score = $(this).text();
                     competition.NumHolesPlayed += 1;
                     var hole = {
@@ -95,7 +105,7 @@ const getJsonData = async function(){
                       'Result' : result,
                       'Score'  : score
                     }
-                    if(!course.CourseInfo.Holes[holeNumber]){
+                    if(!course.CourseInfo.Holes.filter(h => h.Number === holeNumber).length > 0){
                       var par = getHolePar(score, result)
                       if(par){
                         var holeInfo = {
@@ -106,6 +116,7 @@ const getJsonData = async function(){
                       }
                     }
                     competition.Holes.push(hole);
+                    holeNumber +=1
                   }
                 }
               })
@@ -113,6 +124,7 @@ const getJsonData = async function(){
             }
           }
         })
+        course.CourseInfo.Holes.sort(sortHoles);
         data.push(course);
       }
     });

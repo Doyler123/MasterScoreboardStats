@@ -8,7 +8,6 @@ export default class ScoresBarChart extends Component {
 
     constructor(props) {
         super(props);
-            
         this.state = {
             data: []
         }
@@ -16,19 +15,21 @@ export default class ScoresBarChart extends Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            data : this.getChartData(newProps.data)
+            data : this.getChartData(newProps.data, newProps.hole),
         })
     }
 
-    getChartData = (course) => {
+    getChartData = (course, currentHole) => {
         var scoreData = {}
         if(course){
             course.Competitions.forEach(comp => {
                 comp.Holes.forEach(hole =>{
-                    if(hole.Result in scoreData){
-                        scoreData[hole.Result] += 1
-                    }else{
-                        scoreData[hole.Result] = 1
+                    if(currentHole === "all" || hole.Number === currentHole){
+                        if(hole.Result in scoreData){
+                            scoreData[hole.Result] += 1
+                        }else{
+                            scoreData[hole.Result] = 1
+                        }
                     }
                 })
             });

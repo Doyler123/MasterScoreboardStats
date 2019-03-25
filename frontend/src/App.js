@@ -17,7 +17,6 @@ class App extends Component {
   componentDidMount(){
       axios.get('http://localhost:3500/scoreData')
           .then((response) => {
-            console.log(response.data)
               this.setState({
                   data : response.data
               })

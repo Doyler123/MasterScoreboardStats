@@ -29,11 +29,16 @@ const styles = theme => ({
 
 class TabsWrappedLabel extends React.Component {
   state = {
-    value: 0,
+    course: 0,
+    currentHole: "all"
   };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleCourseChange = (event, course) => {
+    this.setState({ course, currentHole: "all" });
+  }
+
+  handleHoleChange = (event, currentHole) => {
+    this.setState({currentHole : currentHole });
   };
 
   getCourseName = (text) => {
@@ -42,19 +47,34 @@ class TabsWrappedLabel extends React.Component {
 
   render() {
     const { classes, data} = this.props;
-    const { value } = this.state;
+    const { course, currentHole } = this.state;
 
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Tabs value={value} onChange={this.handleChange}>
+          <Tabs value={course} onChange={this.handleCourseChange}>
             {data.map((course, index)=>{
               return <Tab value={index} label={this.getCourseName(course.Name)}/>  
             })}
           </Tabs>
         </AppBar>
         <TabContainer>
-          <CourseDataGrid data={data[this.state.value]}/>
+          <AppBar position="static" color="default">
+            <Tabs
+              value={currentHole}
+              onChange={this.handleHoleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="scrollable"
+              scrollButtons="auto"
+            >
+              <Tab value={"all"} label={"All"} />
+              {data.length > 0 ? data[this.state.course].CourseInfo.Holes.map((hole, index) => {
+                return <Tab value={hole.Number} label={"Hole " + hole.Number} />
+              }) : null}
+            </Tabs>
+          </AppBar>
+          <CourseDataGrid data={data[this.state.course]} hole={currentHole}/>
         </TabContainer>
       </div>
     );
