@@ -16,11 +16,12 @@ export default class GrossLineChart extends Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            data : this.getChartData(newProps.data)
+            data : this.getChartData(newProps.data, newProps.hole),
+            hole : newProps.hole
         })
     }
 
-    getChartData = (course) => {
+    getChartData = (course, currentHole) => {
         var chartData = []
         if(course){
             course.Competitions.forEach(comp => {
@@ -29,15 +30,21 @@ export default class GrossLineChart extends Component {
                     gross : 0
                 }
                 comp.Holes.forEach(hole =>{
+                  if(currentHole == 'all'){
                     node.gross += RESULT_VALUES[hole.Result];
+                  }else if(currentHole === hole.Number){
+                    console.log(typeof(hole.Score))
+                    node.gross = hole.Score
+                  }
                 })
+                
                 chartData.push(node);
             });
         }
         return chartData.reverse();
     }
 
-    formatToolTip = (value, name, props) => { return [value > 0 ? "+" + value : value, "Score " ] }
+    formatToolTip = (value, name, props) => { return [value > 0 && this.state.hole == 'all' ? "+" + value : value, "Score " ] }
 
     render() {
         return (
@@ -52,7 +59,7 @@ export default class GrossLineChart extends Component {
                 <XAxis dataKey="date" minTickGap={1} tick={<CustomizedAxisTick />} />
                 <YAxis />
                 <Tooltip formatter={this.formatToolTip}/>
-                <Line type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
         </ResponsiveContainer>
         );
