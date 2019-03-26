@@ -41,3 +41,5 @@ export const CODES_TO_SCORES = {
     "Eagle"   : -2,
     "N/A"     : 0
   }
+
+  export const ALL = "all"

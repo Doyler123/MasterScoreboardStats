@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
-import {RESULT_VALUES} from '../../constants/constants'
+import {RESULT_VALUES, ALL} from '../../constants/constants'
 
 export default class GrossLineChart extends Component {
 
@@ -30,7 +30,7 @@ export default class GrossLineChart extends Component {
                     gross : 0
                 }
                 comp.Holes.forEach(hole =>{
-                  if(currentHole == 'all'){
+                  if(currentHole == ALL){
                     node.gross += RESULT_VALUES[hole.Result];
                   }else if(currentHole === hole.Number){
                     console.log(typeof(hole.Score))
@@ -44,7 +44,7 @@ export default class GrossLineChart extends Component {
         return chartData.reverse();
     }
 
-    formatToolTip = (value, name, props) => { return [value > 0 && this.state.hole == 'all' ? "+" + value : value, "Score " ] }
+    formatToolTip = (value, name, props) => { return [value > 0 && this.state.hole == ALL ? "+" + value : value, "Score " ] }
 
     render() {
         return (

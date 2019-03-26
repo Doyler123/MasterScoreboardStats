@@ -8,6 +8,19 @@ import Typography from '@material-ui/core/Typography';
 
 import CourseDataGrid from '../CourseDataGrid'
 
+import {ALL} from '../../constants/constants'
+
+const TabLabel = (props) => (
+  <div>
+    <Typography variant="body2">
+      {"Hole " + props.number}
+    </Typography>
+    <Typography variant="caption">
+      {"Par " + props.par}
+    </Typography>
+  </div>
+)
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -30,11 +43,11 @@ const styles = theme => ({
 class TabsWrappedLabel extends React.Component {
   state = {
     course: 0,
-    currentHole: "all"
+    currentHole: ALL
   };
 
   handleCourseChange = (event, course) => {
-    this.setState({ course, currentHole: "all" });
+    this.setState({ course, currentHole: ALL });
   }
 
   handleHoleChange = (event, currentHole) => {
@@ -68,9 +81,9 @@ class TabsWrappedLabel extends React.Component {
               variant="scrollable"
               scrollButtons="auto"
             >
-              <Tab value={"all"} label={"All"} />
+              <Tab value={ALL} label={ALL} />
               {data.length > 0 ? data[this.state.course].CourseInfo.Holes.map((hole, index) => {
-                return <Tab value={hole.Number} label={"Hole " + hole.Number} />
+                return <Tab value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
               }) : null}
             </Tabs>
           </AppBar>
