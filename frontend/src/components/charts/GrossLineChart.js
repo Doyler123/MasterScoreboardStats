@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
 } from 'recharts';
 import {RESULT_VALUES, ALL} from '../../constants/constants'
 
@@ -10,18 +10,22 @@ export default class GrossLineChart extends Component {
         super(props);
             
         this.state = {
-            data: []
+            data: [],
+            hole: ALL,
+            average: 0
         }
     }
 
     componentWillReceiveProps(newProps) {
+      var chartData = this.getChartData(newProps.data, newProps.hole) 
         this.setState({
-            data : this.getChartData(newProps.data, newProps.hole),
-            hole : newProps.hole
+            data : chartData,
+            hole : newProps.hole,
         })
     }
 
     getChartData = (course, currentHole) => {
+        var runningTotal = 0
         var chartData = []
         if(course){
             course.Competitions.forEach(comp => {
@@ -29,17 +33,27 @@ export default class GrossLineChart extends Component {
                     date : comp.Date,
                     gross : 0
                 }
-                comp.Holes.forEach(hole =>{
-                  if(currentHole == ALL){
+                comp.Holes.forEach((hole, index) =>{
+                  if(currentHole === ALL){
+                    runningTotal += RESULT_VALUES[hole.Result];
                     node.gross += RESULT_VALUES[hole.Result];
                   }else if(currentHole === hole.Number){
-                    console.log(typeof(hole.Score))
+                    if(!isNaN(hole.Score)){
+                      runningTotal += parseInt(hole.Score)
+                    }else{
+                      var holePar = course.CourseInfo.Holes[index].Par
+                      console.log(holePar)
+                      runningTotal += holePar + RESULT_VALUES[hole.Result]
+                    }
                     node.gross = hole.Score
                   }
                 })
                 
                 chartData.push(node);
             });
+        }
+        if(course.Competitions.length > 0){
+          this.setState({average : (runningTotal / course.Competitions.length) })
         }
         return chartData.reverse();
     }
@@ -58,6 +72,7 @@ export default class GrossLineChart extends Component {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" minTickGap={1} tick={<CustomizedAxisTick />} />
                 <YAxis />
+                <ReferenceLine y={this.state.average} label={"Avg: +" + this.state.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
                 <Tooltip formatter={this.formatToolTip}/>
                 <Line connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>

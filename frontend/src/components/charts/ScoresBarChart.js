@@ -15,43 +15,8 @@ export default class ScoresBarChart extends Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            data : this.getChartData(newProps.data, newProps.hole),
+            data : newProps.data
         })
-    }
-
-    getChartData = (course, currentHole) => {
-        var scoreData = {}
-        if(course){
-            course.Competitions.forEach(comp => {
-                comp.Holes.forEach(hole =>{
-                    if(currentHole === ALL || hole.Number === currentHole){
-                        if(hole.Result in scoreData){
-                            scoreData[hole.Result] += 1
-                        }else{
-                            scoreData[hole.Result] = 1
-                        }
-                    }
-                })
-            });
-        }
-        var chartData = []
-        for (var score in scoreData) {
-            if (!scoreData.hasOwnProperty(score) || score === 'N/A') continue;
-            chartData.push({
-                'score' : score,
-                'count' : scoreData[score],
-                'code'  : SCORES_TO_CODES[score]
-            });
-        }
-        return chartData.sort(this.sortChartData);
-    }
-
-    sortChartData = (a, b) =>{
-        if (a.code < b.code)
-            return -1;
-        if (a.code > b.code)
-            return 1;
-        return 0;
     }
 
     render() {

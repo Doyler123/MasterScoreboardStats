@@ -43,3 +43,5 @@ export const CODES_TO_SCORES = {
   }
 
   export const ALL = "all"
+
+  export const NA = "N/A"
