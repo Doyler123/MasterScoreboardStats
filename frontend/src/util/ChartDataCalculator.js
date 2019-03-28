@@ -4,8 +4,10 @@ export default class ChartDataCalculator{
 
     _baseData = {}
 
-    constructor(course, currentHole){
-        this._baseData = this.getBaseData(course, currentHole);
+    constructor(course){
+        if(course){
+                this._baseData = this.getBaseData(course);
+        }
     }
     
     getBaseData = (course) => {
@@ -28,17 +30,17 @@ export default class ChartDataCalculator{
                     
                     var par = course.CourseInfo.Holes[holeIndex].Par
                     if(hole.Number in baseData.Holes){
-                        if(hole.Result in baseData.Holes[hole.Number]){
-                            baseData.Holes[hole.Number][hole.Result] += 1
+                        if(hole.Result in baseData.Holes[hole.Number].Scores){
+                            baseData.Holes[hole.Number].Scores[hole.Result] += 1
                         }else{
-                            baseData.Holes[hole.Number][hole.Result] = 1
+                            baseData.Holes[hole.Number].Scores[hole.Result] = 1
                         }
-                        baseData.Holes[hole.Number].Total += getScoreValue(hole.Score, par, hole.Result)
+                        baseData.Holes[hole.Number].Total += this.getScoreValue(hole.Score, par, hole.Result)
                     }else{
                         baseData.Holes[hole.Number]= {
                             "HoleInfo": { 'Par' : par},
-                            [hole.Result] : 1,
-                            'Total' : getScoreValue(hole.Score, par, hole.Result)
+                            "Scores" : {[hole.Result] : 1},
+                            'Total' : this.getScoreValue(hole.Score, par, hole.Result)
                         }
                     }
 
@@ -81,9 +83,9 @@ export default class ChartDataCalculator{
                 });
             }
         }else{
-            for (var score in this._baseData.Holes[currentHole]) {
-                if (!this._baseData.Holes[currentHole].hasOwnProperty(score) || score === "HoleInfo") continue;
-                var count = this._baseData.Holes[currentHole][score]
+            for (var score in this._baseData.Holes[currentHole].Scores) {
+                if (!this._baseData.Holes[currentHole].Scores.hasOwnProperty(score)) continue;
+                var count = this._baseData.Holes[currentHole].Scores[score]
                 chartData.push({
                     'score' : score,
                     'count' : count,
