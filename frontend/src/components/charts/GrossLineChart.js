@@ -42,7 +42,6 @@ export default class GrossLineChart extends Component {
                       runningTotal += parseInt(hole.Score)
                     }else{
                       var holePar = course.CourseInfo.Holes[index].Par
-                      console.log(holePar)
                       runningTotal += holePar + RESULT_VALUES[hole.Result]
                     }
                     node.gross = hole.Score
