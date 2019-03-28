@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
 
+import {Jonathan} from './util/StaticData'
 
 class App extends Component {
 
@@ -15,18 +16,22 @@ class App extends Component {
   }
 
   componentDidMount(){
-      axios.get('http://localhost:3500/scoreData')
-          .then((response) => {
-              this.setState({
-                  data : response.data
-              })
-          })
-          .catch((error) => {
-              console.log(error);
-          })
-          .then(() =>{
-              // always executed
-          });
+      // axios.get('http://localhost:3500/scoreData')
+      //     .then((response) => {
+      //       console.log(response.data)
+      //         this.setState({
+      //             data : response.data
+      //         })
+      //     })
+      //     .catch((error) => {
+      //         console.log(error);
+      //     })
+      //     .then(() =>{
+      //         // always executed
+      //     });
+      this.setState({
+        data : JSON.parse(Jonathan)
+      })
   }
 
   render() {
@@ -37,5 +42,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;
