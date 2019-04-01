@@ -1,3 +1,14 @@
+export const RESULTS = [
+  "Scratch",
+  "Triple",
+  "Double",
+  "Bogey",
+  "Par",
+  "Birde",
+  "Eagle",
+  "N/A"
+]
+
 export const SCORES_TO_CODES = {
   "Scratch" : 0,
   "Triple"  : 1,

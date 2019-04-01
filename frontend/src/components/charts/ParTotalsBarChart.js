@@ -17,8 +17,13 @@ export default class ParTotalsBarChart extends Component {
             data : newProps.data
         })
     }
-
     
+    componentDidMount() {
+        this.setState({
+            data : this.props.data
+        })
+    }
+
     render() {
         return (
         <ResponsiveContainer width='100%' aspect={4.5/3.0}>
@@ -33,13 +38,13 @@ export default class ParTotalsBarChart extends Component {
                 <YAxis type="number" tickCount={8} domain={[0, 'dataMax + 25']}/>
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="par3" fill="#A6D9F7" >
+                <Bar dataKey="Par 3" fill="#A6D9F7" >
                     <LabelList dataKey="par3" position="top" />
                 </Bar>
-                <Bar dataKey="par4" fill="#84DCCF" >
+                <Bar dataKey="Par 4" fill="#84DCCF" >
                     <LabelList dataKey="par4" position="top" />
                 </Bar>
-                <Bar dataKey="par5" fill="#E0DEA8" >
+                <Bar dataKey="Par 5" fill="#E0DEA8" >
                     <LabelList dataKey="par5" position="top" />
                 </Bar>
             </BarChart>

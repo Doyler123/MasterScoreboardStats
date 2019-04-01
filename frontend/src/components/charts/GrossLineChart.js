@@ -17,44 +17,11 @@ export default class GrossLineChart extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-      var chartData = this.getChartData(newProps.data, newProps.hole) 
         this.setState({
-            data : chartData,
+            data : newProps.data.data,
             hole : newProps.hole,
+            average : newProps.data.average
         })
-    }
-
-    getChartData = (course, currentHole) => {
-        var runningTotal = 0
-        var chartData = []
-        if(course){
-            course.Competitions.forEach(comp => {
-                var node = {
-                    date : comp.Date,
-                    gross : 0
-                }
-                comp.Holes.forEach((hole, index) =>{
-                  if(currentHole === ALL){
-                    runningTotal += RESULT_VALUES[hole.Result];
-                    node.gross += RESULT_VALUES[hole.Result];
-                  }else if(currentHole === hole.Number){
-                    if(!isNaN(hole.Score)){
-                      runningTotal += parseInt(hole.Score)
-                    }else{
-                      var holePar = course.CourseInfo.Holes[index].Par
-                      runningTotal += holePar + RESULT_VALUES[hole.Result]
-                    }
-                    node.gross = hole.Score
-                  }
-                })
-                
-                chartData.push(node);
-            });
-        }
-        if(course.Competitions.length > 0){
-          this.setState({average : (runningTotal / course.Competitions.length) })
-        }
-        return chartData.reverse();
     }
 
     formatToolTip = (value, name, props) => { return [value > 0 && this.state.hole == ALL ? "+" + value : value, "Score " ] }

@@ -16,7 +16,8 @@ function GridItem(props) {
   const { classes } = props;
 
   return (
-    <Grid item xs={12} sm={6}>
+    // <Grid item xs={12} sm={6}>
+    <Grid item xs={props.xs} sm={props.sm}>
         <Paper className={classes.paper}>
             {props.children}
         </Paper>

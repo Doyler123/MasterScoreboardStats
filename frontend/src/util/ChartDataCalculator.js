@@ -1,80 +1,86 @@
-import {SCORES_TO_CODES, RESULT_VALUES, ALL, NA} from '../constants/constants'
+import {SCORES_TO_CODES, RESULT_VALUES, ALL, NA, RESULTS} from '../constants/constants'
 
 export default class ChartDataCalculator{
 
-    _baseData = {}
+    _courseData = {}
 
     constructor(course){
         if(course){
-                this._baseData = this.getBaseData(course);
+            this._courseData = this.calculateCourseData(course);
         }
     }
+
+    getCourseData = () => {
+        return this._courseData
+    }
     
-    getBaseData = (course) => {
-        var baseData = {
-            'Course' : {
-                'AverageScore' : 0
-            },
-            'Competitions' : course.Competitions,
-            'Holes' : {},
-            'Totals' : {}
+    calculateCourseData = (course) => {
+
+        var courseData = {
+            'AverageScore'  : 0,
+            'Competitions'  : course.Competitions,
+            'Holes'         : [],
+            'ParTotals'     : {}
         }
+
         if(course){
             course.Competitions.forEach((comp, compIndex) => {
 
-                baseData.Competitions[compIndex]['Gross'] = 0
+                courseData.Competitions[compIndex]['Gross'] = 0
                 
                 comp.Holes.forEach((hole, holeIndex) =>{
 
-                    baseData.Competitions[compIndex].Gross += RESULT_VALUES[hole.Result];
-                    
+                    courseData.Competitions[compIndex].Gross += RESULT_VALUES[hole.Result];
                     var par = course.CourseInfo.Holes[holeIndex].Par
-                    if(hole.Number in baseData.Holes){
-                        if(hole.Result in baseData.Holes[hole.Number].Scores){
-                            baseData.Holes[hole.Number].Scores[hole.Result] += 1
-                        }else{
-                            baseData.Holes[hole.Number].Scores[hole.Result] = 1
-                        }
-                        baseData.Holes[hole.Number].Total += this.getScoreValue(hole.Score, par, hole.Result)
+                    
+                    if(!courseData.Holes[holeIndex]){
+                        courseData.Holes.push({
+                            "HolePar"       : par,
+                            [hole.Result]   : 1,
+                            'TotalStrokes'  : this.getScoreValue(hole.Score, par, hole.Result),
+                            'TotalToPar'    : RESULT_VALUES[hole.Result]
+                        })
                     }else{
-                        baseData.Holes[hole.Number]= {
-                            "HoleInfo": { 'Par' : par},
-                            "Scores" : {[hole.Result] : 1},
-                            'Total' : this.getScoreValue(hole.Score, par, hole.Result)
+
+                        if(hole.Result in courseData.Holes[holeIndex]){
+                            courseData.Holes[holeIndex][hole.Result] += 1
+                        }else{
+                            courseData.Holes[holeIndex][hole.Result] = 1
                         }
+                        courseData.Holes[holeIndex].TotalStrokes  += this.getScoreValue(hole.Score, par, hole.Result)
+                        courseData.Holes[holeIndex].TotalToPar    += RESULT_VALUES[hole.Result]
                     }
 
-
-                    if(hole.Result in baseData.Totals){
-                        if(par in baseData.Totals[hole.Result]){
-                            baseData.Totals[hole.Result][par] += 1
+                    if(hole.Result in courseData.ParTotals){
+                        if(par in courseData.ParTotals[hole.Result]){
+                            courseData.ParTotals[hole.Result][par] += 1
                         }else{
-                            baseData.Totals[hole.Result][par] = 1
+                            courseData.ParTotals[hole.Result][par] = 1
                         }
                     }else{
-                        baseData.Totals[hole.Result]= {[par]: 1}
+                        courseData.ParTotals[hole.Result]= {[par]: 1}
                     }
                     
                 })
 
-                baseData.Course.AverageScore += baseData.Competitions[compIndex].Gross
+                courseData.AverageScore += courseData.Competitions[compIndex].Gross
             });
 
-            baseData.Course.AverageScore = baseData.Course.AverageScore/baseData.Competitions.length
+            courseData.AverageScore = courseData.AverageScore/courseData.Competitions.length
         }
-        console.log(baseData)
-        return baseData
+        console.log(courseData)
+        return courseData
     }
 
     getScoresBarChartData = (currentHole) => {
         var chartData = []
         if(currentHole === ALL){
-            for (var score in this._baseData.Totals) {
-                if (!this._baseData.Totals.hasOwnProperty(score)) continue;
+            for (var score in this._courseData.ParTotals) {
+                if (!this._courseData.ParTotals.hasOwnProperty(score)) continue;
 
-                var count = this._baseData.Totals[score][3] ? this._baseData.Totals[score][3] : 0
-                count += this._baseData.Totals[score][4] ? this._baseData.Totals[score][4] : 0
-                count += this._baseData.Totals[score][5] ? this._baseData.Totals[score][5] : 0
+                var count = this._courseData.ParTotals[score][3] ? this._courseData.ParTotals[score][3] : 0
+                count += this._courseData.ParTotals[score][4] ? this._courseData.ParTotals[score][4] : 0
+                count += this._courseData.ParTotals[score][5] ? this._courseData.ParTotals[score][5] : 0
 
                 chartData.push({
                     'score' : score,
@@ -83,9 +89,11 @@ export default class ChartDataCalculator{
                 });
             }
         }else{
-            for (var score in this._baseData.Holes[currentHole].Scores) {
-                if (!this._baseData.Holes[currentHole].Scores.hasOwnProperty(score)) continue;
-                var count = this._baseData.Holes[currentHole].Scores[score]
+            var holeIndex = currentHole - 1
+            for (var score in this._courseData.Holes[holeIndex]) {
+                if (!this._courseData.Holes[holeIndex].hasOwnProperty(score) || !RESULTS.includes(score)) continue;
+
+                var count = this._courseData.Holes[holeIndex][score]
                 chartData.push({
                     'score' : score,
                     'count' : count,
@@ -99,19 +107,52 @@ export default class ChartDataCalculator{
 
     getParTotalsBarChartData = () => {
         var chartData = []
-        for (var score in this._baseData.Totals) {
-            if (!this._baseData.Totals.hasOwnProperty(score) || score === NA) continue;
+        for (var score in this._courseData.ParTotals) {
+            if (!this._courseData.ParTotals.hasOwnProperty(score) || score === NA) continue;
             chartData.push({
                 'score' : score,
-                'par3' : this._baseData.Totals[score][3] ? this._baseData.Totals[score][3] : 0,
-                'par4' : this._baseData.Totals[score][4] ? this._baseData.Totals[score][4] : 0,
-                'par5' : this._baseData.Totals[score][5] ? this._baseData.Totals[score][5] : 0,
+                'Par 3' : this._courseData.ParTotals[score][3] ? this._courseData.ParTotals[score][3] : 0,
+                'Par 4' : this._courseData.ParTotals[score][4] ? this._courseData.ParTotals[score][4] : 0,
+                'Par 5' : this._courseData.ParTotals[score][5] ? this._courseData.ParTotals[score][5] : 0,
                 'code'  : SCORES_TO_CODES[score]
             });
         }
         return chartData.sort(this.sortChartData);
     }
 
+
+    getGrossLineChartData = (currentHole) => {
+        var chartData = {
+            'data' : [],
+            'average' : 0
+        }
+        if(!this.isEmpty(this._courseData)){
+            chartData.average = this._courseData.AverageScore
+            this._courseData.Competitions.forEach((comp, index) => {
+                
+                if(currentHole === ALL){
+                    chartData.data.push({
+                        date : comp.Date,
+                        gross : comp.Gross
+                    })
+
+                }else{
+                    comp.Holes.forEach((hole, index) => {
+                        if(currentHole === hole.Number){
+                            chartData.average = this._courseData.Holes[index].TotalStrokes / this._courseData.Competitions.length
+                            
+                            chartData.data.push({
+                                date : comp.Date,
+                                gross : hole.Score
+                            })
+                        }
+                    })
+                }
+            })
+        }
+        chartData.data.reverse()
+        return chartData
+    }
 
     sortChartData = (a, b) =>{
         if (a.code < b.code)
@@ -127,5 +168,9 @@ export default class ChartDataCalculator{
         }else{
             return par + RESULT_VALUES[result]
         }
+    }
+
+    isEmpty = (obj) => {
+        return Object.keys(obj).length === 0;
     }
 }
