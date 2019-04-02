@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 
 import CourseDataGrid from '../CourseDataGrid'
 
+import calculateCourseData from '../../util/CalculateCourseData'
+
 import {ALL} from '../../constants/constants'
 
 const TabLabel = (props) => (
@@ -20,6 +22,8 @@ const TabLabel = (props) => (
     </Typography>
   </div>
 )
+
+
 
 function TabContainer(props) {
   return (
@@ -43,11 +47,21 @@ const styles = theme => ({
 class TabsWrappedLabel extends React.Component {
   state = {
     course: 0,
-    currentHole: ALL
+    courseData : calculateCourseData(this.props.data[0]),
+    currentHole: ALL,
   };
 
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      courseData : calculateCourseData(newProps.data[0]),
+    })
+  }
+
   handleCourseChange = (event, course) => {
-    this.setState({ course, currentHole: ALL });
+    this.setState({ 
+        course,
+        courseData : calculateCourseData(this.props.data[course]),
+        currentHole: ALL });
   }
 
   handleHoleChange = (event, currentHole) => {
@@ -87,7 +101,7 @@ class TabsWrappedLabel extends React.Component {
               }) : null}
             </Tabs>
           </AppBar>
-          <CourseDataGrid data={data[this.state.course]} hole={currentHole}/>
+          <CourseDataGrid data={this.state.courseData} hole={currentHole}/>
         </TabContainer>
       </div>
     );
