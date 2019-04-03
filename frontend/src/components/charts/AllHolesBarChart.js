@@ -7,9 +7,21 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import PhoneIcon from '@material-ui/icons/Phone';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import PersonPinIcon from '@material-ui/icons/PersonPin';
+import OverUnderIcon from '@material-ui/icons/Exposure';
+import EagleIcon from '@material-ui/icons/ExposureNeg2';
+import BirdeIcon from '@material-ui/icons/ExposureNeg1';
+import ParIcon from '@material-ui/icons/ExposureZero';
+import BogeyIcon from '@material-ui/icons/ExposurePlus1';
+import DoubleIcon from '@material-ui/icons/ExposurePlus2';
+import ScratchIcon from '@material-ui/icons/HighlightOff';
+
+
+// const ALL_HOLES_TAB_DATA_MAP = {
+//     0 : 'TotalToPar',
+//     1 : 'Eagle',
+//     2 : 'Birde',
+//     3 : ''
+// }
 
 export default class ScoresBarChart extends Component {
 
@@ -22,12 +34,12 @@ export default class ScoresBarChart extends Component {
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            data : this.getChartData(newProps.data)
+            data : this.getChartData(newProps.data, 'TotalToPar')
         })
     }
 
 
-    getChartData = (data) =>{
+    getChartData = (data, dataField) =>{
         var chartData = []
         if(data.Holes){
             data.Holes.forEach((hole, index) => {
@@ -47,6 +59,10 @@ export default class ScoresBarChart extends Component {
     formatBarLabel = (value, name, props) => { 
         return [value > 0 ? "+" + value : value] 
     }
+
+    handleTabChange = (event, value) => {
+        this.setState({ value });
+      };
 
     render() {
         return (
@@ -69,14 +85,18 @@ export default class ScoresBarChart extends Component {
             </ResponsiveContainer>
             <Tabs
                 value={this.state.value}
-                onChange={this.handleChange}
+                onChange={this.handleTabChange}
                 variant="fullWidth"
                 indicatorColor="secondary"
                 textColor="secondary"
                 >
-                <Tab icon={<PhoneIcon />} label="RECENTS" />
-                <Tab icon={<FavoriteIcon />} label="FAVORITES" />
-                <Tab icon={<PersonPinIcon />} label="NEARBY" />
+                <Tab icon={<OverUnderIcon />} value='TotalToPar' label="OVER/UNDER" />
+                <Tab icon={<EagleIcon />} value='Eagle' label="EAGLE" />
+                <Tab icon={<BirdeIcon />} value='Birde' label="BIRDE" />
+                <Tab icon={<ParIcon />} value='Par' label="PAR" />
+                <Tab icon={<BogeyIcon />} value='Bogey' label="BOGEY" />
+                <Tab icon={<DoubleIcon />} value='Double' label="DOUBLE" />
+                <Tab icon={<ScratchIcon />} value='Scratch' label="SCRATCH" />
             </Tabs>
         </div>  
         );
