@@ -31,16 +31,15 @@ export const CODES_TO_SCORES = {
     7 : "N/A"
   }
 
-  export const SCORE_COLOURS = [
-    "#D0D0D0",
-    "#6E6E6E",
-    "#0033CC",
-    "#008AD8",
-    "#CC9900",
-    "#CC0033",
-    "#F25F5F",
-    "white"
-  ]
+  export const SCORES_TO_COLOURS = {
+    "Scratch" : "#636363",
+    "Triple"  : "#6E6E6E",
+    "Double"  : "#0033CC",
+    "Bogey"   : "#008AD8",
+    "Par"     : "#CC9900",
+    "Birde"   : "#CC0033",
+    "Eagle"   : "#F25F5F"
+  }
 
   export const RESULT_VALUES = {
     "Scratch" : 2,

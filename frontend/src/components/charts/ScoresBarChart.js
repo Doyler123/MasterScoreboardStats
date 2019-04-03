@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, ResponsiveContainer
 } from 'recharts';
-import {SCORES_TO_CODES, SCORE_COLOURS, ALL} from '../../constants/constants'
+import {SCORES_TO_COLOURS} from '../../constants/constants'
 
 export default class ScoresBarChart extends Component {
 
@@ -34,7 +34,8 @@ export default class ScoresBarChart extends Component {
                 <Tooltip />
                 <Bar dataKey="count" fill="#8884d8" >
                     {this.state.data.map((entry, index) => {
-                        const color = SCORE_COLOURS[entry.code]
+                        console.log(entry)
+                        const color = SCORES_TO_COLOURS[entry.score]
                         return <Cell fill={color} />;
                     })}
                     <LabelList dataKey="count" position="top" />
