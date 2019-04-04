@@ -31,7 +31,7 @@ export default class ScoresBarChart extends Component {
     componentWillReceiveProps(newProps) {
         var tab = this.state.tab ? this.state.tab : DEFAULT_TAB 
         this.setState({
-            data : this.getChartData(newProps.data, this.state.tab)
+            data : this.getChartData(newProps.data, tab)
         })
     }
 
