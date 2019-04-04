@@ -95,12 +95,12 @@ export default class ScoresBarChart extends Component {
                 textColor="secondary"
                 >
                 <Tab icon={<OverUnderIcon />} style={{ minWidth: tabWidth }} value='TotalToPar' label="OVER/UNDER" />
-                <Tab icon={<EagleIcon />} style={{ minWidth: tabWidth }} value='Eagle' label="EAGLE" />
-                <Tab icon={<BirdeIcon />} style={{ minWidth: tabWidth }} value='Birde' label="BIRDE" />
-                <Tab icon={<ParIcon />} style={{ minWidth: tabWidth }} value='Par' label="PAR" />
-                <Tab icon={<BogeyIcon />} style={{ minWidth: tabWidth }} value='Bogey' label="BOGEY" />
-                <Tab icon={<DoubleIcon />} style={{ minWidth: tabWidth }} value='Double' label="DOUBLE" />
                 <Tab icon={<ScratchIcon />} style={{ minWidth: tabWidth }} value='Scratch' label="SCRATCH" />
+                <Tab icon={<DoubleIcon />} style={{ minWidth: tabWidth }} value='Double' label="DOUBLE" />
+                <Tab icon={<BogeyIcon />} style={{ minWidth: tabWidth }} value='Bogey' label="BOGEY" />
+                <Tab icon={<ParIcon />} style={{ minWidth: tabWidth }} value='Par' label="PAR" />
+                <Tab icon={<BirdeIcon />} style={{ minWidth: tabWidth }} value='Birde' label="BIRDE" />
+                <Tab icon={<EagleIcon />} style={{ minWidth: tabWidth }} value='Eagle' label="EAGLE" />
             </Tabs>
         </div>  
         );
