@@ -18,7 +18,7 @@ function StatItem(props) {
   return (
     <Grid item xs={props.xs} sm={props.sm} md={props.md} lg={props.lg} xl={props.xl}>
         <Paper className={classes.paper}>
-            {'Test'}
+          {props.children}
         </Paper>
     </Grid>
   );

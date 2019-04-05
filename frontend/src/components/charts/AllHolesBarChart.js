@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LabelList, ResponsiveContainer, Cell
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LabelList, ResponsiveContainer, Cell, ReferenceLine
 } from 'recharts';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -15,6 +15,8 @@ import ScratchIcon from '@material-ui/icons/HighlightOff';
 import {SCORES_TO_COLOURS} from '../../constants/constants'
 
 const DEFAULT_TAB = 'TotalToPar'
+const BIRDE = 'Birde'
+const BOGEY = 'Bogey'
 
 const tabWidth = 50
 
@@ -62,7 +64,21 @@ export default class ScoresBarChart extends Component {
             data : this.getChartData(this.props.data, value),
             tab  : value
         });
-      };
+    };
+
+    calculateDataMin = (dataMin) => {
+        return dataMin < 0 ? dataMin - 5 : 0
+    }
+
+    getBarColour = (entry) => {
+        if(this.state.tab === DEFAULT_TAB){
+            if(entry.total < 0){
+                return SCORES_TO_COLOURS[BIRDE]
+            }
+            return SCORES_TO_COLOURS[BOGEY]
+        }
+        return SCORES_TO_COLOURS[this.state.tab]
+    }
 
     render() {
         return (
@@ -76,12 +92,12 @@ export default class ScoresBarChart extends Component {
                 >
                     <CartesianGrid strokeDasharray="6 6" />
                     <XAxis dataKey="hole"/>
-                    <YAxis type="number" domain={[0, 'dataMax + 5']}/>
+                    <YAxis type="number" domain={[this.calculateDataMin, 'dataMax + 5']}/>
                     <Tooltip formatter={this.formatToolTip} />
+                    <ReferenceLine y={0} stroke="#000" />
                     <Bar dataKey="total" fill="#8884d8" >
                         {this.state.data.map((entry, index) => {
-                            const color = SCORES_TO_COLOURS[this.state.tab]
-                            console.log(color)
+                            const color = this.getBarColour(entry)
                             return color ? <Cell fill={color} /> : null;
                         })}
                         <LabelList dataKey="total" position="top" formatter={this.formatBarLabel}/>

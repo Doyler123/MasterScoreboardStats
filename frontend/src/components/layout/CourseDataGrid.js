@@ -9,8 +9,10 @@ import AllHolesBarChart from '../charts/AllHolesBarChart'
 import ChartDataCalculator from '../../util/ChartDataCalculator'
 import StatsGrid from '../layout/StatsGrid'
 import StatItem from '../layout/StatItem'
+import Odometer from 'react-odometerjs';
+import 'odometer/themes/odometer-theme-default.css';
 
-
+import Typography from '@material-ui/core/Typography';
 import {ALL} from '../../constants/constants'
 
 export default (props) =>{
@@ -20,15 +22,26 @@ export default (props) =>{
     return (
         <div>
             <StatsGrid>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
-                <StatItem xs={6} sm={3} lg={2}></StatItem>
+                <StatItem xs={6} sm={2} lg={2}>
+                    <Typography component="h4" variant="display2" gutterBottom>
+                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
+                    </Typography>
+                </StatItem>
+                <StatItem xs={6} sm={2} lg={2}>
+                    <Typography component="h4" variant="display2" gutterBottom>
+                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
+                    </Typography>
+                </StatItem>
+                <StatItem xs={6} sm={2} lg={2}>
+                    <Typography component="h4" variant="display2" gutterBottom>
+                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
+                    </Typography>
+                </StatItem>
+                <StatItem xs={6} sm={2} lg={2}>
+                    <Typography component="h4" variant="display2" gutterBottom>
+                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
+                    </Typography>
+                </StatItem>
             </StatsGrid>
             <ChartDataGrid>
                 <ChartItem xs={12} sm={6} lg={4}>
