@@ -13,6 +13,7 @@ import Odometer from 'react-odometerjs';
 import 'odometer/themes/odometer-theme-default.css';
 
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import {ALL} from '../../constants/constants'
 
 export default (props) =>{
@@ -23,6 +24,13 @@ export default (props) =>{
         <div>
             <StatsGrid>
                 <StatItem xs={6} sm={2} lg={2}>
+                    <Typography variant="title" gutterBottom align="center">
+                        Best Hole
+                    </Typography>
+                    <Divider variant="middle" />
+                    <Typography variant="subheading" gutterBottom align="center">
+                        Hole 18
+                    </Typography>
                     <Typography component="h4" variant="display2" gutterBottom>
                         <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
                     </Typography>
