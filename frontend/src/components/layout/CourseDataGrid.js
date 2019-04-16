@@ -16,39 +16,76 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import {ALL} from '../../constants/constants'
 
-export default (props) =>{
+import Icon from "@material-ui/core/Icon";
+import { withStyles } from '@material-ui/core/styles';
+
+
+import Card from "../Card/Card.jsx";
+import CardHeader from "../Card/CardHeader.jsx";
+import CardIcon from "../Card/CardIcon.jsx";
+import CardBody from "../Card/CardBody.jsx";
+import CardFooter from "../Card/CardFooter.jsx";
+
+import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+
+
+const CourseDataGrid = props =>{
+
+    const { classes } = props;
 
     var chartDataCalculator = new ChartDataCalculator()
 
     return (
         <div>
             <StatsGrid>
-                <StatItem xs={6} sm={2} lg={2}>
-                    <Typography variant="title" gutterBottom align="center">
-                        Best Hole
-                    </Typography>
-                    <Divider variant="middle" />
-                    <Typography variant="subheading" gutterBottom align="center">
-                        Hole 18
-                    </Typography>
-                    <Typography component="h4" variant="display2" gutterBottom>
-                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
-                    </Typography>
+                <StatItem xs={6} sm={2} lg={2} 
+                    heading     ={"Best Hole"} 
+                    subHeading  ={"Hole 18"} 
+                    value       ={1234} 
+                    valueFormat ={"(.ddd),dd"}>
+                    <Card>
+                        <CardHeader color="warning" stats icon>
+                            <CardIcon color="warning">
+                            Best Hole
+                            {/* <Icon>content_copy</Icon> */}
+                            </CardIcon>
+                            <p className={classes.cardCategory}>Used Space</p>
+                            <h3 className={classes.cardTitle}>
+                            49/50 <small>GB</small>
+                            </h3>
+                        </CardHeader>
+                        <CardFooter stats>
+                            <div className={classes.stats}>
+                            <a href="#pablo" onClick={e => e.preventDefault()}>
+                                Get more space
+                            </a>
+                            </div>
+                        </CardFooter>
+                    </Card>
                 </StatItem>
-                <StatItem xs={6} sm={2} lg={2}>
-                    <Typography component="h4" variant="display2" gutterBottom>
-                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
-                    </Typography>
+                <StatItem xs={6} sm={2} lg={2} 
+                    heading     ={"Best Hole"} 
+                    subHeading  ={"Hole 18"} 
+                    value       ={1234} 
+                    valueFormat ={"(.ddd),dd"}>
                 </StatItem>
-                <StatItem xs={6} sm={2} lg={2}>
-                    <Typography component="h4" variant="display2" gutterBottom>
-                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
-                    </Typography>
+                <StatItem xs={6} sm={2} lg={2} 
+                    heading     ={"Best Hole"} 
+                    subHeading  ={"Hole 18"} 
+                    value       ={1234} 
+                    valueFormat ={"(.ddd),dd"}>
                 </StatItem>
-                <StatItem xs={6} sm={2} lg={2}>
-                    <Typography component="h4" variant="display2" gutterBottom>
-                        <Odometer value={props.data.Holes ? 1234 : 0} duration={3000} format="(.ddd),dd" />
-                    </Typography>
+                <StatItem xs={6} sm={2} lg={2} 
+                    heading     ={"Best Hole"} 
+                    subHeading  ={"Hole 18"} 
+                    value       ={1234} 
+                    valueFormat ={"(.ddd),dd"}>
+                </StatItem>
+                <StatItem xs={6} sm={2} lg={2} 
+                    heading     ={"Best Hole"} 
+                    subHeading  ={"Hole 12"} 
+                    value       ={1234} 
+                    valueFormat ={"(.ddd),dd"}>
                 </StatItem>
             </StatsGrid>
             <ChartDataGrid>
@@ -70,3 +107,5 @@ export default (props) =>{
         </div>
       );
 }
+
+export default withStyles(dashboardStyle)(CourseDataGrid);
