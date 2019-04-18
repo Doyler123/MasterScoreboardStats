@@ -27,7 +27,7 @@ const TabLabel = (props) => (
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 8 * 3,  backgroundColor: '#EEEEEE' }}>
       {props.children}
     </Typography>
   );

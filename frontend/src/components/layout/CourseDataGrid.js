@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import ChartDataGrid from './ChartDataGrid'
 import ScoresChart from '../charts/ScoresBarChart'
@@ -9,25 +9,8 @@ import AllHolesBarChart from '../charts/AllHolesBarChart'
 import ChartDataCalculator from '../../util/ChartDataCalculator'
 import StatsGrid from '../layout/StatsGrid'
 import StatItem from '../layout/StatItem'
-import Odometer from 'react-odometerjs';
-import 'odometer/themes/odometer-theme-default.css';
 
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import {ALL} from '../../constants/constants'
-
-import Icon from "@material-ui/core/Icon";
-import { withStyles } from '@material-ui/core/styles';
-
-
-import Card from "../Card/Card.jsx";
-import CardHeader from "../Card/CardHeader.jsx";
-import CardIcon from "../Card/CardIcon.jsx";
-import CardBody from "../Card/CardBody.jsx";
-import CardFooter from "../Card/CardFooter.jsx";
-
-import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
-
 
 const CourseDataGrid = props =>{
 
@@ -39,53 +22,39 @@ const CourseDataGrid = props =>{
         <div>
             <StatsGrid>
                 <StatItem xs={6} sm={2} lg={2} 
-                    heading     ={"Best Hole"} 
-                    subHeading  ={"Hole 18"} 
-                    value       ={1234} 
-                    valueFormat ={"(.ddd),dd"}>
-                    <Card>
-                        <CardHeader color="warning" stats icon>
-                            <CardIcon color="warning">
-                            Best Hole
-                            {/* <Icon>content_copy</Icon> */}
-                            </CardIcon>
-                            <p className={classes.cardCategory}>Used Space</p>
-                            <h3 className={classes.cardTitle}>
-                            49/50 <small>GB</small>
-                            </h3>
-                        </CardHeader>
-                        <CardFooter stats>
-                            <div className={classes.stats}>
-                            <a href="#pablo" onClick={e => e.preventDefault()}>
-                                Get more space
-                            </a>
-                            </div>
-                        </CardFooter>
-                    </Card>
+                    title       ={"Best Hole"}
+                    titleColor  ={"success"}
+                    heading     ={"Hole 18"} 
+                    subHeading  ={"Par 5"} 
+                    stats       ={[{name : "Stroke Average", value : 5.23}]}>
                 </StatItem>
                 <StatItem xs={6} sm={2} lg={2} 
-                    heading     ={"Best Hole"} 
-                    subHeading  ={"Hole 18"} 
-                    value       ={1234} 
-                    valueFormat ={"(.ddd),dd"}>
+                    title       ={"Worst Hole"}
+                    titleColor  ={"danger"}
+                    heading     ={"Hole 5"} 
+                    subHeading  ={"Par 4"} 
+                    stats       ={[{name : "Stroke Average", value : 5.98}]}>
                 </StatItem>
                 <StatItem xs={6} sm={2} lg={2} 
-                    heading     ={"Best Hole"} 
-                    subHeading  ={"Hole 18"} 
-                    value       ={1234} 
-                    valueFormat ={"(.ddd),dd"}>
+                    title       ={"Best Hole"}
+                    titleColor  ={"success"}
+                    heading     ={"Hole 18"} 
+                    subHeading  ={"Par 5"} 
+                    stats       ={[{name : "Stroke Average", value : 5.23}]}>
                 </StatItem>
                 <StatItem xs={6} sm={2} lg={2} 
-                    heading     ={"Best Hole"} 
-                    subHeading  ={"Hole 18"} 
-                    value       ={1234} 
-                    valueFormat ={"(.ddd),dd"}>
+                    title       ={"Best Hole"}
+                    titleColor  ={"success"}
+                    heading     ={"Hole 18"} 
+                    subHeading  ={"Par 5"} 
+                    stats       ={[{name : "Stroke Average", value : 5.23}]}>
                 </StatItem>
                 <StatItem xs={6} sm={2} lg={2} 
-                    heading     ={"Best Hole"} 
-                    subHeading  ={"Hole 12"} 
-                    value       ={1234} 
-                    valueFormat ={"(.ddd),dd"}>
+                    title       ={"Best Hole"}
+                    titleColor  ={"success"}
+                    heading     ={"Hole 18"} 
+                    subHeading  ={"Par 5"} 
+                    stats       ={[{name : "Stroke Average", value : 5.23}]}>
                 </StatItem>
             </StatsGrid>
             <ChartDataGrid>
@@ -108,4 +77,4 @@ const CourseDataGrid = props =>{
       );
 }
 
-export default withStyles(dashboardStyle)(CourseDataGrid);
+export default CourseDataGrid;

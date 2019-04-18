@@ -18,7 +18,7 @@ function CardIcon({ ...props }) {
     [className]: className !== undefined
   });
   return (
-    <div className={cardIconClasses} {...rest}>
+    <div style={{textAlign : "center"}} className={cardIconClasses} {...rest}>
       {children}
     </div>
   );
