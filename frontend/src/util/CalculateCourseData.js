@@ -22,6 +22,7 @@ const calculateCourseData = (course) => {
                 if(!courseData.Holes[holeIndex]){
 
                     courseData.Holes.push({
+                        "HoleNumber"    : hole.Number,
                         "HolePar"       : par,
                         [hole.Result]   : 1,
                         'TotalStrokes'  : getScoreValue(hole.Score, par, hole.Result),
