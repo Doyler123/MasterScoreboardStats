@@ -13,10 +13,11 @@ import CardIcon from "../Card/CardIcon.jsx";
 import CardBody from "../Card/CardBody.jsx";
 import CardFooter from "../Card/CardFooter.jsx";
 
+
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 const CardHeadingText = (props) =>(
-  <Typography color='inherit' style={{letterSpacing: '1px'}}>
+  <Typography color='inherit' >
     <b>{props.children}</b>
   </Typography>
 )
@@ -27,7 +28,7 @@ function StatItem(props) {
     <Grid item xs={props.xs} sm={props.sm} md={props.md} lg={props.lg} xl={props.xl}>
       <Card>
           <CardHeader color={titleColor} stats icon>
-              <CardIcon color={titleColor}>
+              <CardIcon className="card-icon-heading" color={titleColor}>
               {title.split(" ").map((text)=>(
                 <CardHeadingText>{text}</CardHeadingText>
               ))}

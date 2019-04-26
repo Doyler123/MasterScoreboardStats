@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
+import fitty from "fitty"
 
 import {Jonathan} from './util/StaticData'
 
@@ -34,7 +35,13 @@ class App extends Component {
       })
   }
 
-  
+  componentDidUpdate(){
+    fitty('.card-icon-heading', {
+      minSize: 10,
+      maxSize: 20,
+      multiLine: true
+    })
+  }
 
   render() {
     return (

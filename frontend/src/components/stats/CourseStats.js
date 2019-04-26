@@ -4,14 +4,33 @@ import StatsGrid from '../layout/StatsGrid'
 import StatItem from '../layout/StatItem'
 
 const getCourseStats = (data) =>{
-    var stats = []  
+
+    var stats = []
+
+    if(!data.Competitions){
+        return stats
+    }
+
+    stats.push(
+        {title      : "Rounds Played",
+        titleColor  : "info",
+        heading     : "", 
+        subHeading  : data.Competitions.length, 
+        stats       : [
+                {name : "Over/Under",
+                value : data.AverageScore.toFixed(2)}
+            ]
+        }
+    )  
     return stats.concat(getBestAndWorstHole(data))
 }
 
 const getBestAndWorstHole = (data) => {
+    
     if(!data.Holes){
         return []
     }
+
     var holes = data.Holes.slice(0).sort((hole1, hole2) => {
         if(hole1.TotalToPar < hole2.TotalToPar){
             return -1
@@ -51,7 +70,7 @@ const CourseStats = props =>{
 
     const {data} = props
 
-    console.log(getCourseStats(data))
+    console.log(data)
 
     return (
         <StatsGrid>
