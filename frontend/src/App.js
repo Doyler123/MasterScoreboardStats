@@ -1,8 +1,12 @@
+/*global chrome*/
+
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
 import fitty from "fitty"
+
+import parseData from './util/parseData'
 
 import {Jonathan} from './util/StaticData'
 
@@ -30,9 +34,15 @@ class App extends Component {
       //     .then(() =>{
       //         // always executed
       //     });
-      this.setState({
-        data : JSON.parse(Jonathan)
+
+      chrome.storage.local.get('scoresHtml', (data) => {
+        this.setState({
+          data : parseData(data.scoresHtml)
+        })
       })
+
+
+
   }
 
   componentDidUpdate(){
