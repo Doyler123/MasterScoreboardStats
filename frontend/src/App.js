@@ -21,7 +21,10 @@ class App extends Component {
   }
 
   componentDidMount(){
-      // axios.get('http://localhost:3500/scoreData')
+    
+    //Scrape HTML
+
+    // axios.get('http://localhost:3500/scoreData')
       //     .then((response) => {
       //       console.log(response.data)
       //         this.setState({
@@ -35,7 +38,19 @@ class App extends Component {
       //         // always executed
       //     });
 
-      chrome.storage.local.get('scoresHtml', (data) => {
+
+
+      //Static data
+
+      // this.setState({
+      //   data : JSON.parse(Jonathan)
+      // })
+
+
+
+      //Chrome extension
+      
+      chrome.storage.local.get('scoresHtml', (data) => {  
         this.setState({
           data : parseData(data.scoresHtml)
         })
