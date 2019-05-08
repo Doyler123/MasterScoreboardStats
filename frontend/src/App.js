@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
-import fitty from "fitty"
 
 import parseData from './util/parseData'
 
@@ -42,30 +41,22 @@ class App extends Component {
 
       //Static data
 
-      // this.setState({
-      //   data : JSON.parse(Jonathan)
-      // })
+      this.setState({
+        data : JSON.parse(Jonathan)
+      })
 
 
 
       //Chrome extension
       
-      chrome.storage.local.get('scoresHtml', (data) => {  
-        this.setState({
-          data : parseData(data.scoresHtml)
-        })
-      })
+      // chrome.storage.local.get('scoresHtml', (data) => {  
+      //   this.setState({
+      //     data : parseData(data.scoresHtml)
+      //   })
+      // })
 
 
 
-  }
-
-  componentDidUpdate(){
-    fitty('.card-icon-heading', {
-      minSize: 10,
-      maxSize: 20,
-      multiLine: true
-    })
   }
 
   render() {

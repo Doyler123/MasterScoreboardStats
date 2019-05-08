@@ -33,16 +33,38 @@ function StatItem(props) {
                 <CardHeadingText>{text}</CardHeadingText>
               ))}
               </CardIcon>
-              <p className={classes.cardCategory}>{heading}</p>
-              <h3 className={classes.cardTitle}>{subHeading}</h3>
+              {/* <p className={classes.cardCategory}>{heading}</p>
+              <h3 className={classes.cardTitle}>{subHeading}</h3> */}
           </CardHeader>
-          <CardFooter stats>
+          <CardBody>
+            <Grid container>
+              <Grid item xs={2}>
+              <p className={classes.cardTitle}>{heading}</p>
+              </Grid>
+              <Grid item xs={2}>
+                <p>Hello World</p>
+              </Grid>
+              <Grid item xs={2}>
+                <p>Hello World</p>
+              </Grid>
+              <Grid item xs={2}>
+                <p>Hello World</p>
+              </Grid>
+              <Grid item xs={2}>
+                <p>Hello World</p>
+              </Grid>
+              <Grid item xs={2}>
+                <p>Hello World</p>
+              </Grid>
+            </Grid>
+          </CardBody>
+          {/* <CardFooter stats>
               <div className={classes.stats}>
                 {stats.map((stat)=>(
                   stat.name + ": " + stat.value
                 ))}
               </div>
-          </CardFooter>
+          </CardFooter> */}
       </Card>
     </Grid>
   );

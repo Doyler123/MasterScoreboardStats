@@ -70,19 +70,17 @@ const CourseStats = props =>{
 
     const {data} = props
 
-    console.log(data)
-
     return (
         <StatsGrid>
-            {getCourseStats(data).map((statItem)=>(
-                <StatItem xs={6} sm={2} lg={2} 
-                    title       =   {statItem.title}
-                    titleColor  =   {statItem.titleColor}
-                    heading     =   {statItem.heading} 
-                    subHeading  =   {statItem.subHeading} 
-                    stats       =   {statItem.stats}>
+            {/* {getCourseStats(data).map((statItem)=>( */}
+                <StatItem xs={12} 
+                    title       =   {"Worst Hole"}
+                    titleColor  =   {"danger"}
+                    heading     =   {"Hole 15"} 
+                    subHeading  =   {"Par 3"} 
+                    stats       =   {[ {name : "Stroke Average", value : 12} ]}>
                 </StatItem>
-            ))}
+            {/* ))} */}
         </StatsGrid>
       );
 }
