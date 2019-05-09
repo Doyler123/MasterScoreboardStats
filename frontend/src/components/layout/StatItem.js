@@ -22,6 +22,14 @@ const CardHeadingText = (props) =>(
   </Typography>
 )
 
+const StatBarStyle = {
+  display: "inlineBlock",
+  float: "left",
+  width: "85%",
+  textAlign: "center",
+  borderRight: "1px solid #eee"
+}
+
 function StatItem(props) {
   const { classes, title, titleColor, heading, subHeading, stats,   } = props;
   return (
@@ -33,30 +41,34 @@ function StatItem(props) {
                 <CardHeadingText>{text}</CardHeadingText>
               ))}
               </CardIcon>
-              {/* <p className={classes.cardCategory}>{heading}</p>
-              <h3 className={classes.cardTitle}>{subHeading}</h3> */}
-          </CardHeader>
-          <CardBody>
-            <Grid container>
+              <div style={StatBarStyle}>
+              <Grid container>
+              <Grid item xs={2}>
+                <Typography variant="h6" gutterBottom>
+                  {"Worst Hole"}
+                </Typography>
+                <h3 className={classes.cardTitle}>{heading}</h3>
+                <h3 className={classes.cardTitle}>{subHeading}</h3>
+              </Grid>
               <Grid item xs={2}>
               <p className={classes.cardTitle}>{heading}</p>
               </Grid>
               <Grid item xs={2}>
-                <p>Hello World</p>
+              <p className={classes.cardTitle}>{heading}</p>
               </Grid>
               <Grid item xs={2}>
-                <p>Hello World</p>
+              <p className={classes.cardTitle}>{heading}</p>
               </Grid>
               <Grid item xs={2}>
-                <p>Hello World</p>
-              </Grid>
-              <Grid item xs={2}>
-                <p>Hello World</p>
-              </Grid>
-              <Grid item xs={2}>
-                <p>Hello World</p>
+              <p className={classes.cardTitle}>{heading}</p>
               </Grid>
             </Grid>
+              </div>
+              {/* <p className={classes.cardCategory}>{heading}</p>
+              <h3 className={classes.cardTitle}>{subHeading}</h3> */}
+          </CardHeader>
+          <CardBody>
+            
           </CardBody>
           {/* <CardFooter stats>
               <div className={classes.stats}>
