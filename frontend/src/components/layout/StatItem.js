@@ -26,7 +26,7 @@ const CardHeadingText = (props) =>(
 )
 
 function StatItem(props) {
-  const { classes, title, titleColor, heading, subHeading, stats,   } = props;
+  const { classes, title, titleColor, body } = props;
   return (
     <Grid item xs={props.xs} sm={props.sm} md={props.md} lg={props.lg} xl={props.xl}>
       <Card>
@@ -34,16 +34,14 @@ function StatItem(props) {
               <CardIcon className="card-icon-heading" color={titleColor}>
                 <GolfHoleIcon></GolfHoleIcon>
               </CardIcon>
-              <p className={classes.cardCategory}>{heading}</p>
-              <h3 className={classes.cardTitle}>{subHeading}</h3>
+              {/* <p className={classes.cardCategory}>{title}</p> */}
+              <h3 className={classes.cardTitle}>{title}</h3>
           </CardHeader>
-          <CardFooter stats>
-              <div className={classes.stats}>
-                {stats.map((stat)=>(
-                  stat.name + ": " + stat.value
-                ))}
-              </div>
-          </CardFooter>
+          <CardBody>
+          <Typography className={classes.cardBodyTypography} variant="h5" >
+            {body}
+          </Typography>
+          </CardBody>
       </Card>
     </Grid>
   );

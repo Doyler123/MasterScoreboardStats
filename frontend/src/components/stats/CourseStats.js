@@ -14,12 +14,7 @@ const getCourseStats = (data) =>{
     stats.push(
         {title      : "Rounds Played",
         titleColor  : "info",
-        heading     : "", 
-        subHeading  : data.Competitions.length, 
-        stats       : [
-                {name : "Over/Under",
-                value : data.AverageScore.toFixed(2)}
-            ]
+        body     : data.Competitions.length, 
         }
     )  
     return stats.concat(getBestAndWorstHole(data))
@@ -48,21 +43,13 @@ const getBestAndWorstHole = (data) => {
     return[
         {title      : "Best Hole",
         titleColor  : "success",
-        heading     : "Hole " + bestHole.HoleNumber, 
-        subHeading  : "Par " + bestHole.HolePar, 
-        stats       : [
-            {name : "Stroke Average",
-             value : (bestHole.TotalStrokes / data.Competitions.length).toFixed(2)}
-        ]},
+        body     : "Hole " + bestHole.HoleNumber, 
+        },
 
         {title      : "Worst Hole",
         titleColor  : "danger",
-        heading     : "Hole " + worstHole.HoleNumber, 
-        subHeading  : "Par " + worstHole.HolePar, 
-        stats       : [
-            {name : "Stroke Average",
-             value : (worstHole.TotalStrokes / data.Competitions.length).toFixed(2)}
-        ]},
+        body     : "Hole " + worstHole.HoleNumber, 
+        },
     ]
 }
 
@@ -78,9 +65,8 @@ const CourseStats = props =>{
                 <StatItem xs={6} sm={2} lg={2} 
                     title       =   {statItem.title}
                     titleColor  =   {statItem.titleColor}
-                    heading     =   {statItem.heading} 
-                    subHeading  =   {statItem.subHeading} 
-                    stats       =   {statItem.stats}>
+                    body        =   {statItem.body} 
+                    >
                 </StatItem>
             ))}
         </StatsGrid>

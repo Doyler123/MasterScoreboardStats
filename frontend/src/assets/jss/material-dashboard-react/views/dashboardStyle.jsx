@@ -54,6 +54,7 @@ const dashboardStyle = {
     marginTop: "0px",
     minHeight: "auto",
     fontWeight: "300",
+    paddingTop: "10px",
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none",
@@ -76,6 +77,9 @@ const dashboardStyle = {
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  cardBodyTypography: {
+    color: grayColor[0]
   }
 };
 
