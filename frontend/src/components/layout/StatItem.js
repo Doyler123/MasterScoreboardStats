@@ -13,6 +13,9 @@ import CardIcon from "../Card/CardIcon.jsx";
 import CardBody from "../Card/CardBody.jsx";
 import CardFooter from "../Card/CardFooter.jsx";
 
+import SvgIcon from '@material-ui/core/SvgIcon';
+import GolfHoleIcon from '../icons/GolfHoleIcon'
+
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
@@ -29,9 +32,7 @@ function StatItem(props) {
       <Card>
           <CardHeader color={titleColor} stats icon>
               <CardIcon className="card-icon-heading" color={titleColor}>
-              {title.split(" ").map((text)=>(
-                <CardHeadingText>{text}</CardHeadingText>
-              ))}
+                <GolfHoleIcon></GolfHoleIcon>
               </CardIcon>
               <p className={classes.cardCategory}>{heading}</p>
               <h3 className={classes.cardTitle}>{subHeading}</h3>
