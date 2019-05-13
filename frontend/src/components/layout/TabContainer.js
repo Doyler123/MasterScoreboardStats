@@ -45,7 +45,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   'datePicker': {
-    color : 'white'
+    '& input' : {
+      color : 'white'
+    }
   }
 });
 
@@ -97,7 +99,7 @@ class TabsWrappedLabel extends React.Component {
                 })}
               </Tabs>
             </Grid>
-            <Grid className={'datePicker'} item sm={4}>
+            <Grid className={classes.datePicker} item sm={4}>
               <DateRangePicker
                 onChange={this.onDateRangeChange}
                 value={this.state.dateRange}
