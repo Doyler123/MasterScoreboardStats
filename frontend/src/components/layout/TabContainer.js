@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 import Grid from '@material-ui/core/Grid';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import CourseDataGrid from './CourseDataGrid'
 
@@ -45,8 +46,25 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   'datePicker': {
-    '& input' : {
-      color : 'white'
+    '& .react-daterange-picker__wrapper' : {
+      border: 'none',
+      lineHeight: '30px'
+    },
+    '& .react-daterange-picker' :{
+      paddingTop: '8px',
+      '& input' : {
+        color : 'white',
+        cursor : 'pointer'
+      },
+      '& svg' : {
+        color : 'white'
+      },
+    },
+    '& .react-calendar__month-view__weekdays': {
+      color: 'black'
+    },
+    '& .react-daterange-picker__calendar': {
+      zIndex: 5
     }
   }
 });
@@ -82,6 +100,7 @@ class TabsWrappedLabel extends React.Component {
 
   onDateRangeChange = (dateRange) => {
     console.log(dateRange)
+    this.setState({dateRange : dateRange})
   }
 
   render() {
@@ -103,6 +122,9 @@ class TabsWrappedLabel extends React.Component {
               <DateRangePicker
                 onChange={this.onDateRangeChange}
                 value={this.state.dateRange}
+                calendarIcon={<CalendarTodayIcon/>}
+                clearIcon={null}
+                format={"dd/MM/yyyy"}
               />
             </Grid>
           </Grid>
