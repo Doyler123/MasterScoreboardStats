@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import DateRangePicker from '@wojtekmaj/react-daterange-picker'
+import Grid from '@material-ui/core/Grid';
 
 import CourseDataGrid from './CourseDataGrid'
 
@@ -42,6 +44,9 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  'datePicker': {
+    color : 'white'
+  }
 });
 
 class TabsWrappedLabel extends React.Component {
@@ -49,6 +54,7 @@ class TabsWrappedLabel extends React.Component {
     course: 0,
     courseData : calculateCourseData(this.props.data[0]),
     currentHole: ALL,
+    dateRange : [new Date(2017, 0, 1), new Date()]
   };
 
   componentWillReceiveProps(newProps) {
@@ -72,6 +78,10 @@ class TabsWrappedLabel extends React.Component {
     return text.replace("<br>Played at ", "")
   }
 
+  onDateRangeChange = (dateRange) => {
+    console.log(dateRange)
+  }
+
   render() {
     const { classes, data} = this.props;
     const { course, currentHole } = this.state;
@@ -79,11 +89,21 @@ class TabsWrappedLabel extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Tabs value={course} onChange={this.handleCourseChange}>
-            {data.map((course, index)=>{
-              return <Tab value={index} label={this.getCourseName(course.Name)}/>  
-            })}
-          </Tabs>
+          <Grid container>
+            <Grid item sm={8}>
+              <Tabs value={course} onChange={this.handleCourseChange}>
+                {data.map((course, index)=>{
+                  return <Tab value={index} label={this.getCourseName(course.Name)}/>  
+                })}
+              </Tabs>
+            </Grid>
+            <Grid className={'datePicker'} item sm={4}>
+              <DateRangePicker
+                onChange={this.onDateRangeChange}
+                value={this.state.dateRange}
+              />
+            </Grid>
+          </Grid>
         </AppBar>
         <TabContainer>
           <AppBar position="static" color="default">

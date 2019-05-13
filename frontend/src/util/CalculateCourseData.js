@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import {RESULT_VALUES} from '../constants/constants'
 
 const calculateCourseData = (course) => {
@@ -14,6 +16,8 @@ const calculateCourseData = (course) => {
 
             courseData.Competitions[compIndex]['Gross'] = 0
             
+            comp.Date = parseDate(comp.Date)
+
             comp.Holes.forEach((hole, holeIndex) =>{
 
                 courseData.Competitions[compIndex].Gross += RESULT_VALUES[hole.Result];
@@ -67,6 +71,11 @@ const getScoreValue = (score, par, result ) => {
     }else{
         return par + RESULT_VALUES[result]
     }
+}
+
+const parseDate = (date) =>{
+    console.log(moment(date).fromNow())
+    return date
 }
 
 export default calculateCourseData
