@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import moment from 'moment'
 
 
 const styles = theme => ({
@@ -33,17 +34,34 @@ const styles = theme => ({
 
 class DatePicker extends React.Component {
 
+  constructor(props){
+    super(props)
+
+    this.state= {
+      dateRange : null
+    }
+  }
+
+  componentWillReceiveProps(newProps){
+    this.setState({
+      dateRange : newProps.dateRange.map((date)=>{
+        return moment(date)
+      })
+    })
+  }
+
   render() {
 
-    let {dateRange, onChange} = this.props
+    let {classes, onChange} = this.props
 
     return (
-        <div>
+        <div className={classes.datePicker}>
             <DateRangePicker
               onChange={onChange}
-              value={dateRange}
+              value={this.state.dateRange}
               calendarIcon={<CalendarTodayIcon/>}
               clearIcon={null}
+              format={"dd/MM/yyyy"}
             />
         </div>
     );

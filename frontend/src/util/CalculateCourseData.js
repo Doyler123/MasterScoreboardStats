@@ -2,25 +2,31 @@ import moment from 'moment'
 
 import {RESULT_VALUES} from '../constants/constants'
 
-const calculateCourseData = (course) => {
+const calculateCourseData = (course, dateRange) => {
     var courseData = {}
     if(course){
         courseData = {
             'AverageScore'  : 0,
-            'Competitions'  : course.Competitions,
+            'Competitions'  : [],
             'Holes'         : [],
             'ParTotals'     : {}
         }
 
         course.Competitions.forEach((comp, compIndex) => {
 
-            courseData.Competitions[compIndex]['Gross'] = 0
+            if(dateRange && dateRange.length === 2){
+                if(moment(comp.Date).isBefore(dateRange[0]) || moment(comp.Date).isAfter(dateRange[1])){
+                    return
+                }
+            }
+
+            comp['Gross'] = 0
             
             comp.Date = parseDate(comp.Date)
 
             comp.Holes.forEach((hole, holeIndex) =>{
 
-                courseData.Competitions[compIndex].Gross += RESULT_VALUES[hole.Result];
+                comp.Gross += RESULT_VALUES[hole.Result];
                 var par = course.CourseInfo.Holes[holeIndex].Par
                 
                 if(!courseData.Holes[holeIndex]){
@@ -56,7 +62,8 @@ const calculateCourseData = (course) => {
                 
             })
 
-            courseData.AverageScore += courseData.Competitions[compIndex].Gross
+            courseData.AverageScore += comp.Gross
+            courseData.Competitions.push(comp)
         });
 
         courseData.AverageScore = courseData.AverageScore/courseData.Competitions.length
@@ -74,7 +81,6 @@ const getScoreValue = (score, par, result ) => {
 }
 
 const parseDate = (date) =>{
-    console.log(moment(date).fromNow())
     return date
 }
 

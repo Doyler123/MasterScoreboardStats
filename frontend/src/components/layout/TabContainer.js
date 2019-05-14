@@ -5,9 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 import Grid from '@material-ui/core/Grid';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import DatePicker from '../misc/DatePicker'
 
 import CourseDataGrid from './CourseDataGrid'
 
@@ -27,7 +26,6 @@ const TabLabel = (props) => (
 )
 
 
-
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3,  backgroundColor: '#EEEEEE' }}>
@@ -44,50 +42,42 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-  },
-  'datePicker': {
-    '& .react-daterange-picker__wrapper' : {
-      border: 'none',
-      lineHeight: '30px'
-    },
-    '& .react-daterange-picker' :{
-      paddingTop: '8px',
-      '& input' : {
-        color : 'white',
-        cursor : 'pointer'
-      },
-      '& svg' : {
-        color : 'white'
-      },
-    },
-    '& .react-calendar__month-view__weekdays': {
-      color: 'black'
-    },
-    '& .react-daterange-picker__calendar': {
-      zIndex: 5
-    }
   }
 });
 
-class TabsWrappedLabel extends React.Component {
-  state = {
-    course: 0,
-    courseData : calculateCourseData(this.props.data[0]),
-    currentHole: ALL,
-    dateRange : [new Date(2017, 0, 1), new Date()]
-  };
+class TabsContainer extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      course: 0,
+      courseData : calculateCourseData(this.props.data[0], null),
+      currentHole: ALL,
+      dateRange : null
+    };
+  }
 
   componentWillReceiveProps(newProps) {
+
+    var courseData = calculateCourseData(newProps.data[0], this.state.dateRange);
+    
     this.setState({
-      courseData : calculateCourseData(newProps.data[0]),
+      courseData : courseData,
+      dateRange: this.getInitialDateRange(courseData.Competitions)
     })
   }
 
   handleCourseChange = (event, course) => {
+
+    var courseData = calculateCourseData(this.props.data[course], null);
+
     this.setState({ 
         course,
-        courseData : calculateCourseData(this.props.data[course]),
-        currentHole: ALL });
+        courseData : courseData,
+        currentHole: ALL,
+        dateRange : this.getInitialDateRange(courseData.Competitions)
+       });
   }
 
   handleHoleChange = (event, currentHole) => {
@@ -98,9 +88,22 @@ class TabsWrappedLabel extends React.Component {
     return text.replace("<br>Played at ", "")
   }
 
+  getInitialDateRange = (comps) =>{
+    if(comps.length < 1){
+      return null
+    }
+
+    return [
+      comps[comps.length - 1].Date,
+      comps[0].Date
+    ]
+  }
+
   onDateRangeChange = (dateRange) => {
-    console.log(dateRange)
-    this.setState({dateRange : dateRange})
+    this.setState({
+      courseData : calculateCourseData(this.props.data[this.state.course], dateRange),
+      dateRange : dateRange
+    })
   }
 
   render() {
@@ -118,14 +121,10 @@ class TabsWrappedLabel extends React.Component {
                 })}
               </Tabs>
             </Grid>
-            <Grid className={classes.datePicker} item sm={4}>
-              <DateRangePicker
-                onChange={this.onDateRangeChange}
-                value={this.state.dateRange}
-                calendarIcon={<CalendarTodayIcon/>}
-                clearIcon={null}
-                format={"dd/MM/yyyy"}
-              />
+            <Grid item sm={4}>
+              <DatePicker
+                dateRange={this.state.dateRange}
+                onChange={this.onDateRangeChange} />
             </Grid>
           </Grid>
         </AppBar>
@@ -152,8 +151,8 @@ class TabsWrappedLabel extends React.Component {
   }
 }
 
-TabsWrappedLabel.propTypes = {
+TabsContainer.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TabsWrappedLabel);
+export default withStyles(styles)(TabsContainer);
