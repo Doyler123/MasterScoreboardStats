@@ -3,32 +3,12 @@ import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, ResponsiveContainer
 } from 'recharts';
 
-export default class ParTotalsBarChart extends Component {
+const ParTotalsBarChart = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.setState({
-            data : newProps.data
-        })
-    }
-    
-    componentDidMount() {
-        this.setState({
-            data : this.props.data
-        })
-    }
-
-    render() {
-        return (
+    return (
         <ResponsiveContainer width='100%' aspect={4.5/3.0}>
             <BarChart
-                data={this.state.data}
+                data={props.data}
                 margin={{
                     top: 5, right: 30, left: 20, bottom: 5,
                 }}
@@ -49,6 +29,8 @@ export default class ParTotalsBarChart extends Component {
                 </Bar>
             </BarChart>
         </ResponsiveContainer>
-        );
-    }
+    );
 }
+
+export default ParTotalsBarChart
+

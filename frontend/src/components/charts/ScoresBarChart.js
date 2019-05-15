@@ -4,26 +4,12 @@ import {
 } from 'recharts';
 import {SCORES_TO_COLOURS} from '../../constants/constants'
 
-export default class ScoresBarChart extends Component {
+const ScoresBarChart = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.setState({
-            data : newProps.data
-        })
-    }
-
-    render() {
-        return (
+    return (
         <ResponsiveContainer width='100%' aspect={4.5/3.0}>
             <BarChart
-                data={this.state.data}
+                data={props.data}
                 margin={{
                     top: 5, right: 30, left: 20, bottom: 5,
                 }}
@@ -33,7 +19,7 @@ export default class ScoresBarChart extends Component {
                 <YAxis type="number" tickCount={8} domain={[0, 'dataMax + 25']}/>
                 <Tooltip />
                 <Bar dataKey="count" fill="#8884d8" >
-                    {this.state.data.map((entry, index) => {
+                    {props.data.map((entry, index) => {
                         console.log(entry)
                         const color = SCORES_TO_COLOURS[entry.score]
                         return <Cell fill={color} />;
@@ -42,6 +28,8 @@ export default class ScoresBarChart extends Component {
                 </Bar>
             </BarChart>
         </ResponsiveContainer>
-        );
-    }
+    );
 }
+
+
+export default ScoresBarChart

@@ -1,49 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import DatePicker from '../misc/DatePicker'
-
-import CourseDataGrid from './CourseDataGrid'
-
 import calculateCourseData from '../../util/CalculateCourseData'
-
+import TabComponent from './TabComponent'
 import {ALL} from '../../constants/constants'
 
-const TabLabel = (props) => (
-  <div>
-    <Typography variant="body2">
-      {"Hole " + props.number}
-    </Typography>
-    <Typography variant="caption">
-      {"Par " + props.par}
-    </Typography>
-  </div>
-)
 
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3,  backgroundColor: '#EEEEEE' }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  }
-});
 
 class TabsContainer extends React.Component {
 
@@ -84,10 +45,6 @@ class TabsContainer extends React.Component {
     this.setState({currentHole : currentHole });
   };
 
-  getCourseName = (text) => {
-    return text.replace("<br>Played at ", "")
-  }
-
   getInitialDateRange = (comps) =>{
     if(comps.length < 1){
       return null
@@ -107,52 +64,25 @@ class TabsContainer extends React.Component {
   }
 
   render() {
-    const { classes, data} = this.props;
-    const { course, currentHole } = this.state;
-
+    
     return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Grid container>
-            <Grid item sm={8}>
-              <Tabs value={course} onChange={this.handleCourseChange}>
-                {data.map((course, index)=>{
-                  return <Tab value={index} label={this.getCourseName(course.Name)}/>  
-                })}
-              </Tabs>
-            </Grid>
-            <Grid item sm={4}>
-              <DatePicker
-                dateRange={this.state.dateRange}
-                onChange={this.onDateRangeChange} />
-            </Grid>
-          </Grid>
-        </AppBar>
-        <TabContainer>
-          <AppBar position="static" color="default">
-            <Tabs
-              value={currentHole}
-              onChange={this.handleHoleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-            >
-              <Tab value={ALL} label={ALL} />
-              {data.length > 0 ? data[this.state.course].CourseInfo.Holes.map((hole, index) => {
-                return <Tab value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
-              }) : null}
-            </Tabs>
-          </AppBar>
-          <CourseDataGrid data={this.state.courseData} hole={currentHole}/>
-        </TabContainer>
-      </div>
+      <TabComponent
+        data                ={this.props.data}
+        course              ={this.state.course}
+        currentHole         ={this.state.currentHole}
+        dateRange           ={this.state.dateRange}
+        courseData          ={this.state.courseData}
+        handleCourseChange  ={this.handleCourseChange}
+        onDateRangeChange   ={this.onDateRangeChange}
+        handleHoleChange    ={this.handleHoleChange}
+      />
+      
     );
   }
 }
 
 TabsContainer.propTypes = {
-  classes: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TabsContainer);
+export default TabsContainer

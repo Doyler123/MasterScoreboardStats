@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine
 } from 'recharts';
-import {RESULT_VALUES, ALL} from '../../constants/constants'
+import {ALL} from '../../constants/constants'
 
 export default class GrossLineChart extends Component {
 
-    constructor(props) {
-        super(props);
-            
-        this.state = {
-            data: [],
-            hole: ALL,
-            average: 0
-        }
-    }
 
-    componentWillReceiveProps(newProps) {
-        this.setState({
-            data : newProps.data.data,
-            hole : newProps.hole,
-            average : newProps.data.average
-        })
-    }
-
-    formatToolTip = (value, name, props) => { return [value > 0 && this.state.hole == ALL ? "+" + value : value, "Score " ] }
+    formatToolTip = (value, name, props) => { return [value > 0 && this.props.hole === ALL ? "+" + value : value, "Score " ] }
 
     render() {
+
+        let {data} = this.props
+
+        if(!data){
+          return null
+        }
         return (
         <ResponsiveContainer width='100%' aspect={4.5/3.0}>
             <LineChart
-                data={this.state.data}
+                data={data.data}
                 margin={{
                 top: 5, right: 30, left: 20, bottom: 40,
                 }}
@@ -38,7 +27,7 @@ export default class GrossLineChart extends Component {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" minTickGap={1} tick={<CustomizedAxisTick />} />
                 <YAxis />
-                <ReferenceLine y={this.state.average} label={"Avg: +" + this.state.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
+                <ReferenceLine y={data.average} label={"Avg: +" + data.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
                 <Tooltip formatter={this.formatToolTip}/>
                 <Line connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
