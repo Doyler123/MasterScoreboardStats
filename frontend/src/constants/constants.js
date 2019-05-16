@@ -55,3 +55,8 @@ export const CODES_TO_SCORES = {
   export const ALL = "all"
 
   export const NA = "N/A"
+
+
+export const DEFAULT_ALL_HOLES_TAB = 'TotalToPar'
+export const BIRDE = 'Birde'
+export const BOGEY = 'Bogey'

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ChartDataGrid from './ChartDataGrid'
+import ChartGrid from '../charts/layout/ChartGrid'
 import ScoresChart from '../charts/ScoresBarChart'
 import GrossLineChart from '../charts/GrossLineChart'
-import ChartItem from './ChartItem'
+import ChartItem from '../charts/layout/ChartItem'
 import ParTotalsBarChart from '../charts/ParTotalsBarChart'
-import AllHolesBarChart from '../charts/AllHolesBarChart'
+import AllHolesBarChartContainer from '../charts/AllHolesBarChartContainer'
 import ChartDataCalculator from '../../util/ChartDataCalculator'
 
 import {ALL} from '../../constants/constants'
@@ -13,14 +13,12 @@ import CourseStats from '../stats/CourseStats';
 
 const CourseDataGrid = props =>{
 
-    const { classes } = props;
-
     var chartDataCalculator = new ChartDataCalculator()
 
     return (
         <div>
             <CourseStats data={props.data}/>
-            <ChartDataGrid>
+            <ChartGrid>
                 <ChartItem xs={12} sm={6} lg={4}>
                     <ScoresChart data={chartDataCalculator.getScoresBarChartData(props.data, props.hole)}/>
                 </ChartItem>
@@ -33,9 +31,9 @@ const CourseDataGrid = props =>{
                 </ChartItem> : null}
                 {props.hole === ALL ?
                 <ChartItem xs={12} sm={12} lg={8}>
-                    <AllHolesBarChart data={props.data}/>
+                    <AllHolesBarChartContainer data={props.data}/>
                 </ChartItem> : null}
-            </ChartDataGrid>
+            </ChartGrid>
         </div>
       );
 }

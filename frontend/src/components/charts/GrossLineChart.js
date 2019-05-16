@@ -29,7 +29,7 @@ export default class GrossLineChart extends Component {
                 <YAxis />
                 <ReferenceLine y={data.average} label={"Avg: +" + data.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
                 <Tooltip formatter={this.formatToolTip}/>
-                <Line connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line dot={false} connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
             </LineChart>
         </ResponsiveContainer>
         );

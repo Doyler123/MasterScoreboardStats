@@ -10,7 +10,7 @@ const styles = theme => ({
   }
 });
 
-function Layout(props) {
+function ChartGrid(props) {
   const { classes } = props;
 
   return (
@@ -22,8 +22,8 @@ function Layout(props) {
   );
 }
 
-Layout.propTypes = {
+ChartGrid.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Layout);
+export default withStyles(styles)(ChartGrid);

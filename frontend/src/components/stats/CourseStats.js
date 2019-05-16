@@ -1,7 +1,7 @@
 import React from 'react';
 
-import StatsGrid from '../layout/StatsGrid'
-import StatItem from '../layout/StatItem'
+import StatsGrid from './StatsGrid'
+import StatItem from './StatItem'
 
 const getCourseStats = (data) =>{
 
