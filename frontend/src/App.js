@@ -41,25 +41,26 @@ class App extends Component {
 
       //Static data
 
-      this.setState({
-        data : JSON.parse(Jonathan)
-      })
+      // this.setState({
+      //   data : JSON.parse(Jonathan)
+      // })
 
 
 
       //Chrome extension
       
-      // chrome.storage.local.get('scoresHtml', (data) => {  
-      //   this.setState({
-      //     data : parseData(data.scoresHtml)
-      //   })
-      // })
+      chrome.storage.local.get('scoresHtml', (data) => {  
+        this.setState({
+          data : parseData(data.scoresHtml)
+        })
+      })
 
 
 
   }
 
   render() {
+    console.log(this.state.data)
     return (
       <div className="App">
         <TabContainer data={this.state.data}/>

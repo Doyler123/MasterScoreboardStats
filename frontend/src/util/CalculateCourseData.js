@@ -26,6 +26,7 @@ const calculateCourseData = (course, dateRange) => {
 
             comp.Holes.forEach((hole, holeIndex) =>{
 
+                
                 comp.Gross += RESULT_VALUES[hole.Result];
                 var par = course.CourseInfo.Holes[holeIndex].Par
                 

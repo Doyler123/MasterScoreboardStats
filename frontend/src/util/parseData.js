@@ -36,7 +36,7 @@ const scoreMap = {
     if(definite_results.includes(result)){
       return score - resultValues[result]
     }
-    return null
+    return 4
   }
   
   const sortHoles = function(a, b){
@@ -83,7 +83,8 @@ const scoreMap = {
                       var hole = {
                         'Number' : holeNumber,
                         'Result' : result,
-                        'Score'  : score
+                        'Score'  : score,
+                        'Par'    : getHolePar(score, result)
                       }
                       if(!course.CourseInfo.Holes.filter(h => h.Number === holeNumber).length > 0){
                         var par = getHolePar(score, result)
