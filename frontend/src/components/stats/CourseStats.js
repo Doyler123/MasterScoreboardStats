@@ -62,7 +62,7 @@ const CourseStats = props =>{
     return (
         <StatsGrid>
             {getCourseStats(data).map((statItem)=>(
-                <StatItem xs={6} sm={2} lg={2} 
+                <StatItem xs={6} sm={4} lg={2} 
                     title       =   {statItem.title}
                     titleColor  =   {statItem.titleColor}
                     body        =   {statItem.body} 

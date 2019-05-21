@@ -41,19 +41,19 @@ class App extends Component {
 
       //Static data
 
-      // this.setState({
-      //   data : JSON.parse(Jonathan)
-      // })
+      this.setState({
+        data : JSON.parse(Jonathan)
+      })
 
 
 
       // Chrome extension
       
-      chrome.storage.local.get('scoresHtml', (data) => {  
-        this.setState({
-          data : chromeExtensionUtil.parseData(data.scoresHtml)
-        })
-      })
+      // chrome.storage.local.get('scoresHtml', (data) => {  
+      //   this.setState({
+      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
+      //   })
+      // })
 
 
 
