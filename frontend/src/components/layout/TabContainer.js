@@ -1,43 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import calculateCourseData from '../../util/CalculateCourseData'
 import TabComponent from './TabComponent'
 import {ALL} from '../../constants/constants'
 
-
+import * as util from '../../util/TabsUtil'
 
 class TabsContainer extends React.Component {
 
   constructor(props) {
     super(props)
 
+    var courseData = util.calculateCourseData(props.data[0], null);
+
     this.state = {
       course: 0,
-      courseData : calculateCourseData(this.props.data[0], null),
-      currentHole: ALL,
-      dateRange : null
-    };
-  }
-
-  componentWillReceiveProps(newProps) {
-
-    var courseData = calculateCourseData(newProps.data[0], this.state.dateRange);
-    
-    this.setState({
       courseData : courseData,
-      dateRange: this.getInitialDateRange(courseData.Competitions)
-    })
+      currentHole: ALL,
+      dateRange : util.getInitialDateRange(courseData.Competitions)
+    };
   }
 
   handleCourseChange = (event, course) => {
 
-    var courseData = calculateCourseData(this.props.data[course], null);
+    var courseData = util.calculateCourseData(this.props.data[course], null);
 
     this.setState({ 
         course,
         courseData : courseData,
         currentHole: ALL,
-        dateRange : this.getInitialDateRange(courseData.Competitions)
+        dateRange : util.getInitialDateRange(courseData.Competitions)
        });
   }
 
@@ -45,20 +36,9 @@ class TabsContainer extends React.Component {
     this.setState({currentHole : currentHole });
   };
 
-  getInitialDateRange = (comps) =>{
-    if(comps.length < 1){
-      return null
-    }
-
-    return [
-      comps[comps.length - 1].Date,
-      comps[0].Date
-    ]
-  }
-
   onDateRangeChange = (dateRange) => {
     this.setState({
-      courseData : calculateCourseData(this.props.data[this.state.course], dateRange),
+      courseData : util.calculateCourseData(this.props.data[this.state.course], dateRange),
       dateRange : dateRange
     })
   }

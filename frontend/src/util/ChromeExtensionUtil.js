@@ -49,7 +49,7 @@ const scoreMap = {
     return 0
   }
   
-  const parseData = function(html){  
+  export const parseData = function(html){  
       const data = []
   
 
@@ -83,8 +83,7 @@ const scoreMap = {
                       var hole = {
                         'Number' : holeNumber,
                         'Result' : result,
-                        'Score'  : score,
-                        'Par'    : getHolePar(score, result)
+                        'Score'  : score
                       }
                       if(!course.CourseInfo.Holes.filter(h => h.Number === holeNumber).length > 0){
                         var par = getHolePar(score, result)
@@ -114,4 +113,3 @@ const scoreMap = {
   
   }
   
-  export default parseData

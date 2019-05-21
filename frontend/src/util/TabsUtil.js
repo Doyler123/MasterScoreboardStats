@@ -1,8 +1,24 @@
+import {RESULT_VALUES} from '../constants/constants'
 import moment from 'moment'
 
-import {RESULT_VALUES} from '../constants/constants'
+export const getInitialDateRange = (comps) =>{
+    if(comps.length < 1){
+      return null
+    }
 
-const calculateCourseData = (course, dateRange) => {
+    var date1 = moment(comps[comps.length - 1].Date)
+    var date2 = moment(comps[0].Date)
+    
+    if(!date1.isValid || !date2.isValid){
+      return null
+    }
+
+    return [date1, date2]
+}
+
+
+
+export const calculateCourseData = (course, dateRange) => {
     var courseData = {}
     if(course){
         courseData = {
@@ -84,5 +100,3 @@ const getScoreValue = (score, par, result ) => {
 const parseDate = (date) =>{
     return date
 }
-
-export default calculateCourseData

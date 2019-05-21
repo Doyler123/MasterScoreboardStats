@@ -3,7 +3,7 @@
   "version": "1.0",
   "description": "Build an Extension!",
   "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "permissions": ["https://www.masterscoreboard.co.uk/", "activeTab", "declarativeContent", "storage"],
   "options_page": "./chrome_extension/options.html",
   "background": {
       "scripts": ["./chrome_extension/background.js"],

@@ -5,7 +5,7 @@ import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
 
-import parseData from './util/parseData'
+import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
 
 import {Jonathan} from './util/StaticData'
 
@@ -47,11 +47,11 @@ class App extends Component {
 
 
 
-      //Chrome extension
+      // Chrome extension
       
       chrome.storage.local.get('scoresHtml', (data) => {  
         this.setState({
-          data : parseData(data.scoresHtml)
+          data : chromeExtensionUtil.parseData(data.scoresHtml)
         })
       })
 
@@ -63,7 +63,7 @@ class App extends Component {
     console.log(this.state.data)
     return (
       <div className="App">
-        <TabContainer data={this.state.data}/>
+        {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
       </div>
     );
   }
