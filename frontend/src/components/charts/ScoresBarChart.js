@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, ResponsiveContainer
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LabelList, ResponsiveContainer
 } from 'recharts';
-import {SCORES_TO_COLOURS} from '../../constants/constants'
+import * as util from '../../util/BarChartUtil'
 
 const ScoresBarChart = (props) => {
 
@@ -19,11 +19,7 @@ const ScoresBarChart = (props) => {
                 <YAxis type="number" tickCount={8} domain={[0, 'dataMax + 25']}/>
                 <Tooltip />
                 <Bar dataKey="count" fill="#8884d8" >
-                    {props.data.map((entry, index) => {
-                        console.log(entry)
-                        const color = SCORES_TO_COLOURS[entry.score]
-                        return <Cell fill={color} />;
-                    })}
+                    {props.data.map(util.fillBar)}
                     <LabelList dataKey="count" position="top" />
                 </Bar>
             </BarChart>

@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, ResponsiveContainer
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
+import * as util from '../../util/BarChartUtil'
 
 const ParTotalsBarChart = (props) => {
 
@@ -19,13 +20,13 @@ const ParTotalsBarChart = (props) => {
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="Par 3" fill="#A6D9F7" >
-                    <LabelList dataKey="par3" position="top" />
+                    {props.data.map(util.fillBar)}
                 </Bar>
                 <Bar dataKey="Par 4" fill="#84DCCF" >
-                    <LabelList dataKey="par4" position="top" />
+                    {props.data.map(util.fillBar)}
                 </Bar>
                 <Bar dataKey="Par 5" fill="#E0DEA8" >
-                    <LabelList dataKey="par5" position="top" />
+                    {props.data.map(util.fillBar)}
                 </Bar>
             </BarChart>
         </ResponsiveContainer>
