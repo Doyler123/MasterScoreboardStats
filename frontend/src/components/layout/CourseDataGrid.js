@@ -17,7 +17,7 @@ const CourseDataGrid = props =>{
 
     return (
         <div>
-            <CourseStats data={props.data}/>
+            <CourseStats data={props.data} hole={props.hole}/>
             <ChartGrid>
                 <ChartItem xs={12} sm={6} lg={5}>
                     <ScoresChart data={chartDataCalculator.getScoresBarChartData(props.data, props.hole)}/>
