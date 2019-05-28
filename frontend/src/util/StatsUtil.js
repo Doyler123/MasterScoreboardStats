@@ -4,11 +4,10 @@ export const getCourseStats = (data, hole) =>{
 
     var stats = []
 
-    console.log(ALL)
-
     if(!data.Competitions){
         return stats
     }
+    
     return calculateStats(data, hole)
 }
 
@@ -83,7 +82,6 @@ const getHoleRank = (sortedHoles, currentHole) =>{
     }
 
     for(const [index, hole] of sortedHoles.entries()){
-        console.log(currentHole, hole.HoleNumber)
         if(hole.HoleNumber === currentHole){
             rank = index + 1
             break
