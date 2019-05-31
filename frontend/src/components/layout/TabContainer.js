@@ -27,7 +27,7 @@ class TabsContainer extends React.Component {
     })
   }
 
-  handleCourseChange = (course) => {
+  handleCourseChange = (event, course) => {
     var courseData = util.calculateCourseData(this.props.data[course], null);
     store.dispatch({
       type : Actions.CHANGE_COURSE,

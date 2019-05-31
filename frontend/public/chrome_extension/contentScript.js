@@ -1,16 +1,16 @@
 chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
         if(request.method === "getHtml"){
-            var url = getUrl
-            if(url){
-                fetch(getUrl()).then(r => r.text()).then(result => {
-                    var parser = new DOMParser()
-                    var html = parser.parseFromString(result, 'text/html')
-                    sendResponse({data: document.all[0].outerHTML, data2 : html,method: "getHtml"});
-                })
-            }else{
+            // var url = getUrl
+            // if(url){
+            //     fetch(getUrl()).then(r => r.text()).then(result => {
+            //         var parser = new DOMParser()
+            //         var html = parser.parseFromString(result, 'text/html')
+            //         sendResponse({data: document.all[0].outerHTML, data2 : html,method: "getHtml"});
+            //     })
+            // }else{
                 sendResponse({data: document.all[0].outerHTML, method: "getHtml"});
-            }
+            // }
         }
     }
 );
