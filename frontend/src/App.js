@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
 
 import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
 
@@ -60,11 +63,12 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.data)
     return (
-      <div className="App">
-        {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
-      </div>
+      <Provider store={store}>
+        <div className="App">
+          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
+        </div>
+      </Provider>
     );
   }
 }

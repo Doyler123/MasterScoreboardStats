@@ -12,39 +12,23 @@ class TabsContainer extends React.Component {
   constructor(props) {
     super(props)
 
-    var courseData = util.calculateCourseData(props.data[0], null);
-
-    this.state = {
-      course: 0,
-      courseData : courseData,
-      currentHole: ALL,
-      dateRange : util.getInitialDateRange(courseData.Competitions)
-    };
+    this.initilaiseApp()
+    
   }
 
   initilaiseApp = () => {
-
-    var courseData = util.calculateCourseData(props.data[0], null);
-
+    var courseData = util.calculateCourseData(this.props.data[0], null);
     store.dispatch({
       type : Actions.INITIALISE,
       course : 0,
       hole : ALL,
       dateRange : util.getInitialDateRange(courseData.Competitions),
-      courseData, courseData
+      courseData: courseData
     })
   }
 
-  handleCourseChange = (event, course) => {
-
+  handleCourseChange = (course) => {
     var courseData = util.calculateCourseData(this.props.data[course], null);
-    this.setState({ 
-        course,
-        courseData : courseData,
-        currentHole: ALL,
-        dateRange : util.getInitialDateRange(courseData.Competitions)
-       });
-
     store.dispatch({
       type : Actions.CHANGE_COURSE,
       course: course,
@@ -55,8 +39,6 @@ class TabsContainer extends React.Component {
   }
 
   handleHoleChange = (event, currentHole) => {
-    this.setState({currentHole : currentHole });
-
     store.dispatch({
       type : Actions.CHANGE_HOLE,
       hole : currentHole
@@ -64,27 +46,23 @@ class TabsContainer extends React.Component {
   };
 
   onDateRangeChange = (dateRange) => {
-    this.setState({
-      courseData : util.calculateCourseData(this.props.data[this.state.course], dateRange),
-      dateRange : dateRange
-    })
-
     store.dispatch({
       type : Actions.CHANGE_DATE_RANGE,
-      courseData : util.calculateCourseData(this.props.data[this.state.course], dateRange),
-      dateRange : dateRange
+      dateRange : dateRange,
+      courseData : util.calculateCourseData(this.props.data[this.props.course], dateRange)
     })
   }
 
   render() {
     
+
     return (
       <TabComponent
         data                ={this.props.data}
-        course              ={this.state.course}
-        currentHole         ={this.state.currentHole}
-        dateRange           ={this.state.dateRange}
-        courseData          ={this.state.courseData}
+        course              ={this.props.course}
+        currentHole         ={this.props.currentHole}
+        dateRange           ={this.props.dateRange}
+        courseData          ={this.props.courseData}
         handleCourseChange  ={this.handleCourseChange}
         onDateRangeChange   ={this.onDateRangeChange}
         handleHoleChange    ={this.handleHoleChange}
