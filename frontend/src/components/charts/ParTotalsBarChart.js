@@ -19,13 +19,13 @@ const ParTotalsBarChart = (props) => {
                 <YAxis type="number" tickCount={8} domain={[0, 'dataMax + 25']}/>
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="Par 3" fill="#A6D9F7" >
+                <Bar dataKey="Par 3" fill="#008AD8" >
                     {props.data.map(util.fillBar)}
                 </Bar>
-                <Bar dataKey="Par 4" fill="#84DCCF" >
+                <Bar dataKey="Par 4" fill="#CC9900" >
                     {props.data.map(util.fillBar)}
                 </Bar>
-                <Bar dataKey="Par 5" fill="#E0DEA8" >
+                <Bar dataKey="Par 5" fill="#CC0033" >
                     {props.data.map(util.fillBar)}
                 </Bar>
             </BarChart>

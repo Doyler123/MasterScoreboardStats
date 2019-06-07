@@ -10,29 +10,27 @@ import AllHolesBarChartContainer from '../charts/AllHolesBarChartContainer'
 import ChartDataCalculator from '../../util/ChartDataCalculator'
 import CourseStats from '../stats/CourseStats'
 import {ALL} from '../../constants/constants'
+import BarChartContainer from '../charts/BarChartContainer';
 
 const CourseDataGrid = props =>{
 
     var chartDataCalculator = new ChartDataCalculator()
 
     return (
-        <div>
+        <div style={{margin: "0 10% 0px 10%"}}>
             <CourseStats data={props.data} hole={props.hole}/>
             <ChartGrid>
                 <ChartItem xs={12} sm={6} lg={5}>
-                    <ScoresChart data={chartDataCalculator.getScoresBarChartData(props.data, props.hole)}/>
+                    <BarChartContainer data={[chartDataCalculator.getScoresBarChartData(props.data, props.hole)
+                                            , chartDataCalculator.getParTotalsBarChartData(props.data)]} />
                 </ChartItem>
-                {props.hole === ALL ? 
-                <ChartItem xs={12} sm={6} lg={5}>
-                    <ParTotalsBarChart data={chartDataCalculator.getParTotalsBarChartData(props.data)} />
-                </ChartItem> : null}
-                {props.hole === ALL ?
-                <ChartItem xs={12} sm={12} lg={10}>
-                    <AllHolesBarChartContainer data={props.data}/>
-                </ChartItem> : null}
-                <ChartItem xs={12} sm={12} lg={10}>
+                <ChartItem xs={12} sm={12} lg={7}>
                     <GrossLineChart data={chartDataCalculator.getGrossLineChartData(props.data, props.hole)} hole={props.hole}/>
                 </ChartItem>
+                {props.hole === ALL ?
+                <ChartItem xs={12} sm={12}>
+                    <AllHolesBarChartContainer data={props.data}/>
+                </ChartItem> : null}
             </ChartGrid>
         </div>
       );

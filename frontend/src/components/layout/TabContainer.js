@@ -55,6 +55,9 @@ class TabsContainer extends React.Component {
 
   render() {
     
+    if(!this.props.courseData.Competitions){
+      return null
+    }
 
     return (
       <TabComponent

@@ -17,7 +17,7 @@ export default class GrossLineChart extends Component {
           return null
         }
         return (
-        <ResponsiveContainer width='100%' aspect={8.0/3.0}>
+        <ResponsiveContainer width='100%' aspect={5.5/3.0}>
             <LineChart
                 data={data.data}
                 margin={{
