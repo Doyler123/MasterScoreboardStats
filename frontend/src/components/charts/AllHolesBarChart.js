@@ -30,7 +30,7 @@ const tabWidth = 50
                     }}
                 >
                     <CartesianGrid strokeDasharray="6 6" />
-                    <XAxis dataKey="hole"/>
+                    <XAxis interval={0} dataKey="hole"/>
                     <YAxis type="number" domain={[util.calculateDataMin, 'dataMax + 5']}/>
                     <Tooltip formatter={formatToolTip} />
                     <ReferenceLine y={0} stroke="#000" />

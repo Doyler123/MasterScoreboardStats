@@ -17,7 +17,8 @@ const cardStyle = {
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    minWidth: "0",
+    minWidth: "170px",
+    maxHeight: "100px",
     wordWrap: "break-word",
     fontSize: ".875rem"
   },

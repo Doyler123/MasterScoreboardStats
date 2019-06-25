@@ -15,7 +15,7 @@ const ParTotalsBarChart = (props) => {
                 }}
             >
                 <CartesianGrid strokeDasharray="6 6" />
-                <XAxis dataKey="score"/>
+                <XAxis tick={{fontSize: '10px'}} interval={0} dataKey="score"/>
                 <YAxis type="number" tickCount={8} domain={[0, 'dataMax + 25']}/>
                 <Tooltip />
                 <Legend />

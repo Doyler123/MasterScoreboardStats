@@ -15,7 +15,7 @@ const ScoresBarChart = (props) => {
                 }}
             >
                 <CartesianGrid strokeDasharray="6 6" />
-                <XAxis dataKey="score"/>
+                <XAxis interval={0} tick={{fontSize: '10px'}}dataKey="score"/>
                 <YAxis type="number" tickCount={8} domain={[0, 'dataMax + 25']}/>
                 <Tooltip />
                 <Bar dataKey="count" fill="#8884d8" >
