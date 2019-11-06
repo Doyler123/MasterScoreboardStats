@@ -1,6 +1,0 @@
-
-export const CHANGE_COURSE = 'CHANGE_COURSE'
-export const CHANGE_HOLE = 'CHANGE_HOLE'
-export const UPDATE_DATA = 'UPDATE_DATA'
-export const CHANGE_DATE_RANGE = 'CHANGE_DATE_RANGE'
-export const INITIALISE = 'INITIALISE'

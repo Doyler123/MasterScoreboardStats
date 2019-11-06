@@ -21,8 +21,12 @@ const CourseDataGrid = props =>{
             <CourseStats data={props.data} hole={props.hole}/>
             <ChartGrid>
                 <ChartItem xs={12} sm={6} lg={5}>
-                    <BarChartContainer data={[chartDataCalculator.getScoresBarChartData(props.data, props.hole)
-                                            , chartDataCalculator.getParTotalsBarChartData(props.data)]} />
+                    <BarChartContainer 
+                        data={[
+                            chartDataCalculator.getScoresBarChartData(props.data, props.hole),
+                            chartDataCalculator.getParTotalsBarChartData(props.data)
+                        ]} 
+                    />
                 </ChartItem>
                 <ChartItem xs={12} sm={12} lg={7}>
                     <GrossLineChart data={chartDataCalculator.getGrossLineChartData(props.data, props.hole)} hole={props.hole}/>

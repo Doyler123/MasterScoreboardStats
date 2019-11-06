@@ -1,91 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TabComponent from './TabComponent'
-import { connect } from 'react-redux';
-import store from '../../redux/store'
-import * as Actions from '../../redux/actions/Actions'
 import {ALL} from '../../constants/constants'
 import * as util from '../../util/TabsUtil'
 
-class TabsContainer extends React.Component {
+const TabsContainer = ({ data }) => {
 
-  constructor(props) {
-    super(props)
+  const [course, setCourse]         = useState(0)
+  const [hole, setHole]             = useState(ALL)
+  const [courseData, setCourseData] = useState(util.calculateCourseData(data[course], null))
+  const [dateRange, setDateRange]   = useState(util.getInitialDateRange(courseData.Competitions))
 
-    this.initilaiseApp()
-    
+
+  const handleCourseChange = (event, newCourse) => {
+    setCourse(newCourse)
+    setHole(ALL)
+    setCourseData(util.calculateCourseData(data[newCourse], null))
+    setDateRange(util.getInitialDateRange(courseData.Competitions))
   }
 
-  initilaiseApp = () => {
-    var courseData = util.calculateCourseData(this.props.data[0], null);
-    store.dispatch({
-      type : Actions.INITIALISE,
-      course : 0,
-      hole : ALL,
-      dateRange : util.getInitialDateRange(courseData.Competitions),
-      courseData: courseData
-    })
-  }
-
-  handleCourseChange = (event, course) => {
-    var courseData = util.calculateCourseData(this.props.data[course], null);
-    store.dispatch({
-      type : Actions.CHANGE_COURSE,
-      course: course,
-      hole : ALL,
-      dateRange : util.getInitialDateRange(courseData.Competitions),
-      courseData: courseData
-    })
-  }
-
-  handleHoleChange = (event, currentHole) => {
-    store.dispatch({
-      type : Actions.CHANGE_HOLE,
-      hole : currentHole
-    })
+  const handleHoleChange = (event, currentHole) => {
+    setHole(currentHole)
   };
 
-  onDateRangeChange = (dateRange) => {
-    store.dispatch({
-      type : Actions.CHANGE_DATE_RANGE,
-      dateRange : dateRange,
-      courseData : util.calculateCourseData(this.props.data[this.props.course], dateRange)
-    })
+  const onDateRangeChange = (newDateRange) => {
+    setDateRange(newDateRange)
+    setCourseData(util.calculateCourseData(data[course], newDateRange))
   }
 
-  render() {
-    
-    if(!this.props.courseData.Competitions){
+    if(!courseData.Competitions){
       return null
     }
 
     return (
       <TabComponent
-        data                ={this.props.data}
-        course              ={this.props.course}
-        currentHole         ={this.props.currentHole}
-        dateRange           ={this.props.dateRange}
-        courseData          ={this.props.courseData}
-        handleCourseChange  ={this.handleCourseChange}
-        onDateRangeChange   ={this.onDateRangeChange}
-        handleHoleChange    ={this.handleHoleChange}
+        data                = {data}
+        course              = {course}
+        currentHole         = {hole}
+        dateRange           = {dateRange}
+        courseData          = {courseData}
+        handleCourseChange  = {handleCourseChange}
+        onDateRangeChange   = {onDateRangeChange}
+        handleHoleChange    = {handleHoleChange}
       />
       
     );
-  }
 }
 
 TabsContainer.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = (store) => {
-  return{
-    course      : store.course,
-    courseData  : store.courseData,
-    currentHole : store.hole,
-    dateRange   : store.dateRange
-  }
-}
-
-export default connect(mapStateToProps)(TabsContainer)
+export default TabsContainer

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -11,13 +11,12 @@ import DatePicker from '../misc/DatePicker'
 import CourseDataGrid from './CourseDataGrid'
 import {ALL} from '../../constants/constants'
 
-
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.paper,
-    }
-  });
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  }
+}))
 
 const TabLabel = (props) => (
     <div>
@@ -46,7 +45,16 @@ const TabLabel = (props) => (
 
 const TabComponent = (props)=> {
 
-    let {classes, data, course, currentHole, dateRange, courseData, handleCourseChange, onDateRangeChange, handleHoleChange } = props
+    const classes = useStyles()
+
+    let { data,
+          course, 
+          currentHole, 
+          dateRange, 
+          courseData, 
+          handleCourseChange, 
+          onDateRangeChange, 
+          handleHoleChange } = props
 
     return(
         <div className={classes.root}>
@@ -89,8 +97,4 @@ const TabComponent = (props)=> {
 
 }
 
-TabComponent.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(TabComponent)
+export default TabComponent

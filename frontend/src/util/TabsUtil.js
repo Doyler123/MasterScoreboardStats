@@ -85,7 +85,6 @@ export const calculateCourseData = (course, dateRange) => {
 
         courseData.AverageScore = courseData.AverageScore/courseData.Competitions.length
     }
-    console.log(courseData)
     return courseData
 }
 
