@@ -1,101 +1,91 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-
-import CourseDataGrid from '../CourseDataGrid'
-
+import TabComponent from './TabComponent'
+import { connect } from 'react-redux';
+import store from '../../redux/store'
+import * as Actions from '../../redux/actions/Actions'
 import {ALL} from '../../constants/constants'
+import * as util from '../../util/TabsUtil'
 
-const TabLabel = (props) => (
-  <div>
-    <Typography variant="body2">
-      {"Hole " + props.number}
-    </Typography>
-    <Typography variant="caption">
-      {"Par " + props.par}
-    </Typography>
-  </div>
-)
+class TabsContainer extends React.Component {
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
+  constructor(props) {
+    super(props)
 
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+    this.initilaiseApp()
+    
+  }
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-});
-
-class TabsWrappedLabel extends React.Component {
-  state = {
-    course: 0,
-    currentHole: ALL
-  };
+  initilaiseApp = () => {
+    var courseData = util.calculateCourseData(this.props.data[0], null);
+    store.dispatch({
+      type : Actions.INITIALISE,
+      course : 0,
+      hole : ALL,
+      dateRange : util.getInitialDateRange(courseData.Competitions),
+      courseData: courseData
+    })
+  }
 
   handleCourseChange = (event, course) => {
-    this.setState({ course, currentHole: ALL });
+    var courseData = util.calculateCourseData(this.props.data[course], null);
+    store.dispatch({
+      type : Actions.CHANGE_COURSE,
+      course: course,
+      hole : ALL,
+      dateRange : util.getInitialDateRange(courseData.Competitions),
+      courseData: courseData
+    })
   }
 
   handleHoleChange = (event, currentHole) => {
-    this.setState({currentHole : currentHole });
+    store.dispatch({
+      type : Actions.CHANGE_HOLE,
+      hole : currentHole
+    })
   };
 
-  getCourseName = (text) => {
-    return text.replace("<br>Played at ", "")
+  onDateRangeChange = (dateRange) => {
+    store.dispatch({
+      type : Actions.CHANGE_DATE_RANGE,
+      dateRange : dateRange,
+      courseData : util.calculateCourseData(this.props.data[this.props.course], dateRange)
+    })
   }
 
   render() {
-    const { classes, data} = this.props;
-    const { course, currentHole } = this.state;
+    
+    if(!this.props.courseData.Competitions){
+      return null
+    }
 
     return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Tabs value={course} onChange={this.handleCourseChange}>
-            {data.map((course, index)=>{
-              return <Tab value={index} label={this.getCourseName(course.Name)}/>  
-            })}
-          </Tabs>
-        </AppBar>
-        <TabContainer>
-          <AppBar position="static" color="default">
-            <Tabs
-              value={currentHole}
-              onChange={this.handleHoleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-            >
-              <Tab value={ALL} label={ALL} />
-              {data.length > 0 ? data[this.state.course].CourseInfo.Holes.map((hole, index) => {
-                return <Tab value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
-              }) : null}
-            </Tabs>
-          </AppBar>
-          <CourseDataGrid data={data[this.state.course]} hole={currentHole}/>
-        </TabContainer>
-      </div>
+      <TabComponent
+        data                ={this.props.data}
+        course              ={this.props.course}
+        currentHole         ={this.props.currentHole}
+        dateRange           ={this.props.dateRange}
+        courseData          ={this.props.courseData}
+        handleCourseChange  ={this.handleCourseChange}
+        onDateRangeChange   ={this.onDateRangeChange}
+        handleHoleChange    ={this.handleHoleChange}
+      />
+      
     );
   }
 }
 
-TabsWrappedLabel.propTypes = {
-  classes: PropTypes.object.isRequired,
+TabsContainer.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TabsWrappedLabel);
+const mapStateToProps = (store) => {
+  return{
+    course      : store.course,
+    courseData  : store.courseData,
+    currentHole : store.hole,
+    dateRange   : store.dateRange
+  }
+}
+
+export default connect(mapStateToProps)(TabsContainer)

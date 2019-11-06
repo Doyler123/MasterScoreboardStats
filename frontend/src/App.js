@@ -1,7 +1,14 @@
+/*global chrome*/
+
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
+
+import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
 
 import {Jonathan} from './util/StaticData'
 
@@ -16,7 +23,10 @@ class App extends Component {
   }
 
   componentDidMount(){
-      // axios.get('http://localhost:3500/scoreData')
+    
+    //Scrape HTML
+
+    // axios.get('http://localhost:3500/scoreData')
       //     .then((response) => {
       //       console.log(response.data)
       //         this.setState({
@@ -29,16 +39,36 @@ class App extends Component {
       //     .then(() =>{
       //         // always executed
       //     });
+
+
+
+      //Static data
+
       this.setState({
         data : JSON.parse(Jonathan)
       })
+
+
+
+      // Chrome extension
+      
+      // chrome.storage.local.get('scoresHtml', (data) => {  
+      //   this.setState({
+      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
+      //   })
+      // })
+
+
+
   }
 
   render() {
     return (
-      <div className="App">
-        <TabContainer data={this.state.data}/>
-      </div>
+      <Provider store={store}>
+        <div className="App">
+          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
+        </div>
+      </Provider>
     );
   }
 }

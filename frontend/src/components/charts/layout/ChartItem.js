@@ -9,14 +9,15 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    minHeight : '300px'
   },
 });
 
-function GridItem(props) {
+function ChartItem(props) {
   const { classes } = props;
 
   return (
-    <Grid item xs={12} sm={6}>
+    <Grid item xs={props.xs} sm={props.sm} md={props.md} lg={props.lg} xl={props.xl}>
         <Paper className={classes.paper}>
             {props.children}
         </Paper>
@@ -24,8 +25,8 @@ function GridItem(props) {
   );
 }
 
-GridItem.propTypes = {
+ChartItem.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(GridItem);
+export default withStyles(styles)(ChartItem);
