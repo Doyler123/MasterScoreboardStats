@@ -10,20 +10,20 @@ const styles = theme => ({
   }
 });
 
-function Layout(props) {
+function ChartGrid(props) {
   const { classes } = props;
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={24}>
+      <Grid container justify="space-evenly" alignItems="center" spacing={24}>
         {props.children}
       </Grid>
     </div>
   );
 }
 
-Layout.propTypes = {
+ChartGrid.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Layout);
+export default withStyles(styles)(ChartGrid);
