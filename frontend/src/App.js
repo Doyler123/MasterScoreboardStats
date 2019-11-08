@@ -44,6 +44,7 @@ class App extends Component {
         data : JSON.parse(Jonathan)
       })
 
+      // console.log(JSON.stringify(chromeExtensionUtil.parseData(this.html), null, 2))
 
 
       // Chrome extension
