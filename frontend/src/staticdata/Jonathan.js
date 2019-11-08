@@ -1,4 +1,4 @@
-export const Jonathan = `[
+const Jonathan = `[
     {
        "Name":"<br>Played at Luttrellstown Castle (14 Hole Winter)",
        "Competitions":[
@@ -1971,3 +1971,5 @@ export const Jonathan = `[
        }
     }
  ]`
+
+ export default Jonathan

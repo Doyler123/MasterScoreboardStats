@@ -28,14 +28,14 @@ const calculateStats = (data, hole) => {
     var worstComp = sortedCompetitions[sortedCompetitions.length - 1].Gross
 
     var allStats = [
-        createStat("Rounds Played", "info", data.Competitions.length, null),
+        createStat("Rounds\nPlayed", "info", data.Competitions.length, null),
     ]
 
     var courseStats = !hole || hole === ALL ? [
-        createStat("Best Hole", "success", "Hole " + bestHole),
-        createStat("Worst Hole", "danger", "Hole " + worstHole),
-        createStat("Best Round", "success", getScorePrefix(bestComp)  + bestComp),
-        createStat("Worst Round", "danger", getScorePrefix(worstComp) + worstComp),
+        createStat("Best\nHole", "success", "Hole " + bestHole),
+        createStat("Worst\nHole", "danger", "Hole " + worstHole),
+        createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp),
+        createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp),
     ] : []
 
     var holeStats = hole && hole !== ALL ? [

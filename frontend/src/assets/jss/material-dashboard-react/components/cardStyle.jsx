@@ -18,9 +18,10 @@ const cardStyle = {
     display: "flex",
     flexDirection: "column",
     minWidth: "170px",
-    maxHeight: "100px",
     wordWrap: "break-word",
-    fontSize: ".875rem"
+    fontSize: ".875rem",
+    whiteSpace : "pre-wrap",
+    height: "120px"
   },
   cardPlain: {
     background: "transparent",

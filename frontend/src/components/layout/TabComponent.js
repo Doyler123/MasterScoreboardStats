@@ -90,7 +90,7 @@ const TabComponent = (props)=> {
               }) : null}
             </Tabs>
           </AppBar>
-          <CourseDataGrid data={courseData} hole={currentHole}/>
+          <CourseDataGrid courseData={courseData} hole={currentHole}/>
         </TabContainer>
       </div>
     )

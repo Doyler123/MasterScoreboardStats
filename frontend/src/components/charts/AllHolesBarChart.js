@@ -11,14 +11,11 @@ import ParIcon from '@material-ui/icons/ExposureZero';
 import BogeyIcon from '@material-ui/icons/ExposurePlus1';
 import DoubleIcon from '@material-ui/icons/ExposurePlus2';
 import ScratchIcon from '@material-ui/icons/HighlightOff';
-
-import * as util from '../../util/AllHolesBarChartUtil'
+import { calculateDataMin, getBarColour} from '../../util/ChartUtil'
 
 const tabWidth = 50
 
- const AllHolesBarChart = (props) => {
-
-    let {data, tab, handleTabChange, formatToolTip, formatBarLabel} = props
+ const AllHolesBarChart = ({data, tab, handleTabChange, formatToolTip, formatBarLabel}) => {
 
     return (
         <div>
@@ -31,12 +28,12 @@ const tabWidth = 50
                 >
                     <CartesianGrid strokeDasharray="6 6" />
                     <XAxis interval={0} dataKey="hole"/>
-                    <YAxis type="number" domain={[util.calculateDataMin, 'dataMax + 5']}/>
+                    <YAxis type="number" domain={[calculateDataMin, 'dataMax + 5']}/>
                     <Tooltip formatter={formatToolTip} />
                     <ReferenceLine y={0} stroke="#000" />
                     <Bar dataKey="total" fill="#8884d8" >
                         {data.map((entry, index) => {
-                            const color = util.getBarColour(entry, tab)
+                            const color = getBarColour(entry, tab)
                             return color ? <Cell fill={color} /> : null;
                         })}
                         <LabelList dataKey="total" position="top" formatter={formatBarLabel}/>

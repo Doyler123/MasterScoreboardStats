@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import OverUnderIcon from '@material-ui/icons/Exposure';
-import ScratchIcon from '@material-ui/icons/HighlightOff';
 import ParTotalsBarChart from './ParTotalsBarChart';
 import ScoresBarChart from './ScoresBarChart';
 import BarChart1 from '../icons/BarChart1'
 import BarChart2 from '../icons/BarChart2'
+import {Cell} from 'recharts';
+import {SCORES_TO_COLOURS} from '../../constants/constants'
+
 
 const tabWidth = 50
 
@@ -28,10 +29,14 @@ export default class BarChartContainer extends Component{
 
     getChart = () => {
         if(this.state.tab === 1){
-            return <ParTotalsBarChart data={this.state.data} />
+            return <ParTotalsBarChart fillBar={this.fillBar} data={this.state.data} />
         }else{
-            return <ScoresBarChart data={this.state.data} />
+            return <ScoresBarChart fillBar={this.fillBar} data={this.state.data} />
         }
+    }
+
+    fillBar = (entry) => {
+        return <Cell fill={SCORES_TO_COLOURS[entry.score]} />;
     }
 
 

@@ -2,14 +2,13 @@ import React from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
-import * as util from '../../util/BarChartUtil'
 
-const ParTotalsBarChart = (props) => {
+const ParTotalsBarChart = ({fillBar, data}) => {
 
     return (
         <ResponsiveContainer width='100%' aspect={4.5/3.0}>
             <BarChart
-                data={props.data}
+                data={data}
                 margin={{
                     top: 5, right: 30, left: 20, bottom: 5,
                 }}
@@ -20,13 +19,13 @@ const ParTotalsBarChart = (props) => {
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="Par 3" fill="#008AD8" >
-                    {props.data.map(util.fillBar)}
+                    {data.map(fillBar)}
                 </Bar>
                 <Bar dataKey="Par 4" fill="#CC9900" >
-                    {props.data.map(util.fillBar)}
+                    {data.map(fillBar)}
                 </Bar>
                 <Bar dataKey="Par 5" fill="#CC0033" >
-                    {props.data.map(util.fillBar)}
+                    {data.map(fillBar)}
                 </Bar>
             </BarChart>
         </ResponsiveContainer>

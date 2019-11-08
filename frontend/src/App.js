@@ -6,7 +6,7 @@ import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
 import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
 
-import {Jonathan} from './util/StaticData'
+import Jonathan from './staticdata/Jonathan'
 
 class App extends Component {
 
