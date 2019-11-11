@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import DatePicker from '../misc/DatePicker'
 import CourseDataGrid from './CourseDataGrid'
 import {ALL} from '../../constants/constants'
+import AppBarSpacer from './AppBarSpacer'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,7 +59,7 @@ const TabComponent = (props)=> {
 
     return(
         <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="absolute">
           <Grid container>
             <Grid item sm={8}>
               <Tabs value={course} onChange={handleCourseChange}>
@@ -75,6 +76,7 @@ const TabComponent = (props)=> {
           </Grid>
         </AppBar>
         <TabContainer>
+          <AppBarSpacer />      
           <AppBar position="static" color="default">
             <Tabs
               value={currentHole}
