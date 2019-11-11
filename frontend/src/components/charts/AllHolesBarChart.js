@@ -17,6 +17,10 @@ const tabWidth = 50
 
  const AllHolesBarChart = ({data, tab, handleTabChange, formatToolTip, formatBarLabel}) => {
 
+    const getTickFontStyle = () => {
+        return data.length > 14 ? { fontSize : '10px' } : { fontSize : '15px' } 
+    }
+    console.log(data)
     return (
         <div>
             <ResponsiveContainer width='100%' aspect={3.0/1.0}>
@@ -27,7 +31,7 @@ const tabWidth = 50
                     }}
                 >
                     <CartesianGrid strokeDasharray="6 6" />
-                    <XAxis interval={0} dataKey="hole"/>
+                    <XAxis tick={getTickFontStyle()} interval={0} dataKey="hole"/>
                     <YAxis type="number" domain={[calculateDataMin, 'dataMax + 5']}/>
                     <Tooltip formatter={formatToolTip} />
                     <ReferenceLine y={0} stroke="#000" />
