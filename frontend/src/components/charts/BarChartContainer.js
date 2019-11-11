@@ -27,6 +27,13 @@ export default class BarChartContainer extends Component{
             tab : value})
     }
 
+
+    componentWillReceiveProps(newProps) {
+        this.setState({
+            data : newProps.data[this.state.tab]
+        })
+    }
+
     getChart = () => {
         if(this.state.tab === 1){
             return <ParTotalsBarChart fillBar={this.fillBar} data={this.state.data} />
