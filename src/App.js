@@ -5,10 +5,18 @@ import './App.css';
 import axios from 'axios'
 import TabContainer from './components/layout/TabContainer'
 import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
+import {ALL} from './constants/constants'
+import { StateProvider, defaultReducer } from './state'
+
 
 import Jonathan from './staticdata/Jonathan'
 
 class App extends Component {
+
+  initialState = {
+    hole : ALL,
+    course : 0
+  }
 
   constructor(props) {
       super(props);
@@ -59,9 +67,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
-      </div>
+      <StateProvider initialState={this.initialState} reducer={defaultReducer}>
+        <div className="App">
+          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
+        </div>
+      </StateProvider>
     );
   }
 }

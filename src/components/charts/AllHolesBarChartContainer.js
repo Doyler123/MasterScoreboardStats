@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import AllHolesBarChart from './AllHolesBarChart'
 import {DEFAULT_ALL_HOLES_TAB} from '../../constants/constants'
 import { getAllHolesBarChartData } from '../../util/ChartUtil'
+import { StateContext, actions } from '../../state'
 
 export default class ScoresBarChart extends Component {
+
+    static contextType = StateContext
 
     constructor(props) {
         super(props);
@@ -35,15 +38,26 @@ export default class ScoresBarChart extends Component {
         });
     };
 
+    handleBarClick = (data, index) => {
+        const [ state, dispatch ] = this.context
+        dispatch({
+            type: actions.CHANGE_HOLE,
+            newHole: index + 1
+        })
+    }
+
 
     render() {
+
+
         return (
         <AllHolesBarChart 
-            data                ={this.state.data}
-            tab                 ={this.state.tab}
-            handleTabChange     ={this.handleTabChange}
-            formatToolTip       ={this.formatToolTip}
-            formatBarLabel      ={this.formatBarLabel}
+            data                = {this.state.data}
+            tab                 = {this.state.tab}
+            handleTabChange     = {this.handleTabChange}
+            formatToolTip       = {this.formatToolTip}
+            formatBarLabel      = {this.formatBarLabel}
+            handleBarClick      = {this.handleBarClick}
         />  
         );
     }

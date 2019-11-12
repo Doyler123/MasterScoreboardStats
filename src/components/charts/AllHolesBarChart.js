@@ -15,12 +15,12 @@ import { calculateDataMin, getBarColour} from '../../util/ChartUtil'
 
 const tabWidth = 50
 
- const AllHolesBarChart = ({data, tab, handleTabChange, formatToolTip, formatBarLabel}) => {
+ const AllHolesBarChart = ({data, tab, handleTabChange, formatToolTip, formatBarLabel, handleBarClick}) => {
 
     const getTickFontStyle = () => {
         return data.length > 14 ? { fontSize : '10px' } : { fontSize : '15px' } 
     }
-    console.log(data)
+
     return (
         <div>
             <ResponsiveContainer width='100%' aspect={3.0/1.0}>
@@ -35,10 +35,10 @@ const tabWidth = 50
                     <YAxis type="number" domain={[calculateDataMin, 'dataMax + 5']}/>
                     <Tooltip formatter={formatToolTip} />
                     <ReferenceLine y={0} stroke="#000" />
-                    <Bar dataKey="total" fill="#8884d8" >
+                    <Bar dataKey="total" fill="#8884d8" onClick={handleBarClick}>
                         {data.map((entry, index) => {
                             const color = getBarColour(entry, tab)
-                            return color ? <Cell fill={color} /> : null;
+                            return color ? <Cell cursor="pointer" fill={color} /> : null;
                         })}
                         <LabelList dataKey="total" position="top" formatter={formatBarLabel}/>
                     </Bar>

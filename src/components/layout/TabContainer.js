@@ -2,21 +2,35 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TabComponent from './TabComponent'
 import {ALL} from '../../constants/constants'
-import * as util from '../../util/TabsUtil'
+import * as courseDataUtil from '../../util/CourseDataUtil'
+import { useStateValue, actions } from '../../state'
 
 const TabsContainer = ({ data }) => {
 
-  const [course, setCourse]         = useState(0)
-  const [hole, setHole]             = useState(ALL)
-  const [courseData, setCourseData] = useState(util.calculateCourseData(data[course], null))
-  const [dateRange, setDateRange]   = useState(util.getInitialDateRange(courseData.Competitions))
+  const [{ course, hole }, dispatch ] = useStateValue();
 
+  const [courseData, setCourseData] = useState(courseDataUtil.calculateCourseData(data[course], null))
+  const [dateRange, setDateRange]   = useState(courseDataUtil.getInitialDateRange(courseData.Competitions))
+
+  const setHole = (newHole) => {
+    dispatch({
+      type: actions.CHANGE_HOLE,
+      newHole: newHole
+    })
+  }
+  
+  const setCourse = (newCourse) => {
+    dispatch({
+      type: actions.CHNAGE_COURSE,
+      newCourse: newCourse
+    })
+  }
 
   const handleCourseChange = (event, newCourse) => {
     setCourse(newCourse)
     setHole(ALL)
-    setCourseData(util.calculateCourseData(data[newCourse], null))
-    setDateRange(util.getInitialDateRange(courseData.Competitions))
+    setCourseData(courseDataUtil.calculateCourseData(data[newCourse], null))
+    setDateRange(courseDataUtil.getInitialDateRange(courseData.Competitions))
   }
 
   const handleHoleChange = (event, currentHole) => {
@@ -25,7 +39,7 @@ const TabsContainer = ({ data }) => {
 
   const onDateRangeChange = (newDateRange) => {
     setDateRange(newDateRange)
-    setCourseData(util.calculateCourseData(data[course], newDateRange))
+    setCourseData(courseDataUtil.calculateCourseData(data[course], newDateRange))
   }
 
     if(!courseData.Competitions){
@@ -33,17 +47,16 @@ const TabsContainer = ({ data }) => {
     }
 
     return (
-      <TabComponent
-        data                = {data}
-        course              = {course}
-        currentHole         = {hole}
-        dateRange           = {dateRange}
-        courseData          = {courseData}
-        handleCourseChange  = {handleCourseChange}
-        onDateRangeChange   = {onDateRangeChange}
-        handleHoleChange    = {handleHoleChange}
-      />
-      
+        <TabComponent
+          data                = {data}
+          course              = {course}
+          currentHole         = {hole}
+          dateRange           = {dateRange}
+          courseData          = {courseData}
+          handleCourseChange  = {handleCourseChange}
+          onDateRangeChange   = {onDateRangeChange}
+          handleHoleChange    = {handleHoleChange}
+        />      
     );
 }
 
