@@ -48,20 +48,20 @@ class App extends Component {
 
       //Static data
 
-      this.setState({
-        data : JSON.parse(Jonathan)
-      })
+      // this.setState({
+      //   data : JSON.parse(Jonathan)
+      // })
 
       // console.log(JSON.stringify(chromeExtensionUtil.parseData(this.html), null, 2))
 
 
       // Chrome extension
       
-      // chrome.storage.local.get('scoresHtml', (data) => {  
-      //   this.setState({
-      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
-      //   })
-      // })
+      chrome.storage.local.get('scoresHtml', (data) => {  
+        this.setState({
+          data : chromeExtensionUtil.parseData(data.scoresHtml)
+        })
+      })
 
   }
 
@@ -69,7 +69,7 @@ class App extends Component {
     return (
       <StateProvider initialState={this.initialState} reducer={defaultReducer}>
         <div className="App">
-          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : null}
+          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : <div>{'no data'}</div>}
         </div>
       </StateProvider>
     );
