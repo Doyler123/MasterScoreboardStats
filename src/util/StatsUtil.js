@@ -1,4 +1,5 @@
 import {ALL} from '../constants/constants'
+import ordinal from 'ordinal'
 
 export const getCourseStats = (data, hole) =>{
 
@@ -39,8 +40,8 @@ const calculateStats = (data, hole) => {
     ] : []
 
     var holeStats = hole && hole !== ALL ? [
-        createStat("Average", "info", getHoleAverage(data, hole).toFixed(2), hole),
-        createStat("Rank", "info", holeRank +"/"+ sortedHoles.length, hole)
+        createStat("Average\n(Par " + getHolePar(data, hole) +")", "info", getHoleAverage(data, hole).toFixed(2), hole),
+        createStat("Difficulty\nRank", "info", ordinal(holeRank), hole)
     ] : []
     
     return allStats.concat(courseStats, holeStats)
@@ -88,7 +89,7 @@ const getHoleRank = (sortedHoles, currentHole) =>{
         }
     }
 
-    return rank
+    return (sortedHoles.length + 1) - rank
 }
 
 
@@ -97,6 +98,14 @@ const getHoleAverage = (data, currentHole) => {
         return null
     }
     return data.Holes.find(hole => hole.HoleNumber === currentHole).TotalStrokes / data.Competitions.length
+}
+
+
+const getHolePar = (data, currentHole) => {
+    if(currentHole === ALL) {
+        return null
+    }
+    return data.Holes.find(hole => hole.HoleNumber === currentHole).HolePar
 }
 
 const createStat = (title, titleColor, body, hole = ALL) =>{

@@ -9,6 +9,7 @@
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.3",
     "moment": "^2.24.0",
+    "ordinal": "^1.0.3",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-odometerjs": "^2.1.1",

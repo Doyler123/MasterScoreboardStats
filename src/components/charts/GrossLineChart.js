@@ -26,7 +26,7 @@ export default class GrossLineChart extends Component {
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" minTickGap={1} tick={<CustomizedAxisTick />} />
-                <YAxis />
+                <YAxis domain={['dataMin - 3', 'dataMax + 3']}/>
                 <ReferenceLine y={data.average} label={"Avg: +" + data.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
                 <Tooltip formatter={this.formatToolTip}/>
                 <Line dot={false} connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />

@@ -7,6 +7,7 @@ import BarChart1 from '../icons/BarChart1'
 import BarChart2 from '../icons/BarChart2'
 import {Cell} from 'recharts';
 import {SCORES_TO_COLOURS} from '../../constants/constants'
+import {ALL} from '../../constants/constants'
 
 
 const tabWidth = 50
@@ -17,6 +18,7 @@ export default class BarChartContainer extends Component{
         super(props);
         this.state = {
             data : props.data[0],
+            hole : props.hole,
             tab  : 0
         }
     }
@@ -30,12 +32,13 @@ export default class BarChartContainer extends Component{
 
     componentWillReceiveProps(newProps) {
         this.setState({
-            data : newProps.data[this.state.tab]
+            data : newProps.data[this.state.tab],
+            hole : newProps.hole
         })
     }
 
     getChart = () => {
-        if(this.state.tab === 1){
+        if(this.state.tab === 1 && this.state.hole === ALL){
             return <ParTotalsBarChart fillBar={this.fillBar} data={this.state.data} />
         }else{
             return <ScoresBarChart fillBar={this.fillBar} data={this.state.data} />
@@ -51,16 +54,20 @@ export default class BarChartContainer extends Component{
         return(
             <div>
                 {this.getChart()}
-                <Tabs
-                    value={this.state.tab}
-                    onChange={this.handleTabChange}
-                    variant="fullWidth"
-                    indicatorColor="secondary"
-                    textColor="secondary"
-                    >
-                    <Tab icon={<BarChart1 />} style={{ minWidth: tabWidth }} value={0} label="TOTALS" />
-                    <Tab icon={<BarChart2 />} style={{ minWidth: tabWidth }} value={1} label="PAR" />
-                </Tabs>
+                {(
+                this.state.hole === ALL
+                ? <Tabs
+                                    value={this.state.tab}
+                                    onChange={this.handleTabChange}
+                                    variant="fullWidth"
+                                    indicatorColor="secondary"
+                                    textColor="secondary"
+                                    >
+                                    <Tab icon={<BarChart1 />} style={{ minWidth: tabWidth }} value={0} label="TOTALS" />
+                                    <Tab icon={<BarChart2 />} style={{ minWidth: tabWidth }} value={1} label="PAR" />
+                                </Tabs>
+                : null
+                )}
             </div>
         )
     }

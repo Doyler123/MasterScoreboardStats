@@ -20,7 +20,8 @@ const CourseDataGrid = ({ courseData, hole }) => {
                         data={[
                             getScoresBarChartData(courseData, hole),
                             getParTotalsBarChartData(courseData)
-                        ]} 
+                        ]}
+                        hole={hole} 
                     />
                 </ChartItem>
                 <ChartItem xs={12} sm={12} lg={7}>
