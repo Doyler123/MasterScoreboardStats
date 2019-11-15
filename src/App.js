@@ -11,6 +11,7 @@ import { StateProvider, defaultReducer } from './state'
 
 import Jonathan from './staticdata/Jonathan'
 import Portmarnock from './staticdata/Portmarnock'
+import Large from './staticdata/Large'
 
 class App extends Component {
 
@@ -49,20 +50,20 @@ class App extends Component {
 
       //Static data
 
-      this.setState({
-        data : JSON.parse(Jonathan)
-      })
+      // this.setState({
+      //   data : JSON.parse(Jonathan)
+      // })
 
-      // console.log(JSON.stringify(chromeExtensionUtil.parseData(this.html), null, 2))
-
-
+      
+      
       // Chrome extension
       
-      // chrome.storage.local.get('scoresHtml', (data) => {  
-      //   this.setState({
-      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
-      //   })
-      // })
+      chrome.storage.local.get('scoresHtml', (data) => {  
+        console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
+        this.setState({
+          data : chromeExtensionUtil.parseData(data.scoresHtml)
+        })
+      })
 
   }
 

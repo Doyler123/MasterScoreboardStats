@@ -11,7 +11,6 @@ const styles = theme => ({
       lineHeight: '30px'
     },
     '& .react-daterange-picker' :{
-      paddingTop: '8px',
       '& input' : {
         color : 'white',
         cursor : 'pointer'

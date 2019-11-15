@@ -3,12 +3,12 @@
   "version": "1.0",
   "description": "Stats based on Master Scoreboards scorces page.",
   "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'",
-  "permissions": ["https://www.masterscoreboard.co.uk/", "activeTab", "declarativeContent", "storage"],
+  "permissions": ["activeTab", "declarativeContent", "storage"],
   "background": {
       "scripts": ["./chrome_extension/background.js"],
       "persistent": false
   },
-  "browser_action": {
+  "page_action": {
     "default_icon": {
       "16": "./chrome_extension/images/get_started16.png",
       "32": "./chrome_extension/images/get_started32.png",

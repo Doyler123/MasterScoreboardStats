@@ -16,6 +16,10 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+  },
+  dateRange: {
+    height: '100%',
+    fontSize: '16px'
   }
 }))
 
@@ -62,16 +66,23 @@ const TabComponent = (props)=> {
         <AppBar position="absolute">
           <Grid container>
             <Grid item sm={8}>
-              <Tabs value={course} onChange={handleCourseChange}>
+              <Tabs 
+                value={course} 
+                onChange={handleCourseChange}
+                variant="scrollable"
+                scrollButtons="auto"
+              >
                 {data.map((course, index)=>{
                   return <Tab value={index} label={getCourseName(course.Name)}/>  
                 })}
               </Tabs>
             </Grid>
             <Grid item sm={4}>
-              <DatePicker
-                dateRange={dateRange}
-                onChange={onDateRangeChange} />
+              <Grid container direction={'column'} justify={'center'} className={classes.dateRange}>
+                <DatePicker
+                  dateRange={dateRange}
+                  onChange={onDateRangeChange} />
+              </Grid>
             </Grid>
           </Grid>
         </AppBar>
