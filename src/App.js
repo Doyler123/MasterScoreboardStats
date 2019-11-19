@@ -52,7 +52,7 @@ class App extends Component {
       //Static data
 
       this.setState({
-        data : JSON.parse(Jonathan)
+        data : JSON.parse(Large)
       })
 
       

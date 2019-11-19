@@ -2,8 +2,9 @@ import React from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
+import { fillBar } from '../../util/ChartUtil'
 
-const ParTotalsBarChart = ({fillBar, data}) => {
+const ParTotalsBarChart = ({ data }) => {
 
     return (
         <ResponsiveContainer width='100%' aspect={4.5/3.0}>

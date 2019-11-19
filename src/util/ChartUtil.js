@@ -1,4 +1,6 @@
+import React from 'react'
 import {SCORES_TO_CODES, ALL, NA, RESULTS, DEFAULT_ALL_HOLES_TAB, SCORES_TO_COLOURS, BIRDE, BOGEY} from '../constants/constants'
+import {Cell} from 'recharts';
     
 export const getScoresBarChartData = (courseData, currentHole) => {
     var chartData = []
@@ -120,3 +122,7 @@ export const getBarColour = (entry, tab) => {
     }
     return SCORES_TO_COLOURS[tab]
 }
+
+export const fillBar = (entry) => {
+    return <Cell fill={SCORES_TO_COLOURS[entry.score]} />;
+} 
