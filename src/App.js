@@ -7,6 +7,7 @@ import TabContainer from './components/layout/TabContainer'
 import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
 import {ALL} from './constants/constants'
 import { StateProvider, defaultReducer } from './state'
+import { sortCourses } from './util/CourseDataUtil'
 
 
 import Jonathan from './staticdata/Jonathan'
@@ -50,20 +51,20 @@ class App extends Component {
 
       //Static data
 
-      // this.setState({
-      //   data : JSON.parse(Jonathan)
-      // })
+      this.setState({
+        data : JSON.parse(Jonathan)
+      })
 
       
       
       // Chrome extension
       
-      chrome.storage.local.get('scoresHtml', (data) => {  
-        console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
-        this.setState({
-          data : chromeExtensionUtil.parseData(data.scoresHtml)
-        })
-      })
+      // chrome.storage.local.get('scoresHtml', (data) => {  
+      //   console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
+      //   this.setState({
+      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
+      //   })
+      // })
 
   }
 
@@ -71,7 +72,7 @@ class App extends Component {
     return (
       <StateProvider initialState={this.initialState} reducer={defaultReducer}>
         <div className="App">
-          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : <div>{'no data'}</div>}
+          {this.state.data.length  > 0 ? <TabContainer data={this.state.data.sort(sortCourses)}/> : <div>{'no data'}</div>}
         </div>
       </StateProvider>
     );

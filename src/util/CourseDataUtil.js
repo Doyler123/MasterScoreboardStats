@@ -99,3 +99,17 @@ const getScoreValue = (score, par, result ) => {
 const parseDate = (date) =>{
     return date
 }
+
+export const sortCourses = (courseA, courseB) => {
+    let courseALatest = moment(courseA.Competitions[0].Date)
+    let courseBLatest = moment(courseB.Competitions[0].Date)
+    
+    if(courseALatest.isAfter(courseBLatest)){
+        return -1
+    }else if(courseALatest.isSame(courseBLatest)){
+        return 0
+    }
+    else {
+        return 1
+    }
+}
