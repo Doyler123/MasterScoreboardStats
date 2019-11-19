@@ -31,6 +31,9 @@ export default class BarChartContainer extends Component{
         })
     }
 
+    
+    aspect = () => this.state.hole === ALL ? 4.5/3.0 : 4.5/3.9
+
     getChart = () => {
 
         if(this.props.data.length == 1){
