@@ -23,7 +23,7 @@ const CourseDataGrid = ({ courseData, hole }) => {
                         <ChartItem xs={12} sm={6} lg={5}>
                             <BarChartContainer 
                                 data={[
-                                    <ScoresBarChart data={getScoresBarChartData(courseData, hole)} />,
+                                    <ScoresBarChart hole={hole} data={getScoresBarChartData(courseData, hole)} />,
                                     <ParTotalsBarChart data={getParTotalsBarChartData(courseData)} />
                                 ]}
                                 hole={hole} 
@@ -40,7 +40,7 @@ const CourseDataGrid = ({ courseData, hole }) => {
                         <ChartItem xs={12} sm={6} lg={6}>
                             <BarChartContainer 
                                 data={[
-                                    <ScoresBarChart data={getScoresBarChartData(courseData, hole)} />
+                                    <ScoresBarChart large={true} data={getScoresBarChartData(courseData, hole)} />
                                 ]}
                                 hole={hole} 
                             />
@@ -54,7 +54,7 @@ const CourseDataGrid = ({ courseData, hole }) => {
                             />
                         </ChartItem>
                         <ChartItem xs={12} sm={12} lg={12}>
-                            <GrossLineChart data={getGrossLineChartData(courseData, hole)} hole={hole}/>
+                            <GrossLineChart large={true} data={getGrossLineChartData(courseData, hole)} hole={hole}/>
                         </ChartItem>
                     </React.Fragment>
                 }

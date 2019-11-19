@@ -6,6 +6,7 @@ import {ALL} from '../../constants/constants'
 
 export default class GrossLineChart extends Component {
 
+    aspect = this.props.large ? 5.5/2.0 : 5.5/3.0
 
     formatToolTip = (value, name, props) => { return [value > 0 && this.props.hole === ALL ? "+" + value : value, "Score " ] }
 
@@ -17,7 +18,7 @@ export default class GrossLineChart extends Component {
           return null
         }
         return (
-        <ResponsiveContainer width='100%' aspect={5.5/3.0}>
+        <ResponsiveContainer width='100%' aspect={this.aspect}>
             <LineChart
                 data={data.data}
                 margin={{

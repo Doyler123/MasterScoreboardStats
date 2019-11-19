@@ -2,10 +2,13 @@ import React from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LabelList, ResponsiveContainer
 } from 'recharts';
-import { fillBar } from '../../util/ChartUtil'
+import { fillBar, getDataMax } from '../../util/ChartUtil'
+import {ALL} from '../../constants/constants'
 
 
-const ScoresBarChart = ({aspect, data}) => {
+const ScoresBarChart = ({large, hole, data}) => {
+
+    let aspect = hole === ALL || large ? 4.5/3.0 : 4.5/3.9
 
     return (
         <ResponsiveContainer width='100%' aspect={aspect}>
@@ -17,7 +20,7 @@ const ScoresBarChart = ({aspect, data}) => {
             >
                 <CartesianGrid strokeDasharray="6 6" />
                 <XAxis interval={0} tick={{fontSize: '10px'}}dataKey="score"/>
-                <YAxis type="number" tickCount={8} domain={[0, dataMax => Math.max(100, Math.round(dataMax + (dataMax / 10)))]}/>
+                <YAxis type="number" tickCount={8} domain={[0, getDataMax]}/>
                 <Tooltip />
                 <Bar dataKey="count" fill="#8884d8" >
                     {data.map(fillBar)}

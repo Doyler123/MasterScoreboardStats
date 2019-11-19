@@ -96,7 +96,7 @@ export const isEmpty = (obj) => {
     return Object.keys(obj).length === 0;
 }
 
-export const calculateDataMin = (dataMin) => {
+export const getDataMin = (dataMin) => {
     return dataMin < 0 ? dataMin - 5 : 0
 }
 
@@ -126,3 +126,5 @@ export const getBarColour = (entry, tab) => {
 export const fillBar = (entry) => {
     return <Cell fill={SCORES_TO_COLOURS[entry.score]} />;
 } 
+
+export const getDataMax = dataMax => Math.max(100, Math.round(dataMax + (dataMax / 10)))

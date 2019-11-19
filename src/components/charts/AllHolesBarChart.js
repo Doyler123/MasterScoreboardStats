@@ -11,7 +11,7 @@ import ParIcon from '@material-ui/icons/ExposureZero';
 import BogeyIcon from '@material-ui/icons/ExposurePlus1';
 import DoubleIcon from '@material-ui/icons/ExposurePlus2';
 import ScratchIcon from '@material-ui/icons/HighlightOff';
-import { calculateDataMin, getBarColour} from '../../util/ChartUtil'
+import { getDataMin, getBarColour, getDataMax} from '../../util/ChartUtil'
 
 const tabWidth = 50
 
@@ -32,7 +32,7 @@ const tabWidth = 50
                 >
                     <CartesianGrid strokeDasharray="6 6" />
                     <XAxis tick={getTickFontStyle()} interval={0} dataKey="hole"/>
-                    <YAxis type="number" domain={[calculateDataMin, 'dataMax + 5']}/>
+                    <YAxis type="number" domain={[getDataMin, getDataMax]}/>
                     <Tooltip formatter={formatToolTip} />
                     <ReferenceLine y={0} stroke="#000" />
                     <Bar dataKey="total" fill="#8884d8" onClick={handleBarClick}>
