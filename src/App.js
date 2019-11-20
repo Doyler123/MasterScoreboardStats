@@ -11,10 +11,11 @@ import { sortCourses } from './util/CourseDataUtil'
 
 
 import Jonathan from './staticdata/Jonathan'
-import Portmarnock from './staticdata/Portmarnock'
+import LowScores from './staticdata/LowScores'
+// import Portmarnock from './staticdata/Portmarnock'
 import Large from './staticdata/Large'
 // import LargeSmall from './staticdata/LargeSmall'
-// import SmallLarge from './staticdata/SmallLarge'
+import SmallLarge from './staticdata/SmallLarge'
 // import VLarge300 from './staticdata/VLarge300'
 // import VLarge500 from './staticdata/VLarge500' // check hole 3
 // import VLarge1000 from './staticdata/VLarge1000'
@@ -57,9 +58,36 @@ class App extends Component {
       //Static data
 
       this.setState({
-        data : JSON.parse(Jonathan)
+        data : JSON.parse(LowScores)
       })
 
+      
+      // const getNewResult = (result) => {
+      //   switch(result){
+      //     case "Scratch":
+      //       return "Double"
+      //     case "Double" :
+      //       return "Bogey"
+      //     case "Bogey"  :
+      //       return "Par"
+      //     case "Par"    :
+      //       return "Birde"
+      //     default :
+      //       return result 
+      //   }
+      // }
+
+      // let testData = JSON.parse(LowScores)
+
+      // testData[0].Competitions.forEach(comp => {
+      //   comp.Gross = comp.Gross - 14
+      //   comp.Holes.forEach(hole => {
+      //     hole.Score = hole.Score - 1
+      //     hole.Result = getNewResult(hole.Result)
+      //   })
+      // });
+
+      // console.log(JSON.stringify(testData, null, 2))
       
       
       // Chrome extension

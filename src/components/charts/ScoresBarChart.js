@@ -8,7 +8,7 @@ import {ALL} from '../../constants/constants'
 
 const ScoresBarChart = ({large, hole, data}) => {
 
-    let aspect = hole === ALL || large ? 4.5/3.0 : 4.5/3.9
+    let aspect = hole === ALL || large ? 4.5/3.0 : 4.5/3.5
 
     return (
         <ResponsiveContainer width='100%' aspect={aspect}>
