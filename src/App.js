@@ -58,7 +58,7 @@ class App extends Component {
       //Static data
 
       this.setState({
-        data : JSON.parse(LowScores)
+        data : JSON.parse(Jonathan)
       })
 
       
@@ -105,7 +105,7 @@ class App extends Component {
     return (
       <StateProvider initialState={this.initialState} reducer={defaultReducer}>
         <div className="App">
-          {this.state.data.length  > 0 ? <TabContainer data={this.state.data}/> : <div>{'no data'}</div>}
+          {this.state.data.length  > 0 ? <TabContainer data={this.state.data.sort(sortCourses)}/> : <div>{'no data'}</div>}
         </div>
       </StateProvider>
     );

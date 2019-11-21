@@ -6,3 +6,8 @@ chrome.extension.onMessage.addListener(
     }
 );
 
+var ribbonDiv = document.createElement("div")
+ribbonDiv.classList.add("chromeExtensionRibbon")
+ribbonDiv.innerHTML = "Hello World"
+document.body.insertBefore(ribbonDiv, document.body.firstChild);
+

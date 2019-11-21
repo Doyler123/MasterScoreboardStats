@@ -21,7 +21,8 @@
           "matches": [
               "https://www.masterscoreboard.co.uk/results/PlayerScores.php*"
             ],
-          "js": ["./chrome_extension/contentScript.js"]
+          "js": ["./chrome_extension/contentScript.js"],
+          "css": ["./chrome_extension/ribbon.css"]
       }
   ],
   "icons": {
