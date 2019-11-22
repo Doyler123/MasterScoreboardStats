@@ -10,6 +10,14 @@ export default class GrossLineChart extends Component {
 
     formatToolTip = (value, name, props) => { return [value > 0 && this.props.hole === ALL ? "+" + value : value, "Score " ] }
 
+    getDataMin = dataMin => {
+      return dataMin - 3
+    }
+
+    getDataMax = dataMax => {
+      return dataMax + 3
+    }
+
     render() {
 
         let {data} = this.props
@@ -27,7 +35,7 @@ export default class GrossLineChart extends Component {
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" minTickGap={1} tick={<CustomizedAxisTick />} />
-                <YAxis domain={['dataMin - 3', 'dataMax + 3']}/>
+                <YAxis domain={[this.getDataMin, this.getDataMax]}/>
                 <ReferenceLine y={data.average} label={"Avg: +" + data.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
                 <Tooltip formatter={this.formatToolTip}/>
                 <Line dot={false} connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />

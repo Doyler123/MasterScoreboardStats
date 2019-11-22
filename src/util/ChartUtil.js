@@ -70,11 +70,12 @@ export const getGrossLineChartData = (courseData, currentHole) => {
                 comp.Holes.forEach((hole, index) => {
                     if(currentHole === hole.Number){
                         chartData.average = courseData.Holes[index].TotalStrokes / courseData.Competitions.length
-                        
-                        chartData.data.push({
-                            date : comp.Date,
-                            gross : hole.Score
-                        })
+                        if(!isNaN(hole.Score)){
+                            chartData.data.push({
+                                date : comp.Date,
+                                gross : parseInt(hole.Score)
+                            })
+                        }
                     }
                 })
             }
