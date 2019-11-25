@@ -58,9 +58,9 @@ class App extends Component {
 
       //Static data
 
-      this.setState({
-        data : JSON.parse(Large)
-      })
+      // this.setState({
+      //   data : JSON.parse(Large)
+      // })
 
       
       // const getNewResult = (result) => {
@@ -93,12 +93,12 @@ class App extends Component {
       
       // Chrome extension
       
-      // chrome.storage.local.get('scoresHtml', (data) => {  
-      //   console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
-      //   this.setState({
-      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
-      //   })
-      // })
+      chrome.storage.local.get('scoresHtml', (data) => {  
+        console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
+        this.setState({
+          data : chromeExtensionUtil.parseData(data.scoresHtml)
+        })
+      })
 
   }
 
