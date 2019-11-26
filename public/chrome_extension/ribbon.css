@@ -1,37 +1,38 @@
-.chromeExtensionRibbon {
-    z-index: 1;
-    height: 35px;
-    width: 180px;
-    background-color: #9C1B21;
-    position: absolute;
-    top: 48px;
-    right: -6px;
-    text-align: center;
-    color: #FFF;
-    font-weight: 600;
-    font-size: 24px;
-    white-space: nowrap;
-  -webkit-transform: rotate(35deg);
-    -moz-transform: rotate(35deg);
-    -ms-transform: rotate(35deg);
-    -o-transform: rotate(35deg);
-    transform: rotate(35deg);
+.corner-ribbon{
+  z-index: 100;
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  cursor: pointer;
 }
 
-.chromeExtensionRibbon:before {
-    box-sizing: border-box;
-    border-style: solid;
-    border-color: transparent;
-    border-width: 37px;
-    border-left-width: 53px;
-    border-right-width: 26px;
-    content: "";
-    display: block;
-    left: -49px;
-    position: absolute;
-    width: 141%;
-    border-top-width: 0px;
-    border-bottom-color: #9c1b21;
-    top: -2px;
-    z-index: -1;
+.corner-ribbon.sticky{
+  position: fixed;
 }
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon:hover{
+  box-shadow: 0 0 3px rgba(0,0,0,.9);
+}
+
+.corner-ribbon.bottom-right{
+  top: auto;
+  right: -50px;
+  bottom: 25px;
+  left: auto;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.blue{background: #39d;}

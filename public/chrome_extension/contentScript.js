@@ -7,7 +7,14 @@ chrome.extension.onMessage.addListener(
 );
 
 var ribbonDiv = document.createElement("div")
-ribbonDiv.classList.add("chromeExtensionRibbon")
-ribbonDiv.innerHTML = "Hello World"
+
+ribbonDiv.classList.add("corner-ribbon", "bottom-right", "sticky", "blue", "shadow")
+
+ribbonDiv.innerHTML = "Show Stats"
+
+ribbonDiv.addEventListener('click', function (event) {
+    chrome.runtime.sendMessage({type: "showStats", data: document.all[0].outerHTML});
+});
+
 document.body.insertBefore(ribbonDiv, document.body.firstChild);
 
