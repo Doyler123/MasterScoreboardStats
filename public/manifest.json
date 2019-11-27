@@ -2,7 +2,7 @@
   "name": "Master Scoreboard Stats",
   "version": "1.0",
   "description": "Stats based on Master Scoreboards scorces page.",
-  "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'sha256-hBvJh5OdWr0Lle7CdeaTphSEI8j+BRiy3DQMka0OU50=' https://ssl.google-analytics.com https://www.googletagmanager.com https://www.google-analytics.com; object-src 'self'",
   "permissions": ["tabs", "activeTab", "declarativeContent", "storage"],
   "background": {
       "scripts": ["./chrome_extension/background.js"],
@@ -10,10 +10,10 @@
   },
   "page_action": {
     "default_icon": {
-      "16": "./chrome_extension/images/get_started16.png",
-      "32": "./chrome_extension/images/get_started32.png",
-      "48": "./chrome_extension/images/get_started48.png",
-      "128": "./chrome_extension/images/get_started128.png"
+      "16": "./chrome_extension/images/barChartFlag16.png",
+      "32": "./chrome_extension/images/barChartFlag32.png",
+      "48": "./chrome_extension/images/barChartFlag48.png",
+      "128": "./chrome_extension/images/barChartFlag128.png"
     }
   },
   "content_scripts": [
@@ -26,10 +26,10 @@
       }
   ],
   "icons": {
-    "16": "./chrome_extension/images/get_started16.png",
-    "32": "./chrome_extension/images/get_started32.png",
-    "48": "./chrome_extension/images/get_started48.png",
-    "128": "./chrome_extension/images/get_started128.png"
+    "16": "./chrome_extension/images/barChartFlag16.png",
+    "32": "./chrome_extension/images/barChartFlag32.png",
+    "48": "./chrome_extension/images/barChartFlag48.png",
+    "128": "./chrome_extension/images/barChartFlag128.png"
   },
   "web_accessible_resources": [
     "chrome_extension/images/*"

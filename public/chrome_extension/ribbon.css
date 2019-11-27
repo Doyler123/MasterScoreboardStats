@@ -1,12 +1,12 @@
 .corner-ribbon{
   z-index: 100;
-  width: 200px;
+  width: 260px;
   background: #e43;
   position: absolute;
   top: 25px;
   left: -50px;
   text-align: center;
-  line-height: 50px;
+  line-height: 26px;
   letter-spacing: 1px;
   color: #f0f0f0;
   transform: rotate(-45deg);
@@ -28,11 +28,25 @@
 
 .corner-ribbon.bottom-right{
   top: auto;
-  right: -50px;
+  right: -70px;
   bottom: 25px;
   left: auto;
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
 }
 
-.corner-ribbon.blue{background: #39d;}
+.corner-ribbon.blue{background: #008AD8;}
+
+.corner-ribbon img{
+  margin-top: 10px;
+  height: 40px;
+}
+
+.corner-ribbon:hover img{
+  margin-top: 5px;
+  height: 45px;
+}
+
+.corner-ribbon span{
+  display: block
+}
