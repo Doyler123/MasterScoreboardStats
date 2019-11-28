@@ -12,6 +12,7 @@ const CourseStats = props =>{
         <StatsGrid>
             {util.getCourseStats(data, hole).map((statItem)=>(
                 <StatItem 
+                    key         =   {statItem.title}
                     title       =   {statItem.title}
                     titleColor  =   {statItem.titleColor}
                     body        =   {statItem.body} 

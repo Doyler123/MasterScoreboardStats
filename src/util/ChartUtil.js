@@ -8,7 +8,7 @@ export const getScoresBarChartData = (courseData, currentHole) => {
         for (var score in courseData.ParTotals) {
             if (!courseData.ParTotals.hasOwnProperty(score)) continue;
 
-            var count = courseData.ParTotals[score][3] ? courseData.ParTotals[score][3] : 0
+            let count = courseData.ParTotals[score][3] ? courseData.ParTotals[score][3] : 0
             count += courseData.ParTotals[score][4] ? courseData.ParTotals[score][4] : 0
             count += courseData.ParTotals[score][5] ? courseData.ParTotals[score][5] : 0
 
@@ -20,10 +20,10 @@ export const getScoresBarChartData = (courseData, currentHole) => {
         }
     }else{
         var holeIndex = currentHole - 1
-        for (var score in courseData.Holes[holeIndex]) {
+        for (let score in courseData.Holes[holeIndex]) {
             if (!courseData.Holes[holeIndex].hasOwnProperty(score) || !RESULTS.includes(score)) continue;
 
-            var count = courseData.Holes[holeIndex][score]
+            let count = courseData.Holes[holeIndex][score]
             chartData.push({
                 'score' : score,
                 'count' : count,
@@ -122,7 +122,7 @@ export const getBarColour = (entry, tab) => {
 }
 
 export const fillBar = (entry) => {
-    return <Cell fill={SCORES_TO_COLOURS[entry.score]} />;
+    return <Cell key={SCORES_TO_COLOURS[entry.score] } fill={SCORES_TO_COLOURS[entry.score]} />;
 } 
 
 export const getDataMax = dataMax => Math.max(30, Math.round(dataMax + (dataMax / 10)))

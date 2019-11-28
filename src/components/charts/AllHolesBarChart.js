@@ -38,7 +38,7 @@ const tabWidth = 50
                     <Bar dataKey="total" fill="#8884d8" onClick={handleBarClick}>
                         {data.map((entry, index) => {
                             const color = getBarColour(entry, tab)
-                            return color ? <Cell cursor="pointer" fill={color} /> : null;
+                            return color ? <Cell key={index+color} cursor="pointer" fill={color} /> : null;
                         })}
                         <LabelList dataKey="total" position="top" formatter={formatBarLabel}/>
                     </Bar>

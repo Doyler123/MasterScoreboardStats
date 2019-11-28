@@ -34,7 +34,7 @@ export default class BarChartContainer extends Component{
 
     getChart = () => {
 
-        if(this.props.data.length == 1){
+        if(this.props.data.length === 1){
             return this.props.data[0]
         }
 

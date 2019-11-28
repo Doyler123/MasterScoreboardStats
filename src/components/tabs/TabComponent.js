@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -73,7 +72,7 @@ const TabComponent = (props)=> {
                 scrollButtons="auto"
               >
                 {data.map((course, index)=>{
-                  return <Tab value={index} label={getCourseName(course.Name)}/>  
+                  return <Tab key={getCourseName(course.Name)} value={index} label={getCourseName(course.Name)}/>  
                 })}
               </Tabs>
             </Grid>
@@ -99,7 +98,7 @@ const TabComponent = (props)=> {
             >
               <Tab value={ALL} label={ALL} />
               {data.length > 0 ? data[course].CourseInfo.Holes.map((hole, index) => {
-                return <Tab value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
+                return <Tab key={hole.number + "" + hole.Par + "" + index} value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
               }) : null}
             </Tabs>
           </AppBar>
