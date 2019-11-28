@@ -8,9 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import DatePicker from '../misc/DatePicker'
-import CourseDataGrid from './CourseDataGrid'
+import CourseDataGrid from '../layout/DataGrid'
 import {ALL} from '../../constants/constants'
-import AppBarSpacer from './AppBarSpacer'
+import AppBarSpacer from '../misc/AppBarSpacer'
 
 const useStyles = makeStyles(theme => ({
   root: {

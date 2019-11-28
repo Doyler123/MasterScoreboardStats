@@ -1,7 +1,6 @@
 import React from 'react';
-import StatsGrid from './StatsGrid'
-import StatItem from './StatItem'
-
+import StatsGrid from '../layout/stats/StatsGrid'
+import StatItem from '../layout/stats/StatItem'
 import * as util from './../../util/StatsUtil'
 
 

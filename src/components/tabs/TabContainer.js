@@ -4,13 +4,33 @@ import TabComponent from './TabComponent'
 import {ALL} from '../../constants/constants'
 import * as courseDataUtil from '../../util/CourseDataUtil'
 import { useStateValue, actions } from '../../state'
+import NoDataDialog from '../misc/NoDataDialog'
 
 const TabsContainer = ({ data }) => {
+
+  if(!data || data.length === 0){
+    return <NoDataDialog 
+      open={true}
+    />
+  }
 
   const [{ course, hole }, dispatch ] = useStateValue();
 
   const [courseData, setCourseData] = useState(courseDataUtil.calculateCourseData(data[course], null))
   const [dateRange, setDateRange]   = useState(courseDataUtil.getInitialDateRange(courseData.Competitions))
+  
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [dialogDate, setDialogDate] = useState(null)
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setDateRange(dialogDate)
+  };
+
+  const openDialog = () => {
+    setDialogOpen(true)
+    setDialogDate(dateRange)
+  };
 
   const setHole = (newHole) => {
     dispatch({
@@ -38,8 +58,17 @@ const TabsContainer = ({ data }) => {
   };
 
   const onDateRangeChange = (newDateRange) => {
-    setDateRange(newDateRange)
-    setCourseData(courseDataUtil.calculateCourseData(data[course], newDateRange))
+
+    let newData = courseDataUtil.calculateCourseData(data[course], newDateRange)
+
+    if(newData.Competitions.length > 0){
+      setDateRange(newDateRange)
+      setCourseData(courseDataUtil.calculateCourseData(data[course], newDateRange))
+    }else{
+      openDialog()
+      setDateRange(newDateRange)
+    }
+
   }
 
     if(!courseData.Competitions){
@@ -47,16 +76,25 @@ const TabsContainer = ({ data }) => {
     }
 
     return (
-        <TabComponent
-          data                = {data}
-          course              = {course}
-          currentHole         = {hole}
-          dateRange           = {dateRange}
-          courseData          = {courseData}
-          handleCourseChange  = {handleCourseChange}
-          onDateRangeChange   = {onDateRangeChange}
-          handleHoleChange    = {handleHoleChange}
-        />      
+      <React.Fragment>
+          <TabComponent
+            data                = {data}
+            course              = {course}
+            currentHole         = {hole}
+            dateRange           = {dateRange}
+            courseData          = {courseData}
+            handleCourseChange  = {handleCourseChange}
+            onDateRangeChange   = {onDateRangeChange}
+            handleHoleChange    = {handleHoleChange}
+          />
+
+          <NoDataDialog 
+            open={dialogOpen}
+            handleClose={handleDialogClose}
+            date={dateRange}
+          />
+
+      </React.Fragment>      
     );
 }
 

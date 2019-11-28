@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ChartGrid from '../charts/layout/ChartGrid'
+import ChartGrid from './charts/ChartGrid'
 import GrossLineChart from '../charts/GrossLineChart'
-import ChartItem from '../charts/layout/ChartItem'
+import ChartItem from './charts/ChartItem'
 import AllHolesBarChartContainer from '../charts/AllHolesBarChartContainer'
 import { getScoresBarChartData, getParTotalsBarChartData, getGrossLineChartData } from '../../util/ChartUtil'
 import CourseStats from '../stats/CourseStats'
