@@ -43,11 +43,11 @@ class App extends Component {
 
       //Static data
 
-      this.setState({
-        data : JSON.parse(Jonathan)
-      }, () => {
-        this.setState({loading : false})
-      })
+      // this.setState({
+      //   data : JSON.parse(Jonathan)
+      // }, () => {
+      //   this.setState({loading : false})
+      // })
       
       
       // Chrome extension

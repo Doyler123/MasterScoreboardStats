@@ -15,7 +15,7 @@ function Layout(props) {
 
   return (
     <div className={classes.root}>
-      <Grid container justify="space-evenly" alignItems="center" spacing={10}>
+      <Grid container justify="space-evenly" alignItems="center" spacing={24}>
         {props.children}
       </Grid>
     </div>
