@@ -27,15 +27,15 @@ class App extends Component {
 
   initialState = {
     hole : ALL,
-    course : 0,
-    loading : true
+    course : 0
   }
 
   constructor(props) {
       super(props);
           
       this.state = {
-          data: []
+          data: [],
+          loading : true
       }
   }
 
@@ -45,19 +45,22 @@ class App extends Component {
 
       this.setState({
         data : JSON.parse(Jonathan)
+      }, () => {
+        this.setState({loading : false})
       })
       
       
       // Chrome extension
       
-      // chrome.storage.local.get('scoresHtml', (data) => {  
-      //   console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
-      //   this.setState({
-      //     data : chromeExtensionUtil.parseData(data.scoresHtml)
-      //   })
-      // })
+      chrome.storage.local.get('scoresHtml', (data) => {  
+        console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
+        this.setState({
+          data : chromeExtensionUtil.parseData(data.scoresHtml)
+        }, () => {
+          this.setState({loading : false})
+        })
+      })
 
-      this.setState({loading : false})
   }
 
   render() {
