@@ -1,7 +1,7 @@
 {
   "name": "Master Scoreboard Stats",
   "version": "0.0.0.1",
-  "description": "Stats based on Master Scoreboards scorces page.",
+  "description": "Golf Statistics & charts based on Master Scoreboards players scores page.",
   "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'sha256-hBvJh5OdWr0Lle7CdeaTphSEI8j+BRiy3DQMka0OU50=' https://ssl.google-analytics.com https://www.googletagmanager.com https://www.google-analytics.com; object-src 'self'",
   "permissions": ["tabs", "activeTab", "declarativeContent", "storage"],
   "background": {
