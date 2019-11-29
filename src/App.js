@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios'
 import TabContainer from './components/tabs/TabContainer'
 import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
 import {ALL} from './constants/constants'
