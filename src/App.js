@@ -62,13 +62,11 @@ class App extends Component {
           this.setState({loading : false})
         }, () => {
           if(gtag && this.state.data.length > 0){
-            this.state.data.forEach( course => {
               gtag('event', 'Course Loaded', {
                 'event_category': 'course',
-                'event_label': getCourseName(course.Name),
+                'event_label': getCourseName(data[0].Name),
                 'value': 1
               })
-            })
           }
         })
       })
