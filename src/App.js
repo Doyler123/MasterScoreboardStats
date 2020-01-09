@@ -1,4 +1,4 @@
-/*global chrome*/
+/*global chrome, gtag*/
 
 import React, { Component } from 'react';
 import './App.css';
@@ -22,6 +22,9 @@ import VLarge300 from './staticdata/VLarge300'
 // import VLarge500 from './staticdata/VLarge500' // check hole 3
 // import VLarge1000 from './staticdata/VLarge1000'
 
+const getCourseName = (text) => {
+  return text.replace("<br>Played at ", "")
+}
 class App extends Component {
 
   initialState = {
@@ -57,6 +60,16 @@ class App extends Component {
           data : chromeExtensionUtil.parseData(data.scoresHtml)
         }, () => {
           this.setState({loading : false})
+        }, () => {
+          if(gtag && this.state.data.length > 0){
+            this.state.data.forEach( course => {
+              gtag('event', 'Course Loaded', {
+                'event_category': 'course',
+                'event_label': getCourseName(course.Name),
+                'value': 1
+              })
+            })
+          }
         })
       })
 
