@@ -55,19 +55,18 @@ class App extends Component {
       // Chrome extension
       
       chrome.storage.local.get('scoresHtml', (data) => {  
-        console.log(JSON.stringify(chromeExtensionUtil.parseData(data.scoresHtml), null, 2))
         this.setState({
           data : chromeExtensionUtil.parseData(data.scoresHtml)
         }, () => {
-          this.setState({loading : false})
-        }, () => {
-          if(gtag && this.state.data.length > 0){
-              gtag('event', 'Course Loaded', {
-                'event_category': 'course',
-                'event_label': getCourseName(data[0].Name),
-                'value': 1
-              })
-          }
+          this.setState({loading : false}, () => {
+            if(gtag && this.state.data.length > 0){
+                gtag('event', 'Course Loaded', {
+                  'event_category': 'course',
+                  'event_label': getCourseName(this.state.data[0].Name),
+                  'value': 1
+                })
+            }
+          })
         })
       })
 
