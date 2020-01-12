@@ -1,4 +1,4 @@
-/*global chrome, gtag*/
+/*global chrome, gtag _gaq*/
 
 import React, { Component } from 'react';
 import './App.css';
@@ -8,8 +8,6 @@ import {ALL} from './constants/constants'
 import { StateProvider, defaultReducer } from './state'
 import { sortCourses } from './util/CourseDataUtil'
 import Loading from './components/misc/Loading'
-
-
 import Jonathan from './staticdata/Jonathan'
 import LowScores from './staticdata/LowScores'
 import OneRound from './staticdata/OneRound'
@@ -21,10 +19,10 @@ import Large from './staticdata/Large'
 import VLarge300 from './staticdata/VLarge300'
 // import VLarge500 from './staticdata/VLarge500' // check hole 3
 // import VLarge1000 from './staticdata/VLarge1000'
-
 const getCourseName = (text) => {
   return text.replace("<br>Played at ", "")
 }
+
 class App extends Component {
 
   initialState = {
@@ -42,7 +40,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-
+    
       //Static data
 
       // this.setState({
@@ -59,12 +57,8 @@ class App extends Component {
           data : chromeExtensionUtil.parseData(data.scoresHtml)
         }, () => {
           this.setState({loading : false}, () => {
-            if(gtag && this.state.data.length > 0){
-                gtag('event', 'Course Loaded', {
-                  'event_category': 'course',
-                  'event_label': getCourseName(this.state.data[0].Name),
-                  'value': 1
-                })
+            if(_gaq && this.state.data.length > 0){
+                _gaq.push(['_trackEvent', 'course_loaded', getCourseName(this.state.data[0].Name)]);
             }
           })
         })
