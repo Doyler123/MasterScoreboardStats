@@ -5,10 +5,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
 
 import DatePicker from '../misc/DatePicker'
 import CourseDataGrid from '../layout/DataGrid'
-import {ALL} from '../../constants/constants'
+import {ALL, COMBINED} from '../../constants/constants'
 import AppBarSpacer from '../misc/AppBarSpacer'
 
 const useStyles = makeStyles(theme => ({
@@ -54,11 +55,13 @@ const TabComponent = (props)=> {
     let { data,
           course, 
           currentHole, 
+          currentCourse, 
           dateRange, 
           courseData, 
           handleCourseChange, 
           onDateRangeChange, 
-          handleHoleChange } = props
+          handleHoleChange,
+          combinedCourseData } = props
 
     return(
         <div className={classes.root}>
@@ -71,6 +74,7 @@ const TabComponent = (props)=> {
                 variant="scrollable"
                 scrollButtons="auto"
               >
+                <Tab value={COMBINED} label={COMBINED} icon={<ShuffleIcon />}/>
                 {data.map((course, index)=>{
                   return <Tab key={getCourseName(course.Name)} value={index} label={getCourseName(course.Name)}/>  
                 })}
@@ -87,22 +91,30 @@ const TabComponent = (props)=> {
         </AppBar>
         <TabContainer>
           <AppBarSpacer />      
-          <AppBar position="static" color="default">
-            <Tabs
-              value={currentHole}
-              onChange={handleHoleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-            >
-              <Tab value={ALL} label={ALL} />
-              {data.length > 0 ? data[course].CourseInfo.Holes.map((hole, index) => {
-                return <Tab key={hole.number + "" + hole.Par + "" + index} value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
-              }) : null}
-            </Tabs>
-          </AppBar>
-          <CourseDataGrid courseData={courseData} hole={currentHole}/>
+          {currentCourse !== COMBINED ? 
+            <AppBar position="static" color="default">
+              <Tabs
+                value={currentHole}
+                onChange={handleHoleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="scrollable"
+                scrollButtons="auto"
+              >
+                <Tab value={ALL} label={ALL} />
+                {data.length > 0 ? data[course].CourseInfo.Holes.map((hole, index) => {
+                  return <Tab key={hole.number + "" + hole.Par + "" + index} value={hole.Number} label={<TabLabel number={hole.Number} par={hole.Par}/>} />
+                }) : null}
+              </Tabs>
+            </AppBar> 
+          : null}
+          
+          <CourseDataGrid 
+            courseData={courseData} 
+            hole={currentHole} 
+            course={currentCourse} 
+            combinedCourseData={combinedCourseData}/>
+
         </TabContainer>
       </div>
     )

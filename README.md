@@ -3,9 +3,11 @@ Chrome extension for Stats based on MasterScoreboard's Hole By Hole analysis pag
 
 Cretaed with create-react-app.
 
-The Chrome exctension code is located in the public folder.
+The Chrome extension code is located in the public folder.
 
-To build the chrome extension uncomment the Chrome extension code in App.js and comment out the Static data section. Then run: npm run build
+Remove static data import from App.js
+
+run: npm run build
 
 Reload the chrome extension from chrome://extensions/ then visit the hole by hole analysis page on masterscoreboard.
 

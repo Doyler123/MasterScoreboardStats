@@ -4,21 +4,15 @@ import React, { Component } from 'react';
 import './App.css';
 import TabContainer from './components/tabs/TabContainer'
 import * as chromeExtensionUtil from './util/ChromeExtensionUtil'
-import {ALL} from './constants/constants'
+import {ALL, ENVS} from './constants/constants'
 import { StateProvider, defaultReducer } from './state'
 import { sortCourses } from './util/CourseDataUtil'
 import Loading from './components/misc/Loading'
-import Jonathan from './staticdata/Jonathan'
-import LowScores from './staticdata/LowScores'
-import OneRound from './staticdata/OneRound'
-import NoRounds from './staticdata/NoRounds'
-// import Portmarnock from './staticdata/Portmarnock'
-import Large from './staticdata/Large'
-// import LargeSmall from './staticdata/LargeSmall'
-// import SmallLarge from './staticdata/SmallLarge'
-import VLarge300 from './staticdata/VLarge300'
-// import VLarge500 from './staticdata/VLarge500' // check hole 3
-// import VLarge1000 from './staticdata/VLarge1000'
+
+import Jonathan from './staticdata/Jonathan';
+import howdididoParsed from './staticdata/howdididoParsed';
+
+
 const getCourseName = (text) => {
   return text.replace("<br>Played at ", "")
 }
@@ -41,32 +35,41 @@ class App extends Component {
 
   componentDidMount(){
     
+    
+    if (process.env.NODE_ENV === ENVS.DEVELOPMENT) {
+      
       //Static data
-
-      // this.setState({
-      //   data : JSON.parse(Jonathan)
-      // }, () => {
-      //   this.setState({loading : false})
-      // })
-      
-      
-      // Chrome extension
-      
-      chrome.storage.local.get('scoresHtml', (data) => {  
-        this.setState({
-          data : chromeExtensionUtil.parseData(data.scoresHtml)
-        }, () => {
-          this.setState({loading : false}, () => {
-            if(_gaq && this.state.data.length > 0){
-                _gaq.push(['_trackEvent', 'course_loaded', getCourseName(this.state.data[0].Name)]);
-            }
+      let hdidDataParsed = JSON.parse(howdididoParsed)
+      let dataParsed = JSON.parse(Jonathan) 
+      this.setState({
+        data : dataParsed.concat(hdidDataParsed)
+      }, () => {
+        this.setState({loading : false})
+        })
+        
+      } else {
+        
+        // Chrome extension
+        
+        let hdidDataParsed = JSON.parse(howdididoParsed)
+        chrome.storage.local.get('scoresHtml', (data) => {  
+          this.setState({
+            data : chromeExtensionUtil.parseData(data.scoresHtml).concat(hdidDataParsed)
+          }, () => {
+            this.setState({loading : false}, () => {
+              if(_gaq && this.state.data.length > 0){
+                  _gaq.push(['_trackEvent', 'course_loaded', getCourseName(this.state.data[0].Name)]);
+              }
+            })
           })
         })
-      })
 
+      }
+      
   }
 
   render() {
+
     return (
       <StateProvider initialState={this.initialState} reducer={defaultReducer}>
         <div className="App">

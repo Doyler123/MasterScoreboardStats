@@ -1,3 +1,14 @@
+export const SCORES = {
+  SCRATCH: "Scratch", 
+  TRIPLE:  "Triple",
+  DOUBLE: "Double",
+  BOGEY: "Bogey",
+  PAR: "Par",
+  BIRDIE: "Birde",
+  EAGLE: "Eagle",
+  NA: "N/A"
+}
+
 export const RESULTS = [
   "Scratch",
   "Triple",
@@ -52,7 +63,17 @@ export const CODES_TO_SCORES = {
     "N/A"     : 0
   }
 
+  export const VALUE_RESULTS = {
+     '3' : "Triple",
+     '2' : "Double",
+     '1' : "Bogey",
+     '0' : "Par",
+     '-1': "Birde",
+     '-2': "Eagle"   
+  }
+
   export const ALL = "all"
+  export const COMBINED = "combined"
 
   export const NA = "N/A"
 
@@ -60,3 +81,12 @@ export const CODES_TO_SCORES = {
 export const DEFAULT_ALL_HOLES_TAB = 'TotalToPar'
 export const BIRDE = 'Birde'
 export const BOGEY = 'Bogey'
+
+export const ENVS = {
+    PRODUCTION: 'production',
+    DEVELOPMENT: 'development',
+    TEST: 'test'
+}
+
+export const MS_DATE_FORMAT = 'DD MMM YY';
+export const HDID_DATE_FORMAT = 'DD/MM/YYYY';

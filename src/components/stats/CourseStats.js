@@ -6,11 +6,11 @@ import * as util from './../../util/StatsUtil'
 
 const CourseStats = props =>{
 
-    let {data, hole} = props
+    let {data, hole, currentCourse} = props
 
     return (
         <StatsGrid>
-            {util.getCourseStats(data, hole).map((statItem)=>(
+            {util.getCourseStats(data, hole, currentCourse).map((statItem)=>(
                 <StatItem 
                     key         =   {statItem.title}
                     title       =   {statItem.title}

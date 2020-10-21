@@ -1,50 +1,63 @@
-import {ALL} from '../constants/constants'
+import {ALL, COMBINED} from '../constants/constants'
 import ordinal from 'ordinal'
 
-export const getCourseStats = (data, hole) =>{
+export const getCourseStats = (data, hole, currentCourse) =>{
 
     var stats = []
 
-    if(!data.Competitions){
+    if(!data.every(course => course.Competitions)){
         return stats
     }
     
-    return calculateStats(data, hole)
+    return calculateStats(data, hole, currentCourse)
 }
 
-const calculateStats = (data, hole) => {
+const calculateStats = (data, hole, currentCourse) => {
     
-    if(!data.Holes){
+    if(!data.every(course => course.Holes)){
         return []
     }
 
-    var sortedHoles = getSortedHoles(data.Holes)
-    var bestHole = sortedHoles[0].HoleNumber
-    var worstHole = sortedHoles[sortedHoles.length - 1].HoleNumber
-    var holeRank = getHoleRank(sortedHoles, hole)
+    let sortedHoles;
+    let bestHole;
+    let worstHole;
+    let holeRank;
+
+    if(currentCourse !== COMBINED){
+        sortedHoles = getSortedHoles(data[0].Holes)
+        bestHole = sortedHoles[0].HoleNumber
+        worstHole = sortedHoles[sortedHoles.length - 1].HoleNumber
+        holeRank = getHoleRank(sortedHoles, hole)
+    }
     
+    
+    let allComps = data.flatMap(course => course.Competitions)
+    let sortedCompetitions = getSortedCompetitions(allComps)
+    let bestComp = sortedCompetitions[0].Gross
+    let worstComp = sortedCompetitions[sortedCompetitions.length - 1].Gross
 
-    var sortedCompetitions = getSortedCompetitions(data.Competitions)
-    var bestComp = sortedCompetitions[0].Gross
-    var worstComp = sortedCompetitions[sortedCompetitions.length - 1].Gross
-
-    var allStats = [
-        createStat("Rounds\nPlayed", "info", data.Competitions.length, null),
+    let allStats = [
+        createStat("Rounds\nPlayed", "info", allComps.length, null),
     ]
 
-    var courseStats = !hole || hole === ALL ? [
+    let courseStats = (!hole || hole === ALL) && currentCourse !== COMBINED ? [
         createStat("Best\nHole", "success", "Hole " + bestHole),
         createStat("Worst\nHole", "danger", "Hole " + worstHole),
         createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp),
         createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp),
     ] : []
 
-    var holeStats = hole && hole !== ALL ? [
-        createStat("Average\n(Par " + getHolePar(data, hole) +")", "info", getHoleAverage(data, hole).toFixed(2), hole),
+    let holeStats = hole && hole !== ALL ? [
+        createStat("Average\n(Par " + getHolePar(data[0], hole) +")", "info", getHoleAverage(data[0], hole).toFixed(2), hole),
         createStat("Difficulty\nRank", "info", ordinal(holeRank), hole)
     ] : []
+
+    let combinedStats = currentCourse && currentCourse === COMBINED ? [
+        createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp),
+        createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp)
+    ] : []
     
-    return allStats.concat(courseStats, holeStats)
+    return allStats.concat(courseStats, holeStats, combinedStats);
 }
 
 const getSortedHoles = (holes) =>{

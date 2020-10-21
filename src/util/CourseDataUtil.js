@@ -1,4 +1,4 @@
-import {RESULT_VALUES} from '../constants/constants'
+import {RESULT_VALUES, SCORES, MS_DATE_FORMAT, VALUE_RESULTS} from '../constants/constants'
 import moment from 'moment'
 
 export const getInitialDateRange = (comps) =>{
@@ -6,8 +6,20 @@ export const getInitialDateRange = (comps) =>{
       return null
     }
 
-    var date1 = moment(comps[comps.length - 1].Date)
-    var date2 = moment(comps[0].Date)
+    let sortedComps = comps.sort((a, b) => {
+        let dateA = moment(a.Date, MS_DATE_FORMAT);
+        let dateB = moment(b.Date, MS_DATE_FORMAT);
+        if(dateB.isBefore(dateA)){
+            return -1
+        }
+        if(dateA.isBefore(dateB)){
+            return 1
+        }
+        return 0;
+    })
+
+    var date1 = moment(sortedComps[sortedComps.length - 1].Date)
+    var date2 = moment(sortedComps[0].Date)
     
     if(!date1.isValid || !date2.isValid){
       return null
@@ -37,11 +49,38 @@ export const calculateCourseData = (course, dateRange) => {
             }
 
             comp['Gross'] = 0
+            comp['pars'] = 0
+            comp['birdies'] = 0
+            comp['bogeys'] = 0
+            comp['doubles'] = 0
+            comp['triples'] = 0
+            comp['scratches'] = 0
             
             comp.Date = parseDate(comp.Date)
 
             comp.Holes.forEach((hole, holeIndex) =>{
 
+                switch(hole.Result){
+                    case SCORES.BIRDIE:
+                        comp.birdies += 1;
+                        break;
+                    case SCORES.PAR:
+                        comp.pars += 1;
+                        break;
+                    case SCORES.BOGEY:
+                        comp.bogeys += 1;
+                        break;
+                    case SCORES.DOUBLE:
+                        comp.doubles += 1;
+                        break;    
+                    case SCORES.TRIPLE:
+                        comp.triples += 1;
+                        break;    
+                    case SCORES.SCRATCH:
+                        comp.scratches += 1;
+                        break;    
+                    default:
+                }
                 
                 comp.Gross += RESULT_VALUES[hole.Result];
                 var par = course.CourseInfo.Holes[holeIndex].Par
@@ -88,11 +127,25 @@ export const calculateCourseData = (course, dateRange) => {
     return courseData
 }
 
-const getScoreValue = (score, par, result ) => {
+export const getScoreValue = (score, par, result ) => {
     if(!isNaN(score)){
         return parseInt(score)
     }else{
-        return par + RESULT_VALUES[result]
+        return parseInt(par) + RESULT_VALUES[result]
+    }
+}
+
+export const getHoleResult = (score, par) => {
+    if(!isNaN(score)){
+        let value = parseInt(score) - parseInt(par);
+        if(value >= 3){
+            return VALUE_RESULTS['3'];
+        }else if( value <= -2){
+            return VALUE_RESULTS['-2'];
+        }
+        return VALUE_RESULTS[`${value}`]
+    }else{
+        return SCORES.SCRATCH
     }
 }
 

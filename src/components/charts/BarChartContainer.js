@@ -53,15 +53,15 @@ export default class BarChartContainer extends Component{
                 {(
                 this.state.hole === ALL && this.props.data.length > 1
                 ? <Tabs
-                                    value={this.state.tab}
-                                    onChange={this.handleTabChange}
-                                    variant="fullWidth"
-                                    indicatorColor="secondary"
-                                    textColor="secondary"
-                                    >
-                                    <Tab icon={<BarChart1 />} style={{ minWidth: tabWidth }} value={0} label="TOTALS" />
-                                    <Tab icon={<BarChart2 />} style={{ minWidth: tabWidth }} value={1} label="PAR" />
-                                </Tabs>
+                    value={this.state.tab}
+                    onChange={this.handleTabChange}
+                    variant="fullWidth"
+                    indicatorColor="secondary"
+                    textColor="secondary"
+                    >
+                    <Tab icon={<BarChart1 />} style={{ minWidth: tabWidth }} value={0} label="TOTALS" />
+                    <Tab icon={<BarChart2 />} style={{ minWidth: tabWidth }} value={1} label="PAR" />
+                </Tabs>
                 : null
                 )}
             </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TabComponent from './TabComponent'
-import {ALL} from '../../constants/constants'
+import {ALL, COMBINED} from '../../constants/constants'
 import * as courseDataUtil from '../../util/CourseDataUtil'
 import { useStateValue, actions } from '../../state'
 import NoDataDialog from '../misc/NoDataDialog'
@@ -14,8 +14,10 @@ const TabsContainer = ({ data }) => {
     />
   }
 
+
   const [{ course, hole }, dispatch ] = useStateValue();
 
+  const [combinedCourseData, setCombinedCourseData] = useState([]);
   const [courseData, setCourseData] = useState(courseDataUtil.calculateCourseData(data[course], null))
   const [dateRange, setDateRange]   = useState(courseDataUtil.getInitialDateRange(courseData.Competitions))
   
@@ -49,8 +51,17 @@ const TabsContainer = ({ data }) => {
   const handleCourseChange = (event, newCourse) => {
     setCourse(newCourse)
     setHole(ALL)
-    setCourseData(courseDataUtil.calculateCourseData(data[newCourse], null))
-    setDateRange(courseDataUtil.getInitialDateRange(courseData.Competitions))
+
+    if (newCourse === COMBINED) {
+      let newcombined = data.map(c => courseDataUtil.calculateCourseData(c, null));
+      setCombinedCourseData(newcombined);
+      setDateRange(courseDataUtil.getInitialDateRange(newcombined.flatMap(c => c.Competitions)))
+    } else {
+      let newCourseData = courseDataUtil.calculateCourseData(data[newCourse], null);
+      setCourseData(newCourseData);
+      setDateRange(courseDataUtil.getInitialDateRange(newCourseData.Competitions))
+    }
+
   }
 
   const handleHoleChange = (event, currentHole) => {
@@ -58,12 +69,21 @@ const TabsContainer = ({ data }) => {
   };
 
   const onDateRangeChange = (newDateRange) => {
+    let newData;
 
-    let newData = courseDataUtil.calculateCourseData(data[course], newDateRange)
+    if(course === COMBINED){
+      newData = data.map(c => courseDataUtil.calculateCourseData(c, newDateRange)).filter(courseData => courseData.Competitions.length > 0);
+    }else{
+      newData = courseDataUtil.calculateCourseData(data[course], newDateRange)
+    }
 
-    if(newData.Competitions.length > 0){
+    if(course === COMBINED && newData && newData.length > 0){
       setDateRange(newDateRange)
-      setCourseData(courseDataUtil.calculateCourseData(data[course], newDateRange))
+      setCombinedCourseData(newData)
+    }
+    else if(course !== COMBINED && newData && newData.Competitions.length > 0){
+      setDateRange(newDateRange)
+      setCourseData(newData)
     }else{
       openDialog()
       setDateRange(newDateRange)
@@ -81,11 +101,13 @@ const TabsContainer = ({ data }) => {
             data                = {data}
             course              = {course}
             currentHole         = {hole}
+            currentCourse       = {course}
             dateRange           = {dateRange}
             courseData          = {courseData}
             handleCourseChange  = {handleCourseChange}
             onDateRangeChange   = {onDateRangeChange}
             handleHoleChange    = {handleHoleChange}
+            combinedCourseData  = {combinedCourseData}
           />
 
           <NoDataDialog 

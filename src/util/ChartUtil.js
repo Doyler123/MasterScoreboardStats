@@ -3,51 +3,72 @@ import {SCORES_TO_CODES, ALL, NA, RESULTS, DEFAULT_ALL_HOLES_TAB, SCORES_TO_COLO
 import {Cell} from 'recharts';
     
 export const getScoresBarChartData = (courseData, currentHole) => {
-    var chartData = []
-    if(currentHole === ALL){
-        for (var score in courseData.ParTotals) {
-            if (!courseData.ParTotals.hasOwnProperty(score)) continue;
 
-            let count = courseData.ParTotals[score][3] ? courseData.ParTotals[score][3] : 0
-            count += courseData.ParTotals[score][4] ? courseData.ParTotals[score][4] : 0
-            count += courseData.ParTotals[score][5] ? courseData.ParTotals[score][5] : 0
-
-            chartData.push({
-                'score' : score,
-                'count' : count,
-                'code'  : SCORES_TO_CODES[score]
-            });
+    var chartData = {}
+    courseData.forEach(course => {
+        if(currentHole === ALL){
+            for (var score in course.ParTotals) {
+                if (!course.ParTotals.hasOwnProperty(score)) continue;
+    
+                let count = course.ParTotals[score][3] ? course.ParTotals[score][3] : 0
+                count += course.ParTotals[score][4] ? course.ParTotals[score][4] : 0
+                count += course.ParTotals[score][5] ? course.ParTotals[score][5] : 0
+    
+                if (!chartData.hasOwnProperty(score)){
+                    chartData[score] = {
+                        'score' : score,
+                        'count' : count,
+                        'code'  : SCORES_TO_CODES[score]
+                    }
+                }else{
+                    chartData[score].count += count;
+                }
+            }
+        }else{
+            var holeIndex = currentHole - 1
+            for (let score in course.Holes[holeIndex]) {
+                if (!course.Holes[holeIndex].hasOwnProperty(score) || !RESULTS.includes(score)) continue;
+    
+                let count = course.Holes[holeIndex][score]
+                
+                if (!chartData.hasOwnProperty(score)){
+                    chartData[score] = {
+                        'score' : score,
+                        'count' : count,
+                        'code'  : SCORES_TO_CODES[score]
+                    }
+                }else{
+                    chartData[score].count += count;
+                }
+            }
         }
-    }else{
-        var holeIndex = currentHole - 1
-        for (let score in courseData.Holes[holeIndex]) {
-            if (!courseData.Holes[holeIndex].hasOwnProperty(score) || !RESULTS.includes(score)) continue;
-
-            let count = courseData.Holes[holeIndex][score]
-            chartData.push({
-                'score' : score,
-                'count' : count,
-                'code'  : SCORES_TO_CODES[score]
-            });
-        }
-    }
-    return chartData.sort(sortChartData);
+    })
+    return Object.values(chartData).sort(sortChartData);
 }
     
 
 export const getParTotalsBarChartData = (courseData) => {
     var chartData = []
-    for (var score in courseData.ParTotals) {
-        if (!courseData.ParTotals.hasOwnProperty(score) || score === NA) continue;
-        chartData.push({
-            'score' : score,
-            'Par 3' : courseData.ParTotals[score][3] ? courseData.ParTotals[score][3] : 0,
-            'Par 4' : courseData.ParTotals[score][4] ? courseData.ParTotals[score][4] : 0,
-            'Par 5' : courseData.ParTotals[score][5] ? courseData.ParTotals[score][5] : 0,
-            'code'  : SCORES_TO_CODES[score]
-        });
-    }
-    return chartData.sort(sortChartData);
+    courseData.forEach(course => {
+        for (var score in course.ParTotals) {
+            if (!course.ParTotals.hasOwnProperty(score) || score === NA) continue;
+
+            if (!chartData.hasOwnProperty(score)){
+                chartData[score] = {
+                    'score' : score,
+                    'Par 3' : course.ParTotals[score][3] ? course.ParTotals[score][3] : 0,
+                    'Par 4' : course.ParTotals[score][4] ? course.ParTotals[score][4] : 0,
+                    'Par 5' : course.ParTotals[score][5] ? course.ParTotals[score][5] : 0,
+                    'code'  : SCORES_TO_CODES[score]
+                };
+            }else{
+                chartData[score]['Par 3'] += course.ParTotals[score][3] ? course.ParTotals[score][3] : 0;
+                chartData[score]['Par 4'] += course.ParTotals[score][4] ? course.ParTotals[score][4] : 0;
+                chartData[score]['Par 5'] += course.ParTotals[score][5] ? course.ParTotals[score][5] : 0;
+            }
+        }
+    })
+    return Object.values(chartData).sort(sortChartData);
 }
 
 
