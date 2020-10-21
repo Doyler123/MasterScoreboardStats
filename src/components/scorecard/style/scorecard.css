@@ -1,0 +1,201 @@
+.nine{
+    vertical-align: top;
+      margin-right: 1em;
+    display: inline-block;
+  }
+
+  .nine input[type='number']{
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    line-height: 16px;
+  }
+  
+  .line span{
+    word-spacing: 0;
+    letter-spacing: 0;
+    line-height: 22px;
+  }
+  
+  .line{
+    word-spacing: -3px;
+    letter-spacing: -3px;
+  }
+  
+  .line > span{
+    border: rgba(0,0,0,.25) solid 1px;
+    border-width: 0 0 1px 1px;
+    display: inline-block;
+    text-align: center;
+    width: 3em;
+  }
+  
+  .line :last-child{
+    border-width:  0 1px 1px 1px;
+  }
+  
+  .nine :first-child span{
+    border-width:  1px 0 1px 1px;
+  }
+  
+  .nine :first-child :last-child{
+    border-width:  1px 1px 1px 1px;
+  }
+  
+  .name {
+    width: 9em!important;
+    background-color: #f3f3f3;
+    padding: .1em 0;
+    padding-right: 2px;
+  }
+
+  .course{
+      color: #777;
+      white-space: nowrap;
+  }
+  
+  .hcap {
+    background-color: #f3f3f3;
+    padding: .1em 0;
+    color: #777;
+  }
+
+  .hcap > input, .name > input{
+    color: #777;
+  }
+
+  .date {
+    width: 6em!important;
+    background-color: #f3f3f3;
+    padding: .1em 0;
+    padding-right: 1px;
+    color: #777;
+    cursor: pointer;
+  }
+  
+  .hole {
+    background-color: #f63;
+    color: #fff;
+    padding: .5em 0;
+  }
+  
+  .par {
+          background-color: #ccc;
+          color: #777;
+      padding: .5em 0;
+  }
+  
+  .index {
+          background-color: #ccc;
+          color: #777;
+      padding: .5em 0;
+  }
+  
+  .score {
+      background-color: #f3f3f3;
+      padding: .5em 0;
+  }
+
+  .read-only-score{
+    background-color: #f3f3f3;
+      padding: .5em 0;
+  }
+
+  .read-only-score input{
+    cursor: initial;
+  }
+  
+  .score:focus-within, .hcap:focus-within, .name:focus-within, .date:focus-within{
+    background-color: #aec4e8
+  }
+  
+  .score-box, .name-box, .date-box{
+      background-color: #f3f3f3;
+      text-align: center;
+      width: 100%;
+      padding: 0;
+      outline: none;
+      border: 0;
+  }
+
+  .read-only-score-box{
+    background-color: #f3f3f3;
+      text-align: center;
+      width: 100%;
+      padding: 0;
+      outline: none;
+      border: 0;
+  }
+  
+  .score-box:focus, .name-box:focus, .date-box:focus .date:focus{
+    background-color: #aec4e8;
+  }
+  
+  .points {
+      background-color: #f3f3f3;
+      color: #f63;
+      padding: .5em 0;
+  }
+  
+  .line input{
+    width: 99%;
+  }
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  
+  input:focus::placeholder {
+    color: transparent;
+  }
+  
+  input{
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 40em) {
+    .nine{
+      margin: 1em 0em 0em 0em;
+      display: block;
+      text-align: center;
+    }
+
+    .line span{
+        width: 20%;
+    }
+  }
+
+  .read-only-score input{
+    background-color: transparent;
+  }
+
+  .eagle{
+    background-color: #ff2a0085;
+  }
+
+  .birdie{
+    background-color: #de222299;
+  }
+
+  .par-score{
+    background-color: #67964a80;
+  }
+
+  .bogey{
+    background-color: #0c6d9e7d;
+  }
+
+  .dbl-bogey{
+    background-color: #3e92bd;
+  }
+
+  .other-score{
+    background-color:  #00000066;
+  }
+
