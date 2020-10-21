@@ -11,6 +11,7 @@ import DatePicker from '../misc/DatePicker'
 import CourseDataGrid from '../layout/DataGrid'
 import {ALL, COMBINED} from '../../constants/constants'
 import AppBarSpacer from '../misc/AppBarSpacer'
+import ScorecardDialog from '../scorecard/ScorecardDialog'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,7 +50,6 @@ const TabLabel = (props) => (
 
 
 const TabComponent = (props)=> {
-
     const classes = useStyles()
 
     let { data,
@@ -61,7 +61,9 @@ const TabComponent = (props)=> {
           handleCourseChange, 
           onDateRangeChange, 
           handleHoleChange,
-          combinedCourseData } = props
+          combinedCourseData,
+          scorecardOpen,
+          selectedComp } = props
 
     return(
         <div className={classes.root}>
@@ -114,6 +116,14 @@ const TabComponent = (props)=> {
             hole={currentHole} 
             course={currentCourse} 
             combinedCourseData={combinedCourseData}/>
+
+           {selectedComp ? 
+            <ScorecardDialog 
+                compId={selectedComp}
+                courseData={course === COMBINED ? combinedCourseData : [courseData]}
+                open={scorecardOpen}
+            /> 
+           : null} 
 
         </TabContainer>
       </div>

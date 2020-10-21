@@ -18,6 +18,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import moment from 'moment';
 import { MS_DATE_FORMAT } from '../../constants/constants'
+import { useStateValue, actions } from '../../state'
 
 function createData(comp, date, holes, gross, birdies, pars, bogeys, worse) {
   return { comp, date, holes, gross, birdies, pars, bogeys, worse};
@@ -215,10 +216,12 @@ const useStyles = makeStyles(theme => ({
 
 const AllRoundsTable = ({data}) => {
   
-    let count = 0;
-    data.forEach(course => {
-        count += course.Competitions.length;
-    })  
+  const [{}, dispatch ] = useStateValue();
+
+  let count = 0;
+  data.forEach(course => {
+      count += course.Competitions.length;
+  })  
 
   const classes = useStyles();
   const [order, setOrder] = React.useState('desc');
@@ -230,8 +233,11 @@ const AllRoundsTable = ({data}) => {
 
   useEffect(() => {
       setRowsPerPage(count > 10 ? 10 : count)
-      handleRequestSort(null, 'date')
   }, [data])
+
+  useEffect(() => {
+      handleRequestSort(null, 'date')
+  }, [])
 
   const rows = [] 
   
@@ -269,6 +275,13 @@ const AllRoundsTable = ({data}) => {
     setDense(event.target.checked);
   };
 
+  const handleClick = (row) => {
+    dispatch({
+      type: actions.SELECT_COMP,
+      selectedComp: row.date
+    })
+  }
+
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -305,7 +318,7 @@ const AllRoundsTable = ({data}) => {
                   return (
                     <TableRow
                       hover
-                      onClick={event => {}}
+                      onClick={event => {handleClick(row)}}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}

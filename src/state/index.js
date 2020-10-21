@@ -2,7 +2,9 @@ import React, {createContext, useContext, useReducer} from 'react';
 
 export const actions = {
     CHANGE_HOLE : "changeHole",
-    CHNAGE_COURSE : "changeCourse"
+    CHNAGE_COURSE : "changeCourse",
+    SELECT_COMP : "selectComp",
+    SCORECARD_OPEN: "scorecardOpen"
 }
 
 export const StateContext = createContext();
@@ -26,6 +28,18 @@ export const defaultReducer = (state, action) => {
           return{
             ...state,
             course: action.newCourse
+          }
+        case actions.SELECT_COMP:
+          return{
+            ...state,
+            selectedComp: action.selectedComp,
+            scorecardOpen : true
+          }
+        case actions.SCORECARD_OPEN:
+          return{
+            ...state,
+            selectedComp: action.scorecardOpen ? state.selectedComp : null,
+            scorecardOpen: action.scorecardOpen
           }
         default:
           return state

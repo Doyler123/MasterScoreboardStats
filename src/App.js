@@ -21,7 +21,9 @@ class App extends Component {
 
   initialState = {
     hole : ALL,
-    course : 0
+    course : 0,
+    selectedComp: null,
+    scorecardOpen: false
   }
 
   constructor(props) {

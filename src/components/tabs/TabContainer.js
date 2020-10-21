@@ -15,7 +15,7 @@ const TabsContainer = ({ data }) => {
   }
 
 
-  const [{ course, hole }, dispatch ] = useStateValue();
+  const [{ course, hole, selectedComp, scorecardOpen }, dispatch ] = useStateValue();
 
   const [combinedCourseData, setCombinedCourseData] = useState([]);
   const [courseData, setCourseData] = useState(courseDataUtil.calculateCourseData(data[course], null))
@@ -23,6 +23,8 @@ const TabsContainer = ({ data }) => {
   
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dialogDate, setDialogDate] = useState(null)
+
+  const [scorecardDialogOpen, setScorecardDialogOpen] = useState(false)
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -98,16 +100,18 @@ const TabsContainer = ({ data }) => {
     return (
       <React.Fragment>
           <TabComponent
-            data                = {data}
-            course              = {course}
-            currentHole         = {hole}
-            currentCourse       = {course}
-            dateRange           = {dateRange}
-            courseData          = {courseData}
-            handleCourseChange  = {handleCourseChange}
-            onDateRangeChange   = {onDateRangeChange}
-            handleHoleChange    = {handleHoleChange}
-            combinedCourseData  = {combinedCourseData}
+            data                    = {data}
+            course                  = {course}
+            currentHole             = {hole}
+            currentCourse           = {course}
+            dateRange               = {dateRange}
+            courseData              = {courseData}
+            handleCourseChange      = {handleCourseChange}
+            onDateRangeChange       = {onDateRangeChange}
+            handleHoleChange        = {handleHoleChange}
+            combinedCourseData      = {combinedCourseData}
+            scorecardOpen           = {scorecardOpen}
+            selectedComp            = {selectedComp}
           />
 
           <NoDataDialog 

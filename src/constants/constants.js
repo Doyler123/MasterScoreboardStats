@@ -6,7 +6,8 @@ export const SCORES = {
   PAR: "Par",
   BIRDIE: "Birde",
   EAGLE: "Eagle",
-  NA: "N/A"
+  NA: "N/A",
+  NR: "NR"
 }
 
 export const RESULTS = [

@@ -2,13 +2,13 @@ import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import MomentUtils from '@date-io/moment';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import EventIcon from '@material-ui/icons/Event';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
+
+import { MS_DATE_FORMAT } from '../../constants/constants'  
 
 import './style/scorecard.css';
 
@@ -152,15 +152,11 @@ const useStyles = makeStyles((theme) => ({
     return 'other-score';
   }
 
-const ScorecardView = ({cardData, courseData, setDate, updateScore, calculateTotal, onFocus, handleEnter, onBlurScore, readOnly, displayValue}) => {
+const ScorecardView = ({cardData, courseData, calculateTotal, readOnly, displayValue}) => {
 
     const firstScoreRef = useRef(null);
-
-    useLayoutEffect(() => {
-        if(firstScoreRef.current && !readOnly){
-            firstScoreRef.current && firstScoreRef.current.focus();
-        }
-    }, [firstScoreRef.current])
+    
+    let holeSplit = courseData.Holes.length > 9 ? Math.ceil((courseData.Holes.length / 2)) : 9; 
 
     const classes = useStyles();
 
@@ -174,184 +170,73 @@ const ScorecardView = ({cardData, courseData, setDate, updateScore, calculateTot
                 : 
                 
                 <React.Fragment>
-                    <Box className={classes.heading}>
-                        <div className={classes.headingButtonsContainer}>
-                            
-                        </div>
-                        <div className={classes.headingTextContainer}>
-                            <Typography className={classes.headingText} variant="button" gutterBottom>
-                                {courseData.name}
-                            </Typography>
-                        </div>
-                        <div className={classes.headingButtonsContainer}>
-                            
-                        </div>
-                    </Box>
                     <form>
-                        <Box className={classes.textBoxSmallMargin}>
-                            <TextField
-                                disabled
-                                className={classes.textField}
-                                placeholder="Player Name"
-                                value={cardData.player}
-                                InputProps={{
-                                    readOnly: true,
-                                    className: classes.disabledInput,
-                                    style:{
-                                        cursor: 'text!important',
-                                        paddingLeft: '10px'
-                                    }
-                                }}
-                            />
-                            <MuiPickersUtilsProvider utils={MomentUtils}>
-                                <DatePicker
-                                    disabled={!!readOnly}
-                                    readOnly={readOnly}
-                                    style={{ marginRight: 0}}
-                                    className={classes.textField}
-                                    margin="normal"
-                                    id="date-picker-dialog"
-                                    format={'DD/MM/YYYY'}
-                                    value={moment(cardData.date)}
-                                    onChange={newDate => setDate(newDate)}
-                                    InputProps={{
-                                        className: !!readOnly ? classes.disabledInput : '',
-                                        endAdornment: <InputAdornment position={'end'}><EventIcon className={!!readOnly ? classes.dateIconReadOnly : classes.dateIcon}/></InputAdornment>, 
-                                        readOnly: true,
-                                        style:{
-                                            paddingLeft: '10px'
-                                        }
-                                    }}
-                                />
-                            </MuiPickersUtilsProvider>
-                        </Box>
-                        <Box className={classes.textBox}>
-                            <TextField
-                                disabled
-                                className={classes.textField}
-                                placeholder="Competition"
-                                value={cardData.competition}
-                                InputProps={{
-                                    className: classes.disabledInput,
-                                    readOnly: true,
-                                    style:{
-                                        paddingLeft: '10px'
-                                    }
-                                }}
-                            />
-                            <TextField
-                                disabled
-                                style={{ marginRight: 0}}
-                                className={classes.textField}
-                                value={cardData.handicap}
-                                placeholder={'0'}
-                                type="number"
-                                InputProps={{
-                                    className: classes.disabledInput,
-                                    readOnly: true,
-                                    startAdornment: <InputAdornment position="start">Hcap:</InputAdornment>,
-                                    style:{
-                                        paddingLeft: '10px'
-                                    }
-                                }} />
-                        </Box>
                         <div className="nine">
                             <div className="line">
                                 <span className={classes.hole}>Hole</span>
                                 <span className="par">Par</span>
-                                <span className="index">Index</span>
                                 <span className="score">Net</span>
-                                <span className={classes.points}>S/F</span>
                             </div>
 
-                            {courseData.holes.slice(0, 9).map((hole, index) =>{
-                                let holeIndex = hole.hole - 1;
+                            {courseData.Holes.slice(0, holeSplit).map((hole, index) =>{
+                                let holeIndex = index;
                                 return( 
-                                    <div className="line" key={hole.hole} >
-                                        <span className={classes.hole}>{hole.hole}</span>
-                                        <span className="par">{hole.par}</span>
-                                        <span className="index">{hole.index}</span>
-                                        <span className={readOnly ? `read-only-score ${getScoreClass(hole.par, cardData.scores[holeIndex].strokes)}` : "score"}>
-                                            <input
-                                                ref={ref => {
-                                                    if(!firstScoreRef.current && !cardData.scores[holeIndex].strokes && cardData.scores[holeIndex].strokes !== 0){
-                                                        firstScoreRef.current = ref;
-                                                    }
-                                                }}
-                                                readOnly={readOnly}
-                                                onKeyDown={handleEnter} 
-                                                onFocus={onFocus} 
-                                                value={displayValue(cardData.scores[holeIndex].strokes, true)} 
-                                                type="number" 
-                                                className={readOnly ? `read-only-score-box` : "score-box"} 
-                                                onBlur={onBlurScore}
-                                                onChange={(event) => updateScore(event, (holeIndex), event.target.value)}/>
+                                    <div className="line" key={hole.HoleNumber} >
+                                        <span className={classes.hole}>{hole.HoleNumber}</span>
+                                        <span className="par">{hole.HolePar}</span>
+                                        <span className={readOnly ? `read-only-score ${getScoreClass(hole.HolePar, cardData.Holes[holeIndex].Score)}` : "score"}>
+                                            {displayValue(cardData.Holes[holeIndex].Score)}
                                         </span>
-                                        <span className={classes.points}>{displayValue(cardData.scores[holeIndex].points)}</span>
                                     </div>
                                 )    
                             })}
                             
                             <div className="line">
                                 <span className={classes.hole}>Out</span>
-                                <span className="par">{displayValue(calculateTotal(courseData.holes.slice(0, 9), 'par'))}</span>
-                                <span className="index">&nbsp;</span>
-                                <span className="score">{displayValue(calculateTotal(cardData.scores.slice(0, 9), 'strokes'))}</span>
-                                <span className={classes.points}>{displayValue(calculateTotal(cardData.scores.slice(0, 9), 'points'))}</span>
+                                <span className="par">{displayValue(calculateTotal(courseData.Holes.slice(0, holeSplit), 'HolePar'))}</span>
+                                <span className="score">{displayValue(calculateTotal(cardData.Holes.slice(0, holeSplit), 'Score'))}</span>
                             </div>
+                            {courseData.Holes.length <= 9 ? 
+                                <div className="line">
+                                    <span className={classes.hole}>Total</span>
+                                    <span className="par">{displayValue(calculateTotal(courseData.Holes, 'HolePar'))}</span>
+                                    <span className="score">{displayValue(calculateTotal(cardData.Holes, 'Score'))}</span>
+                                </div> 
+                            : null}
                         </div>
-                        <div className="nine" style={{ marginRight: 0}}>
-                            <div className="line">
-                                <span className={classes.hole}>Hole</span>
-                                <span className="par">Par</span>
-                                <span className="index">Index</span>
-                                <span className="score">Net</span>
-                                <span className={classes.points}>S/F</span>
-                            </div>
+                        {courseData.Holes.length > 9 ? 
+                            <div className="nine" style={{ marginRight: 0}}>
+                                <div className="line">
+                                    <span className={classes.hole}>Hole</span>
+                                    <span className="par">Par</span>
+                                    <span className="score">Net</span>
+                                </div>
 
-                            {courseData.holes.slice(9, 18).map((hole, index) =>{
-                                let holeIndex = hole.hole - 1;
-                                return( 
-                                    <div className="line" key={hole.hole} >
-                                        <span className={classes.hole}>{hole.hole}</span>
-                                        <span className="par">{hole.par}</span>
-                                        <span className="index">{hole.index}</span>
-                                        <span className={readOnly ? `read-only-score ${getScoreClass(hole.par, cardData.scores[holeIndex].strokes)}` : "score"}>
-                                            <input
-                                                ref={ref => {
-                                                    if(!firstScoreRef.current && !cardData.scores[holeIndex].strokes && cardData.scores[holeIndex].strokes !== 0){
-                                                        firstScoreRef.current = ref;
-                                                    }
-                                                }}
-                                                readOnly={readOnly}
-                                                onKeyDown={handleEnter} 
-                                                onFocus={onFocus} 
-                                                value={displayValue(cardData.scores[holeIndex].strokes, true)} 
-                                                type="number" 
-                                                className={readOnly ? "read-only-score-box" : "score-box"}
-                                                onBlur={onBlurScore} 
-                                                onChange={(event) => updateScore(event, (holeIndex), event.target.value)}/>
-                                        </span>
-                                        <span className={classes.points}>{displayValue(cardData.scores[holeIndex].points)}</span>
-                                    </div>
-                                )    
-                            })}
+                                {courseData.Holes.slice(holeSplit, courseData.Holes.length).map((hole, index) =>{
+                                    let holeIndex = holeSplit + index;
+                                    return( 
+                                        <div className="line" key={hole.HoleNumber} >
+                                            <span className={classes.hole}>{hole.HoleNumber}</span>
+                                            <span className="par">{hole.HolePar}</span>
+                                            <span className={readOnly ? `read-only-score ${getScoreClass(hole.HolePar, cardData.Holes[holeIndex].Score)}` : "score"}>
+                                                {displayValue(cardData.Holes[holeIndex].Score)}
+                                            </span>
+                                        </div>
+                                    )    
+                                })}
 
-                            <div className="line">
-                                <span className={classes.hole}>In</span>
-                                <span className="par">{displayValue(calculateTotal(courseData.holes.slice(9, 18), 'par'))}</span>
-                                <span className="index">&nbsp;</span>
-                                <span className="score">{displayValue(calculateTotal(cardData.scores.slice(9, 18), 'strokes'))}</span>
-                                <span className={classes.points}>{displayValue(calculateTotal(cardData.scores.slice(9, 18), 'points'))}</span>
+                                <div className="line">
+                                    <span className={classes.hole}>In</span>
+                                    <span className="par">{displayValue(calculateTotal(courseData.Holes.slice(holeSplit, courseData.Holes.length), 'HolePar'))}</span>
+                                    <span className="score">{displayValue(calculateTotal(cardData.Holes.slice(holeSplit, courseData.Holes.length), 'Score'))}</span>
+                                </div>
+                                <div className="line">
+                                    <span className={classes.hole}>Total</span>
+                                    <span className="par">{displayValue(calculateTotal(courseData.Holes, 'HolePar'))}</span>
+                                    <span className="score">{displayValue(calculateTotal(cardData.Holes, 'Score'))}</span>
+                                </div>
                             </div>
-                            <div className="line">
-                                <span className={classes.hole}>Total</span>
-                                <span className="par">{displayValue(calculateTotal(courseData.holes, 'par'))}</span>
-                                <span className="index">&nbsp;</span>
-                                <span className="score">{displayValue(calculateTotal(cardData.scores, 'strokes'))}</span>
-                                <span className={classes.points}>{displayValue(calculateTotal(cardData.scores, 'points'))}</span>
-                            </div>
-                        </div>
+                        : null }
                     </form>
                 </React.Fragment>}
             </Paper>

@@ -38,7 +38,7 @@ export default class GrossLineChart extends Component {
                 <YAxis domain={[this.getDataMin, this.getDataMax]}/>
                 <ReferenceLine y={data.average} label={"Avg: +" + data.average.toFixed(1)} stroke="red" strokeDasharray="3 3"/>
                 <Tooltip formatter={this.formatToolTip}/>
-                <Line dot={false} connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line dot={false} connectNulls={true} type="monotone" dataKey="gross" stroke="#8884d8" activeDot={{ r: 8, onClick: (event, payload) => console.log(event) }} />
             </LineChart>
         </ResponsiveContainer>
         );
@@ -53,7 +53,7 @@ export default class GrossLineChart extends Component {
   
       return (
         <g transform={`translate(${x},${y})`}>
-          <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-90)" fontSize={12}>{payload.value}</text>
+          <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-90)" fontSize={12}>{payload.value.split('~')[1]}</text>
         </g>
       );
     }
