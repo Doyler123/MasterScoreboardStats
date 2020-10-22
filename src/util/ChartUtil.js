@@ -1,5 +1,5 @@
 import React from 'react'
-import {SCORES_TO_CODES, ALL, NA, RESULTS, DEFAULT_ALL_HOLES_TAB, SCORES_TO_COLOURS, BIRDE, BOGEY} from '../constants/constants'
+import {SCORES_TO_CODES, ALL, NA, RESULTS, DEFAULT_ALL_HOLES_TAB, SCORES_TO_COLOURS, BIRDE, BOGEY, OUTLIER_SCRATCH_LIMIT} from '../constants/constants'
 import {Cell} from 'recharts';
     
 export const getScoresBarChartData = (courseData, currentHole) => {
@@ -46,7 +46,6 @@ export const getScoresBarChartData = (courseData, currentHole) => {
     return Object.values(chartData).sort(sortChartData);
 }
     
-
 export const getParTotalsBarChartData = (courseData) => {
     var chartData = []
     courseData.forEach(course => {
@@ -73,36 +72,52 @@ export const getParTotalsBarChartData = (courseData) => {
 
 
 export const getGrossLineChartData = (courseData, currentHole) => {
-    var chartData = {
-        'data' : [],
-        'average' : 0
-    }
-    if(!isEmpty(courseData)){
-        chartData.average = courseData.AverageScore
-        courseData.Competitions.forEach((comp, index) => {
-            
-            if(currentHole === ALL){
-                chartData.data.push({
-                    date : comp.Date,
-                    gross : comp.Gross
-                })
-
-            }else{
-                comp.Holes.forEach((hole, index) => {
-                    if(currentHole === hole.Number){
-                        chartData.average = courseData.Holes[index].TotalStrokes / courseData.Competitions.length
-                        if(!isNaN(hole.Score)){
-                            chartData.data.push({
-                                date : comp.Date,
-                                gross : parseInt(hole.Score)
-                            })
-                        }
-                    }
-                })
+    var chartData = {};
+    if(courseData.length > 0 && !isEmpty(courseData[0])){        
+        courseData.forEach(course => {
+            if(!chartData.hasOwnProperty((course.Holes.length))){
+                chartData[course.Holes.length] = {
+                    comps: [],
+                    average: 0
+                };
             }
+            course.Competitions.forEach((comp, index) => {
+                if(comp.scratches <= OUTLIER_SCRATCH_LIMIT){
+                    if(currentHole === ALL){
+                        chartData[course.Holes.length].average += comp.Gross;
+                        chartData[course.Holes.length].comps.push({
+                            date : comp.Date,
+                            gross : comp.Gross
+                        })
+        
+                    }else{
+                        comp.Holes.forEach((hole, index) => {
+                            if(currentHole === hole.Number){
+                                chartData[course.Holes.length].average = course.Holes[index].TotalStrokes / course.Competitions.length
+                                if(!isNaN(hole.Score)){
+                                    chartData[course.Holes.length].comps.push({
+                                        date : comp.Date,
+                                        gross : parseInt(hole.Score)
+                                    })
+                                }
+                            }
+                        })
+                    }
+                }
+            })
         })
+        if(currentHole === ALL){
+            Object.values(chartData).forEach(value => {
+                value.average = (value.average / value.comps.length);
+                value.comps.reverse();
+            })
+        }else{
+            Object.values(chartData).forEach(value => {
+                value.comps.reverse();
+            })
+        }
     }
-    chartData.data.reverse()
+    
     return chartData
 }
 

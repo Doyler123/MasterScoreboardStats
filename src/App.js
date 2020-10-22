@@ -41,7 +41,8 @@ class App extends Component {
     if (process.env.NODE_ENV === ENVS.DEVELOPMENT) {
       
       //Static data
-      let hdidDataParsed = JSON.parse(howdididoParsed)
+      // let hdidDataParsed = JSON.parse(howdididoParsed)
+      let hdidDataParsed = []
       let dataParsed = JSON.parse(Jonathan) 
       this.setState({
         data : dataParsed.concat(hdidDataParsed)

@@ -91,3 +91,5 @@ export const ENVS = {
 
 export const MS_DATE_FORMAT = 'DD MMM YY';
 export const HDID_DATE_FORMAT = 'DD/MM/YYYY';
+
+export const OUTLIER_SCRATCH_LIMIT = 5;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ChartGrid from './charts/ChartGrid'
-import GrossLineChart from '../charts/GrossLineChart'
+import GrossLineChartContainer from '../charts/GrossLineChartContainer'
 import ChartItem from './charts/ChartItem'
 import AllHolesBarChartContainer from '../charts/AllHolesBarChartContainer'
 import { getScoresBarChartData, getParTotalsBarChartData, getGrossLineChartData } from '../../util/ChartUtil'
@@ -11,8 +11,11 @@ import BarChartContainer from '../charts/BarChartContainer';
 import ParTotalsBarChart from '../charts/ParTotalsBarChart';
 import ScoresBarChart from '../charts/ScoresBarChart';
 import AllRoundsTable from '../tables/AllRoundsTable';
+import { useStateValue, actions } from '../../state'
 
 const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
+
+    const [{}, dispatch ] = useStateValue();
 
     return (
         <div style={{margin: "0px 10% 0px 10%"}}>
@@ -20,7 +23,9 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
             <CourseStats 
                 data={course === COMBINED ? combinedCourseData : [courseData]} 
                 hole={hole} 
-                currentCourse={course}    
+                currentCourse={course} 
+                actions={actions}   
+                dispatch={dispatch}   
             />
 
             {course !== COMBINED ? 
@@ -39,7 +44,7 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
                                 />
                             </ChartItem>
                             <ChartItem xs={12} sm={12} lg={7}>
-                                <GrossLineChart data={getGrossLineChartData(courseData, hole)} hole={hole}/>
+                                <GrossLineChartContainer chartData={getGrossLineChartData([courseData], hole)} hole={hole} actions={actions} dispatch={dispatch} courseData={[courseData]}/>
                             </ChartItem>
                         </React.Fragment> 
                     
@@ -49,7 +54,7 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
                             <ChartItem xs={12} sm={6} lg={6}>
                                 <BarChartContainer 
                                     data={[
-                                        <ScoresBarChart large={true} data={getScoresBarChartData(courseData, hole)} />
+                                        <ScoresBarChart large={true} data={getScoresBarChartData([courseData], hole)} />
                                     ]}
                                     hole={hole} 
                                 />
@@ -57,13 +62,13 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
                             <ChartItem xs={12} sm={6} lg={6}>
                                 <BarChartContainer 
                                     data={[
-                                        <ParTotalsBarChart data={getParTotalsBarChartData(courseData)} />
+                                        <ParTotalsBarChart data={getParTotalsBarChartData([courseData])} />
                                     ]}
                                     hole={hole} 
                                 />
                             </ChartItem>
                             <ChartItem xs={12} sm={12} lg={12}>
-                                <GrossLineChart large={true} data={getGrossLineChartData(courseData, hole)} hole={hole}/>
+                                <GrossLineChartContainer large={true} chartData={getGrossLineChartData([courseData], hole)} hole={hole} actions={actions} dispatch={dispatch} courseData={[courseData]}/>
                             </ChartItem>
                         </React.Fragment>
                     }
@@ -84,13 +89,17 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
                 <ChartGrid>
                     
                     <ChartItem xs={12} sm={6} lg={5}>
-                        <ScoresBarChart hole={hole} data={getScoresBarChartData(combinedCourseData, hole)} />
+                        <BarChartContainer 
+                            data={[
+                                <ScoresBarChart hole={hole} data={getScoresBarChartData(combinedCourseData, hole)} />,
+                                <ParTotalsBarChart data={getParTotalsBarChartData(combinedCourseData)} />
+                            ]}
+                            hole={hole} 
+                        />
                     </ChartItem>
-                    
-                    <ChartItem xs={12} sm={6} lg={5}>
-                        <ParTotalsBarChart data={getParTotalsBarChartData(combinedCourseData)} />
+                    <ChartItem xs={12} sm={12} lg={7}>
+                        <GrossLineChartContainer chartData={getGrossLineChartData(combinedCourseData, hole)} hole={hole} actions={actions} dispatch={dispatch} course={course} courseData={combinedCourseData}/>
                     </ChartItem>
-
                     <ChartItem xs={12} sm={12}>
                         <AllRoundsTable data={combinedCourseData}/>
                     </ChartItem>

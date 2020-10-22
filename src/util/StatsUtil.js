@@ -1,4 +1,4 @@
-import {ALL, COMBINED} from '../constants/constants'
+import {ALL, COMBINED, OUTLIER_SCRATCH_LIMIT} from '../constants/constants'
 import ordinal from 'ordinal'
 
 export const getCourseStats = (data, hole, currentCourse) =>{
@@ -31,30 +31,32 @@ const calculateStats = (data, hole, currentCourse) => {
     }
     
     
-    let allComps = data.flatMap(course => course.Competitions)
+    let allComps = data.flatMap(course => course.Competitions).filter(comp => comp.scratches <= OUTLIER_SCRATCH_LIMIT)
     let sortedCompetitions = getSortedCompetitions(allComps)
     let bestComp = sortedCompetitions[0].Gross
+    let bestCompDate = sortedCompetitions[0].Date
     let worstComp = sortedCompetitions[sortedCompetitions.length - 1].Gross
+    let worstCompDate = sortedCompetitions[sortedCompetitions.length - 1].Date
 
     let allStats = [
         createStat("Rounds\nPlayed", "info", allComps.length, null),
     ]
 
     let courseStats = (!hole || hole === ALL) && currentCourse !== COMBINED ? [
-        createStat("Best\nHole", "success", "Hole " + bestHole),
-        createStat("Worst\nHole", "danger", "Hole " + worstHole),
-        createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp),
-        createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp),
+        createStat("Best\nHole", "success", "Hole " + bestHole, null, bestHole),
+        createStat("Worst\nHole", "danger", "Hole " + worstHole, null, worstHole),
+        createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp, bestCompDate),
+        createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp, worstCompDate),
     ] : []
 
     let holeStats = hole && hole !== ALL ? [
-        createStat("Average\n(Par " + getHolePar(data[0], hole) +")", "info", getHoleAverage(data[0], hole).toFixed(2), hole),
-        createStat("Difficulty\nRank", "info", ordinal(holeRank), hole)
+        createStat("Average\n(Par " + getHolePar(data[0], hole) +")", "info", getHoleAverage(data[0], hole).toFixed(2), null, null, hole),
+        createStat("Difficulty\nRank", "info", ordinal(holeRank), null, null, hole)
     ] : []
 
     let combinedStats = currentCourse && currentCourse === COMBINED ? [
-        createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp),
-        createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp)
+        createStat("Best\nRound", "success", getScorePrefix(bestComp)  + bestComp, bestCompDate),
+        createStat("Worst\nRound", "danger", getScorePrefix(worstComp) + worstComp, worstCompDate)
     ] : []
     
     return allStats.concat(courseStats, holeStats, combinedStats);
@@ -121,11 +123,13 @@ const getHolePar = (data, currentHole) => {
     return data.Holes.find(hole => hole.HoleNumber === currentHole).HolePar
 }
 
-const createStat = (title, titleColor, body, hole = ALL) =>{
+const createStat = (title, titleColor, body, date, holeNumber, hole = ALL) =>{
     return{
         hole            : hole,
         title           : title,
         titleColor      : titleColor,
-        body            : body
+        body            : body,
+        date            : date,
+        holeNumber      : holeNumber
     }
 }

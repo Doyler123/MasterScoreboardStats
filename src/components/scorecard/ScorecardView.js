@@ -8,7 +8,7 @@ import EventIcon from '@material-ui/icons/Event';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 
-import { MS_DATE_FORMAT } from '../../constants/constants'  
+import { MS_DATE_FORMAT, SCORES } from '../../constants/constants'  
 
 import './style/scorecard.css';
 
@@ -180,12 +180,13 @@ const ScorecardView = ({cardData, courseData, calculateTotal, readOnly, displayV
 
                             {courseData.Holes.slice(0, holeSplit).map((hole, index) =>{
                                 let holeIndex = index;
+                                    let score = cardData.Holes[holeIndex] ? cardData.Holes[holeIndex].Score : SCORES.NR;
                                 return( 
                                     <div className="line" key={hole.HoleNumber} >
                                         <span className={classes.hole}>{hole.HoleNumber}</span>
                                         <span className="par">{hole.HolePar}</span>
-                                        <span className={readOnly ? `read-only-score ${getScoreClass(hole.HolePar, cardData.Holes[holeIndex].Score)}` : "score"}>
-                                            {displayValue(cardData.Holes[holeIndex].Score)}
+                                        <span className={readOnly ? `read-only-score ${getScoreClass(hole.HolePar, score)}` : "score"}>
+                                            {displayValue(score)}
                                         </span>
                                     </div>
                                 )    
@@ -214,12 +215,13 @@ const ScorecardView = ({cardData, courseData, calculateTotal, readOnly, displayV
 
                                 {courseData.Holes.slice(holeSplit, courseData.Holes.length).map((hole, index) =>{
                                     let holeIndex = holeSplit + index;
+                                    let score = cardData.Holes[holeIndex] ? cardData.Holes[holeIndex].Score : SCORES.NR;
                                     return( 
                                         <div className="line" key={hole.HoleNumber} >
                                             <span className={classes.hole}>{hole.HoleNumber}</span>
                                             <span className="par">{hole.HolePar}</span>
-                                            <span className={readOnly ? `read-only-score ${getScoreClass(hole.HolePar, cardData.Holes[holeIndex].Score)}` : "score"}>
-                                                {displayValue(cardData.Holes[holeIndex].Score)}
+                                            <span className={readOnly ? `read-only-score ${getScoreClass(hole.HolePar, score)}` : "score"}>
+                                                {displayValue(score)}
                                             </span>
                                         </div>
                                     )    

@@ -34,16 +34,20 @@ export default function AlertDialog({ compId, courseData, open}) {
       }
   });
 
-  return (
+  if(!competition || !courseInfo){
+    return null;
+  }
 
+  return (
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{competition.Name}</DialogTitle>
-        <DialogContent>
+        <DialogTitle style={{ textAlign: 'center', paddingBottom: '5px'}} id="alert-dialog-title">{competition.Name}</DialogTitle>
+        <DialogTitle style={{ textAlign: 'center', padding: 0}} id="alert-dialog-title" disableTypography={true} ><h4 style={{margin: 0}}>{competition.Date}</h4></DialogTitle>
+        <DialogContent style={{ textAlign: 'center' }}>
             <ScoreCard 
                 cardData={competition}
                 courseData={courseInfo}
