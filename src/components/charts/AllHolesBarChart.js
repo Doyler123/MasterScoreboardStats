@@ -11,11 +11,13 @@ import ParIcon from '@material-ui/icons/ExposureZero';
 import BogeyIcon from '@material-ui/icons/ExposurePlus1';
 import DoubleIcon from '@material-ui/icons/ExposurePlus2';
 import ScratchIcon from '@material-ui/icons/HighlightOff';
-import { getDataMin, getBarColour, getDataMax} from '../../util/ChartUtil'
+import ShowChartIcon from '@material-ui/icons/ShowChart';
+import { getDataMin, getBarColour, getDataMax, getScoresLineChartData} from '../../util/ChartUtil';
+import ScoresLineChart from './ScoresLineChart';
 
 const tabWidth = 50
 
- const AllHolesBarChart = ({data, tab, handleTabChange, formatToolTip, formatBarLabel, handleBarClick}) => {
+ const AllHolesBarChart = ({data, tab, handleTabChange, formatToolTip, formatBarLabel, handleBarClick, courseData}) => {
 
     const getTickFontStyle = () => {
         return data.length > 14 ? { fontSize : '10px' } : { fontSize : '15px' } 
@@ -23,27 +25,31 @@ const tabWidth = 50
 
     return (
         <div>
-            <ResponsiveContainer width='100%' aspect={3.0/1.0}>
-                <BarChart
-                    data={data}
-                    margin={{
-                        top: 5, right: 30, left: 20, bottom: 5,
-                    }}
-                >
-                    <CartesianGrid strokeDasharray="6 6" />
-                    <XAxis tick={getTickFontStyle()} interval={0} dataKey="hole"/>
-                    <YAxis type="number" domain={[getDataMin, getDataMax]}/>
-                    <Tooltip formatter={formatToolTip} />
-                    <ReferenceLine y={0} stroke="#000" />
-                    <Bar dataKey="total" fill="#8884d8" onClick={handleBarClick}>
-                        {data.map((entry, index) => {
-                            const color = getBarColour(entry, tab)
-                            return color ? <Cell key={index+color} cursor="pointer" fill={color} /> : null;
-                        })}
-                        <LabelList dataKey="total" position="top" formatter={formatBarLabel}/>
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
+            {tab !== "Timeline" ? 
+                <ResponsiveContainer width='100%' aspect={3.0/1.0}>
+                    <BarChart
+                        data={data}
+                        margin={{
+                            top: 5, right: 30, left: 20, bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="6 6" />
+                        <XAxis tick={getTickFontStyle()} interval={0} dataKey="hole"/>
+                        <YAxis type="number" domain={[getDataMin, getDataMax]}/>
+                        <Tooltip formatter={formatToolTip} />
+                        <ReferenceLine y={0} stroke="#000" />
+                        <Bar dataKey="total" fill="#8884d8" onClick={handleBarClick}>
+                            {data.map((entry, index) => {
+                                const color = getBarColour(entry, tab)
+                                return color ? <Cell key={index+color} cursor="pointer" fill={color} /> : null;
+                            })}
+                            <LabelList dataKey="total" position="top" formatter={formatBarLabel}/>
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer> 
+            : 
+                <ScoresLineChart data={getScoresLineChartData([courseData])}/>
+            }
             <Tabs
                 value={tab}
                 onChange={handleTabChange}
@@ -58,6 +64,7 @@ const tabWidth = 50
                 <Tab icon={<ParIcon />} style={{ minWidth: tabWidth }} value='Par' label="PAR" />
                 <Tab icon={<BirdeIcon />} style={{ minWidth: tabWidth }} value='Birde' label="BIRDE" />
                 <Tab icon={<EagleIcon />} style={{ minWidth: tabWidth }} value='Eagle' label="EAGLE" />
+                <Tab icon={<ShowChartIcon />} style={{ minWidth: tabWidth }} value='Timeline' label="TIMELINE" />
             </Tabs>
         </div>  
     );

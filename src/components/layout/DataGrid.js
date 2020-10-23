@@ -4,14 +4,15 @@ import ChartGrid from './charts/ChartGrid'
 import GrossLineChartContainer from '../charts/GrossLineChartContainer'
 import ChartItem from './charts/ChartItem'
 import AllHolesBarChartContainer from '../charts/AllHolesBarChartContainer'
-import { getScoresBarChartData, getParTotalsBarChartData, getGrossLineChartData } from '../../util/ChartUtil'
+import { getScoresBarChartData, getParTotalsBarChartData, getGrossLineChartData, getScoresLineChartData } from '../../util/ChartUtil'
 import CourseStats from '../stats/CourseStats'
 import {ALL, COMBINED} from '../../constants/constants'
 import BarChartContainer from '../charts/BarChartContainer';
 import ParTotalsBarChart from '../charts/ParTotalsBarChart';
 import ScoresBarChart from '../charts/ScoresBarChart';
 import AllRoundsTable from '../tables/AllRoundsTable';
-import { useStateValue, actions } from '../../state'
+import { useStateValue, actions } from '../../state';
+import ScoresLineChart from '../charts/ScoresLineChart';
 
 const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
 
@@ -44,7 +45,7 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
                                 />
                             </ChartItem>
                             <ChartItem xs={12} sm={12} lg={7}>
-                                <GrossLineChartContainer chartData={getGrossLineChartData([courseData], hole)} hole={hole} actions={actions} dispatch={dispatch} courseData={[courseData]}/>
+                                <GrossLineChartContainer chartData={getGrossLineChartData([courseData], hole)} hole={hole} course={course} actions={actions} dispatch={dispatch} courseData={[courseData]}/>
                             </ChartItem>
                         </React.Fragment> 
                     
@@ -75,7 +76,7 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
 
                     {hole === ALL ?
                     <ChartItem xs={12} sm={12}>
-                        <AllHolesBarChartContainer data={courseData}/>
+                        <AllHolesBarChartContainer data={courseData} />
                     </ChartItem> : null}
 
                     {hole === ALL ?
@@ -99,6 +100,9 @@ const CourseDataGrid = ({ courseData, hole, course, combinedCourseData }) => {
                     </ChartItem>
                     <ChartItem xs={12} sm={12} lg={7}>
                         <GrossLineChartContainer chartData={getGrossLineChartData(combinedCourseData, hole)} hole={hole} actions={actions} dispatch={dispatch} course={course} courseData={combinedCourseData}/>
+                    </ChartItem>
+                    <ChartItem xs={12} sm={12}>
+                        <ScoresLineChart data={getScoresLineChartData(combinedCourseData)}/>
                     </ChartItem>
                     <ChartItem xs={12} sm={12}>
                         <AllRoundsTable data={combinedCourseData}/>

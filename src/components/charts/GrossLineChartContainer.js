@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import GrossLineChart from './GrossLineChart';
 
 import {COMBINED} from '../../constants/constants';
@@ -26,6 +26,11 @@ export default function(props){
 
     const [ data, setData ] = useState(getInitialData());
     const [ tab, setTab ] = useState(getInitialTab());
+
+    useEffect(() => {
+        setData(getInitialData())
+        setTab(getInitialTab())
+    }, [props.chartData])
 
 
     const changeTab = (e, newTab) => {

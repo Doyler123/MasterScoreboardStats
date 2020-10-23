@@ -33,7 +33,7 @@ export default class ScoresBarChart extends Component {
 
     handleTabChange = (event, value) => {
         this.setState({ 
-            data : getAllHolesBarChartData(this.props.data, value),
+            data : value === 'Timeline' ? this.state.data : getAllHolesBarChartData(this.props.data, value),
             tab  : value
         });
     };
@@ -58,6 +58,7 @@ export default class ScoresBarChart extends Component {
             formatToolTip       = {this.formatToolTip}
             formatBarLabel      = {this.formatBarLabel}
             handleBarClick      = {this.handleBarClick}
+            courseData          = {this.props.data}
         />  
         );
     }

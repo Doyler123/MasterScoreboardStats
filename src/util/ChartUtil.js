@@ -121,6 +121,23 @@ export const getGrossLineChartData = (courseData, currentHole) => {
     return chartData
 }
 
+export const getScoresLineChartData = (courseData) => {
+    let chartData = [];
+    courseData.flatMap(course => course.Competitions).forEach(comp => {
+        if(comp.scratches <= OUTLIER_SCRATCH_LIMIT){
+            chartData.push({
+                'date'      : comp.Date,
+                'birdies'   : comp.birdies,
+                'pars'      : comp.pars,
+                'bogeys'    : comp.bogeys,
+                'bogeys+'   : comp.scratches + comp.triples + comp.doubles
+            })
+        }
+    })
+
+    return chartData;
+}
+
 export const sortChartData = (a, b) =>{
     if (a.code < b.code)
         return -1;
