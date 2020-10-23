@@ -135,7 +135,7 @@ export const getScoresLineChartData = (courseData) => {
         }
     })
 
-    return chartData;
+    return chartData.reverse();
 }
 
 export const sortChartData = (a, b) =>{
