@@ -91,7 +91,7 @@ export default class GrossLineChart extends Component {
                         >
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="date" minTickGap={1} tick={<CustomizedAxisTick />} />
-                            <YAxis minTickGap={1} allowDecimals={false} tickCount={18} domain={[this.getDataMin, this.getDataMax]}/>
+                            <YAxis minTickGap={0} allowDecimals={false} tickCount={18} domain={[this.getDataMin, this.getDataMax]}/>
                             <Tooltip />
                             {this.state.birdies && <Line animationDuration={false} dot={false} strokeWidth={2} connectNulls={true} type="basis" dataKey="birdies" stroke={SCORES_TO_COLOURS[SCORES.BIRDIE]} />}
                             {this.state.pars && <Line isAnimationActive={false} dot={false} strokeWidth={2} connectNulls={true} type="basis" dataKey="pars" stroke={SCORES_TO_COLOURS[SCORES.PAR]} />}
