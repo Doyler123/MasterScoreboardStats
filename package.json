@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "testcafe": "testcafe chrome:headless ./src/tests/"
   },
   "eslintConfig": {
     "extends": "react-app"
